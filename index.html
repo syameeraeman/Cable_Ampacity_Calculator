@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Attendance System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-in {
+            background-color: #28a745;
+        }
+        .status-out {
+            background-color: #dc3545;
+        }
+        .tick-animation {
+            animation: tick 1s ease-in-out;
+        }
+        @keyframes tick {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .indicator-circle {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .regular-time {
+            background-color: #17a2b8;
+        }
+        .overtime {
+            background-color: #ffc107;
+        }
+        .modal-bg {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header: Logo left, profile right -->
+        <div class="flex items-center w-full justify-between mb-4">
+            <img src="stratus_logo.png" alt="Stratus Automation Logo" class="h-16 w-auto mr-4">
+            <img id="profileImg" src="profile_image.png" alt="Profile" class="h-20 w-20 rounded-full object-cover ml-4 border-2 border-gray-300 shadow transition-transform duration-200 hover:scale-105 cursor-pointer" onerror="this.onerror=null;this.src='https://via.placeholder.com/80?text=No+Image';" title="Click to change profile image">
+            <input type="file" id="profileInput" accept="image/*" style="display:none">
+        </div>
+        <!-- Modal for cropping -->
+        <div id="cropModal" style="display:none" class="modal-bg">
+            <div class="modal-content">
+                <h2 class="text-lg font-bold mb-2">Crop Profile Image</h2>
+                <img id="cropImage" style="max-width:100%; max-height:60vh;">
+                <div class="flex justify-end mt-4 gap-2">
+                    <button id="cancelCropBtn" class="bg-gray-300 px-4 py-2 rounded">Cancel</button>
+                    <button id="saveCropBtn" class="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+                </div>
+            </div>
+        </div>
+        <!-- Title and subtitle above main content -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Employee Attendance System</h1>
+            <p class="text-gray-600 mt-2">Track your working hours and calculate overtime</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Current Status and Attendance Record Column -->
+            <div class="flex flex-col gap-6">
+                <!-- Current Status Card -->
+                <div class="bg-white rounded-lg shadow-md p-6 card flex flex-col justify-center min-h-[350px]">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Current Status</h2>
+                    <div id="currentStatus" class="flex items-center justify-center py-4 border-b border-gray-200">
+                        <span class="status-indicator status-out"></span>
+                        <span class="text-lg font-medium text-gray-700">Not Clocked In</span>
+                    </div>
+                    <div class="pt-4 text-center">
+                        <p class="text-gray-600 mb-2">Local Time: <span id="currentTime" class="font-medium text-gray-800"></span></p>
+                        <p class="text-gray-600">Today's Date: <span id="currentDate" class="font-medium text-gray-800"></span></p>
+                    </div>
+                    <div class="flex flex-col items-center w-full space-y-4 mt-8">
+                        <button id="clockInBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-md transition duration-200">
+                            Clock In
+                        </button>
+                        <button id="clockOutBtn" disabled class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-md transition duration-200 opacity-50 cursor-not-allowed">
+                            Clock Out
+                        </button>
+                    </div>
+                </div>
+                <!-- Attendance Record Section -->
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-semibold text-gray-800">Attendance Record</h2>
+                        <button id="clearRecordsBtn" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 py-1 px-3 rounded-md transition duration-200">
+                            Clear Records
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recordsTableBody" class="bg-white divide-y divide-gray-200">
+                                <!-- Records will be inserted here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Work Time & OT Calculator Card -->
+            <div class="bg-white rounded-lg shadow-md p-6 card">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Work Time & OT Calculator</h2>
+                <!-- Work Hours Calculator -->
+                <div class="mb-6">
+                    <h3 class="text-md font-semibold text-gray-700 mb-2">Work Hours</h3>
+                    <div class="mb-2">
+                        <label class="block text-gray-600 text-sm mb-1">Work Hours:</label>
+                        <input id="calcWorkHours" type="number" min="0" step="0.1" class="w-full border rounded px-2 py-1" placeholder="e.g. 8">
+                    </div>
+                    <div class="mb-2">
+                        <label class="block text-gray-600 text-sm mb-1">Start Time:</label>
+                        <input id="calcStartTime" type="time" class="w-full border rounded px-2 py-1">
+                    </div>
+                    <div class="mb-2">
+                        <label class="block text-gray-600 text-sm mb-1">OT Hours:</label>
+                        <input id="calcOtHours" type="number" min="0" step="0.1" class="w-full border rounded px-2 py-1" placeholder="e.g. 2">
+                    </div>
+                    <button id="calcEndTimeBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mt-2">CALCULATE</button>
+                    <div class="mt-2 text-gray-700 text-sm">Go Back Time: <span id="calcEndTimeResult" class="font-semibold"></span></div>
+                </div>
+                <!-- OT Calculator -->
+                <div>
+                    <h3 class="text-md font-semibold text-gray-700 mb-2">OT Calculator</h3>
+                    <div class="mb-2">
+                        <label class="block text-gray-600 text-sm mb-1">OT Rate (RM/hr):</label>
+                        <input id="otRateInput" type="number" min="0" step="0.01" class="w-full border rounded px-2 py-1" placeholder="e.g. 30">
+                    </div>
+                    <div class="mb-2">
+                        <label class="block text-gray-600 text-sm mb-1">OT Hours:</label>
+                        <input id="otHoursInput" type="number" min="0" step="0.1" class="w-full border rounded px-2 py-1" placeholder="e.g. 2">
+                    </div>
+                    <div class="mb-2">
+                        <label class="block text-gray-600 text-sm mb-1">OT Threshold (hrs):</label>
+                        <input id="otThresholdInput" type="number" min="0" step="0.1" class="w-full border rounded px-2 py-1" placeholder="e.g. 104">
+                    </div>
+                    <button id="calcOtPayBtn" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md mt-2">CALCULATE</button>
+                    <div class="mt-2 text-gray-700 text-sm">OT Pay: <span id="calcOtPayResult" class="font-semibold"></span></div>
+                </div>
+            </div>
+            <!-- OT Summary Card -->
+            <div class="bg-white rounded-lg shadow-md p-6 card flex flex-col justify-center min-h-[350px]">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">OT Summary</h2>
+                <div class="text-center space-y-2">
+                    <div>Yesterday's OT Hours: <span id="yesterdayOtHours" class="font-bold text-yellow-600">0.00</span></div>
+                    <div>Yesterday's OT Pay: <span id="yesterdayOtPay" class="font-bold text-green-600">RM0.00</span></div>
+                    <div>Total OT Hours: <span id="totalOtHours" class="font-bold text-yellow-600">0.00</span></div>
+                    <div>Total OT Pay: <span id="totalOtPay" class="font-bold text-green-600">RM0.00</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export to Excel Button at the bottom -->
+        <div class="flex justify-end mb-8">
+            <button id="exportBtnBottom" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-md transition duration-200">
+                Export to Excel
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const clockInBtn = document.getElementById('clockInBtn');
+        const clockOutBtn = document.getElementById('clockOutBtn');
+        const currentStatus = document.getElementById('currentStatus');
+        const currentTime = document.getElementById('currentTime');
+        const currentDate = document.getElementById('currentDate');
+        const recordsTableBody = document.getElementById('recordsTableBody');
+        const totalHours = document.getElementById('totalHours');
+        const overtimeHours = document.getElementById('overtimeHours');
+        const overtimePay = document.getElementById('overtimePay');
+        const weeklyTotalHours = document.getElementById('weeklyTotalHours');
+        const weeklyOvertimeHours = document.getElementById('weeklyOvertimeHours');
+        const weeklyOvertimePay = document.getElementById('weeklyOvertimePay');
+        const clearRecordsBtn = document.getElementById('clearRecordsBtn');
+
+        // State
+        let isClockedIn = false;
+        let clockInTime = null;
+        let todayRecords = [];
+        let weeklyRecords = [];
+
+        // Constants
+        const MONTHLY_REGULAR_HOURS = 104;
+        const OT_RATE = 30;
+
+        // Initialize
+        updateClock();
+        setInterval(updateClock, 1000);
+        loadRecords();
+        updateUI();
+
+        // Event Listeners
+        clockInBtn.addEventListener('click', handleClockIn);
+        clockOutBtn.addEventListener('click', handleClockOut);
+        clearRecordsBtn.addEventListener('click', clearRecords);
+        document.getElementById('exportBtnBottom').addEventListener('click', exportToExcel);
+
+        // Work Hours Calculator
+        document.getElementById('calcEndTimeBtn').addEventListener('click', function() {
+            const workHours = parseFloat(document.getElementById('calcWorkHours').value) || 0;
+            const startTime = document.getElementById('calcStartTime').value;
+            const otHours = parseFloat(document.getElementById('calcOtHours').value) || 0;
+            if (!startTime) {
+                document.getElementById('calcEndTimeResult').textContent = 'Please enter start time.';
+                return;
+            }
+            const [startHour, startMin] = startTime.split(':').map(Number);
+            let totalMinutes = (workHours + otHours) * 60 + startHour * 60 + startMin;
+            let endHour = Math.floor(totalMinutes / 60) % 24;
+            let endMin = Math.round(totalMinutes % 60);
+            const pad = n => n.toString().padStart(2, '0');
+            document.getElementById('calcEndTimeResult').textContent = `${pad(endHour)}:${pad(endMin)}`;
+        });
+
+        // OT Calculator
+        document.getElementById('calcOtPayBtn').addEventListener('click', function() {
+            const otRate = parseFloat(document.getElementById('otRateInput').value) || 0;
+            const otHours = parseFloat(document.getElementById('otHoursInput').value) || 0;
+            const otThreshold = parseFloat(document.getElementById('otThresholdInput').value) || 0;
+            let otPay = 0;
+            if (otHours > otThreshold) {
+                otPay = (otHours - otThreshold) * otRate;
+            } else {
+                otPay = otHours * otRate;
+            }
+            document.getElementById('calcOtPayResult').textContent = `RM${otPay.toFixed(2)}`;
+        });
+
+        // Profile image change/crop logic
+        const profileImg = document.getElementById('profileImg');
+        const profileInput = document.getElementById('profileInput');
+        const cropModal = document.getElementById('cropModal');
+        const cropImage = document.getElementById('cropImage');
+        const cancelCropBtn = document.getElementById('cancelCropBtn');
+        const saveCropBtn = document.getElementById('saveCropBtn');
+        let cropper = null;
+
+        // Load from localStorage if available
+        const savedProfile = localStorage.getItem('profileImageData');
+        if (savedProfile) {
+            profileImg.src = savedProfile;
+        }
+
+        profileImg.addEventListener('click', () => {
+            profileInput.click();
+        });
+
+        profileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    cropImage.src = evt.target.result;
+                    cropModal.style.display = 'flex';
+                    if (cropper) cropper.destroy();
+                    setTimeout(() => {
+                        cropper = new Cropper(cropImage, {
+                            aspectRatio: 1,
+                            viewMode: 1,
+                            autoCropArea: 1,
+                        });
+                    }, 100);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        cancelCropBtn.addEventListener('click', () => {
+            cropModal.style.display = 'none';
+            if (cropper) cropper.destroy();
+            cropper = null;
+            profileInput.value = '';
+        });
+
+        saveCropBtn.addEventListener('click', () => {
+            if (cropper) {
+                const canvas = cropper.getCroppedCanvas({ width: 200, height: 200 });
+                const dataUrl = canvas.toDataURL('image/png');
+                profileImg.src = dataUrl;
+                localStorage.setItem('profileImageData', dataUrl);
+                cropModal.style.display = 'none';
+                cropper.destroy();
+                cropper = null;
+                profileInput.value = '';
+            }
+        });
+
+        // Functions
+        function updateClock() {
+            const now = new Date();
+            currentTime.textContent = now.toLocaleTimeString();
+            currentDate.textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function handleClockIn() {
+            isClockedIn = true;
+            const now = new Date();
+            clockInTime = now;
+            
+            const record = {
+                type: 'Clock In',
+                time: now.toTimeString().split(' ')[0],
+                date: now.toLocaleDateString(),
+                timestamp: now.getTime()
+            };
+            
+            todayRecords.push(record);
+            updateUI();
+            saveRecords();
+            
+            // Add animation
+            const statusIndicator = currentStatus.querySelector('.status-indicator');
+            statusIndicator.classList.remove('status-out');
+            statusIndicator.classList.add('status-in');
+            statusIndicator.classList.add('tick-animation');
+            
+            setTimeout(() => {
+                statusIndicator.classList.remove('tick-animation');
+            }, 1000);
+        }
+
+        function handleClockOut() {
+            if (!isClockedIn) return;
+            
+            const now = new Date();
+            
+            const record = {
+                type: 'Clock Out',
+                time: now.toTimeString().split(' ')[0],
+                date: now.toLocaleDateString(),
+                timestamp: now.getTime()
+            };
+            
+            todayRecords.push(record);
+            
+            // Calculate hours worked
+            calculateHours();
+            
+            isClockedIn = false;
+            clockInTime = null;
+            updateUI();
+            saveRecords();
+            
+            // Add animation
+            const statusIndicator = currentStatus.querySelector('.status-indicator');
+            statusIndicator.classList.remove('status-in');
+            statusIndicator.classList.add('status-out');
+            statusIndicator.classList.add('tick-animation');
+            
+            setTimeout(() => {
+                statusIndicator.classList.remove('tick-animation');
+            }, 1000);
+        }
+
+        function calculateHours() {
+            // Sort records by timestamp
+            todayRecords.sort((a, b) => a.timestamp - b.timestamp);
+            
+            // Calculate total hours for today
+            let todayWorkMinutes = 0;
+            let clockInTime = null;
+            
+            for (const record of todayRecords) {
+                if (record.type === 'Clock In') {
+                    clockInTime = record.timestamp;
+                } else if (record.type === 'Clock Out' && clockInTime) {
+                    const clockOutTime = record.timestamp;
+                    todayWorkMinutes += (clockOutTime - clockInTime) / 60000; // Convert ms to minutes
+                    clockInTime = null;
+                }
+            }
+            
+            const todayWorkHours = todayWorkMinutes / 60;
+            totalHours.textContent = todayWorkHours.toFixed(2);
+            const monthlyOvertime = Math.max(0, parseFloat(weeklyTotalHours.textContent) + todayWorkHours - MONTHLY_REGULAR_HOURS);
+            overtimeHours.textContent = monthlyOvertime.toFixed(2);
+            overtimePay.textContent = `RM${(monthlyOvertime * OT_RATE).toFixed(2)}`;
+            weeklyTotalHours.textContent = (parseFloat(weeklyTotalHours.textContent) + todayWorkHours).toFixed(2);
+        }
+
+        function updateUI() {
+            if (isClockedIn) {
+                currentStatus.innerHTML = '<span class="status-indicator status-in"></span><span class="text-lg font-medium text-gray-700">Clocked In</span>';
+                clockInBtn.disabled = true;
+                clockInBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                clockOutBtn.disabled = false;
+                clockOutBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                currentStatus.innerHTML = '<span class="status-indicator status-out"></span><span class="text-lg font-medium text-gray-700">Not Clocked In</span>';
+                clockInBtn.disabled = false;
+                clockInBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                clockOutBtn.disabled = true;
+                clockOutBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+            
+            renderRecords();
+        }
+
+        function renderRecords() {
+            recordsTableBody.innerHTML = '';
+            
+            if (todayRecords.length === 0) {
+                recordsTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="px-6 py-4 text-center text-gray-500">No records yet</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            todayRecords.sort((a, b) => b.timestamp - a.timestamp);
+            
+            todayRecords.forEach(record => {
+                const row = document.createElement('tr');
+                const typeCell = document.createElement('td');
+                const timeCell = document.createElement('td');
+                const dateCell = document.createElement('td');
+                
+                typeCell.className = 'px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900';
+                timeCell.className = 'px-6 py-4 whitespace-nowrap text-sm text-gray-500';
+                dateCell.className = 'px-6 py-4 whitespace-nowrap text-sm text-gray-500';
+                
+                typeCell.textContent = record.type;
+                timeCell.textContent = record.time;
+                dateCell.textContent = record.date;
+                
+                if (record.type === 'Clock In') {
+                    typeCell.classList.add('text-green-600');
+                } else {
+                    typeCell.classList.add('text-red-600');
+                }
+                
+                row.appendChild(typeCell);
+                row.appendChild(timeCell);
+                row.appendChild(dateCell);
+                
+                recordsTableBody.appendChild(row);
+            });
+        }
+
+        function saveRecords() {
+            localStorage.setItem('attendanceRecords', JSON.stringify(todayRecords));
+        }
+
+        function loadRecords() {
+            const savedRecords = localStorage.getItem('attendanceRecords');
+            if (savedRecords) {
+                todayRecords = JSON.parse(savedRecords);
+                
+                const latestRecord = todayRecords[todayRecords.length - 1];
+                if (latestRecord && latestRecord.type === 'Clock In') {
+                    isClockedIn = true;
+                    clockInTime = new Date(latestRecord.timestamp);
+                }
+                
+                if (todayRecords.length > 0) {
+                    calculateHours();
+                }
+            }
+        }
+
+        function clearRecords() {
+            if (confirm('Are you sure you want to clear all records?')) {
+                todayRecords = [];
+                localStorage.removeItem('attendanceRecords');
+                updateUI();
+                
+                totalHours.textContent = '0.00';
+                overtimeHours.textContent = '0.00';
+                overtimePay.textContent = 'RM0.00';
+                weeklyTotalHours.textContent = '0.00';
+                weeklyOvertimeHours.textContent = '0.00';
+                weeklyOvertimePay.textContent = 'RM0.00';
+            }
+        }
+
+        function exportToExcel() {
+            const wb = XLSX.utils.book_new();
+            const data = todayRecords.map(record => [record.type, record.time, record.date]);
+            data.unshift(['Type', 'Time', 'Date']); // Add headers
+
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(wb, ws, 'Attendance Records');
+            XLSX.writeFile(wb, 'Attendance_Records.xlsx');
+        }
+
+        // OT Summary calculation logic
+        function updateOtSummary() {
+            // Calculate yesterday's OT and total OT from records
+            const savedRecords = localStorage.getItem('attendanceRecords');
+            let yesterdayOt = 0, yesterdayOtPay = 0, totalOt = 0, totalOtPay = 0;
+            const OT_RATE = 30;
+            if (savedRecords) {
+                const records = JSON.parse(savedRecords);
+                const now = new Date();
+                const yesterday = new Date(now);
+                yesterday.setDate(now.getDate() - 1);
+                const yesterdayDateStr = yesterday.toLocaleDateString();
+                let dailyRecords = {};
+                // Group records by date
+                for (const record of records) {
+                    if (!dailyRecords[record.date]) dailyRecords[record.date] = [];
+                    dailyRecords[record.date].push(record);
+                }
+                for (const date in dailyRecords) {
+                    const dayRecords = dailyRecords[date].sort((a, b) => a.timestamp - b.timestamp);
+                    let clockIn = null;
+                    let otForDay = 0;
+                    for (const rec of dayRecords) {
+                        if (rec.type === 'Clock In') {
+                            clockIn = rec.timestamp;
+                        } else if (rec.type === 'Clock Out' && clockIn) {
+                            const clockOut = rec.timestamp;
+                            // Calculate standard end time (clock in + 9.5 hours)
+                            const standardEnd = clockIn + 9.5 * 60 * 60 * 1000;
+                            if (clockOut > standardEnd) {
+                                otForDay += (clockOut - standardEnd) / (60 * 60 * 1000);
+                            }
+                            clockIn = null;
+                        }
+                    }
+                    if (date === yesterdayDateStr) {
+                        yesterdayOt = otForDay;
+                        yesterdayOtPay = otForDay * OT_RATE;
+                    }
+                    totalOt += otForDay;
+                    totalOtPay += otForDay * OT_RATE;
+                }
+            }
+            document.getElementById('yesterdayOtHours').textContent = yesterdayOt.toFixed(2);
+            document.getElementById('yesterdayOtPay').textContent = `RM${yesterdayOtPay.toFixed(2)}`;
+            document.getElementById('totalOtHours').textContent = totalOt.toFixed(2);
+            document.getElementById('totalOtPay').textContent = `RM${totalOtPay.toFixed(2)}`;
+        }
+        updateOtSummary();
+    </script>
+</body>
+</html>
