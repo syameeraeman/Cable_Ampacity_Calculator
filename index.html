@@ -76,6 +76,7 @@
 <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8 max-w-6xl">
         <!-- Header: Logo left, profile right -->
+        <!-- IMPORTANT: For GitHub Pages, file names are case-sensitive. Ensure 'stratus_logo.png' is in the same folder as this index.html -->
         <div class="flex items-center w-full justify-between mb-4">
             <img src="stratus_logo.png" alt="Stratus Automation Logo" class="h-16 w-auto mr-4">
             <img id="profileImg" src="profile_image.png" alt="Profile" class="h-20 w-20 rounded-full object-cover ml-4 border-2 border-gray-300 shadow transition-transform duration-200 hover:scale-105 cursor-pointer" onerror="this.onerror=null;this.src='https://via.placeholder.com/80?text=No+Image';" title="Click to change profile image">
@@ -287,6 +288,8 @@
         const savedProfile = localStorage.getItem('profileImageData');
         if (savedProfile) {
             profileImg.src = savedProfile;
+        } else {
+            profileImg.src = 'profile_image.png';
         }
 
         profileImg.addEventListener('click', () => {
@@ -490,17 +493,24 @@
             localStorage.setItem('attendanceRecords', JSON.stringify(todayRecords));
         }
 
+        // Fix: Restore clock in/out state after refresh
+        function restoreClockState() {
+            const today = new Date().toLocaleDateString();
+            let clockInCount = 0, clockOutCount = 0;
+            for (const record of todayRecords) {
+                if (record.date === today) {
+                    if (record.type === 'Clock In') clockInCount++;
+                    if (record.type === 'Clock Out') clockOutCount++;
+                }
+            }
+            isClockedIn = clockInCount > clockOutCount;
+        }
+
         function loadRecords() {
             const savedRecords = localStorage.getItem('attendanceRecords');
             if (savedRecords) {
                 todayRecords = JSON.parse(savedRecords);
-                
-                const latestRecord = todayRecords[todayRecords.length - 1];
-                if (latestRecord && latestRecord.type === 'Clock In') {
-                    isClockedIn = true;
-                    clockInTime = new Date(latestRecord.timestamp);
-                }
-                
+                restoreClockState();
                 if (todayRecords.length > 0) {
                     calculateHours();
                 }
@@ -582,5 +592,6 @@
         }
         updateOtSummary();
     </script>
+    <!-- IMPORTANT: For GitHub Pages, file names are case-sensitive. Ensure 'stratus_logo.png' and 'profile_image.png' are in the same folder as this index.html -->
 </body>
 </html>
