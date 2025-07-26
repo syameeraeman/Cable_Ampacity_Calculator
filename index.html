@@ -663,31 +663,8 @@
       
       // Back button click handler
       backBtn.addEventListener('click', function() {
-        // Show library selection
-        librarySelection.style.display = 'block';
-        
-        // Hide back button
-        backBtn.style.display = 'none';
-        
-        // Hide all library sections
-        librarySections.forEach(section => {
-          section.classList.remove('active');
-        });
-        
-        // Show login section
-        loginSection.style.display = 'block';
-        // Hide library buttons
-        libraryButtons.style.display = 'none';
-        logoutBtn.style.display = 'none'; // Hide logout button
-
-        // Scroll to library selection
-        librarySelection.scrollIntoView({ behavior: 'smooth' });
-      });
-      
-      // Back to Main Page button handlers
-      const backToMainBtns = document.querySelectorAll('.back-to-main-btn');
-      backToMainBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+        // If user is authenticated, show library selection with buttons
+        if (isAuthenticated) {
           // Show library selection
           librarySelection.style.display = 'block';
           
@@ -699,11 +676,62 @@
             section.classList.remove('active');
           });
           
-          // Show login section
+          // Hide login section
+          loginSection.style.display = 'none';
+          // Show library buttons
+          libraryButtons.style.display = 'flex';
+          // Show logout button
+          logoutBtn.style.display = 'inline-block';
+        } else {
+          // If not authenticated, show login section
+          librarySelection.style.display = 'block';
+          backBtn.style.display = 'none';
+          librarySections.forEach(section => {
+            section.classList.remove('active');
+          });
           loginSection.style.display = 'block';
-          // Hide library buttons
           libraryButtons.style.display = 'none';
-          logoutBtn.style.display = 'none'; // Hide logout button
+          logoutBtn.style.display = 'none';
+        }
+
+        // Scroll to library selection
+        librarySelection.scrollIntoView({ behavior: 'smooth' });
+      });
+      
+      // Back to Main Page button handlers
+      const backToMainBtns = document.querySelectorAll('.back-to-main-btn');
+      backToMainBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // If user is authenticated, show library selection with buttons
+          if (isAuthenticated) {
+            // Show library selection
+            librarySelection.style.display = 'block';
+            
+            // Hide back button
+            backBtn.style.display = 'none';
+            
+            // Hide all library sections
+            librarySections.forEach(section => {
+              section.classList.remove('active');
+            });
+            
+            // Hide login section
+            loginSection.style.display = 'none';
+            // Show library buttons
+            libraryButtons.style.display = 'flex';
+            // Show logout button
+            logoutBtn.style.display = 'inline-block';
+          } else {
+            // If not authenticated, show login section
+            librarySelection.style.display = 'block';
+            backBtn.style.display = 'none';
+            librarySections.forEach(section => {
+              section.classList.remove('active');
+            });
+            loginSection.style.display = 'block';
+            libraryButtons.style.display = 'none';
+            logoutBtn.style.display = 'none';
+          }
 
           // Scroll to top of page (main calculator)
           window.scrollTo({ top: 0, behavior: 'smooth' });
