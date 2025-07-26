@@ -270,6 +270,11 @@
       if (isNaN(value) || value <= 0) {
         resultsDiv.style.display = 'none';
         resultsDiv.innerHTML = '';
+        // Hide minimum components section when input is empty or invalid
+        const existingComponents = document.getElementById('minimumComponents');
+        if (existingComponents) {
+          existingComponents.remove();
+        }
         return;
       }
       const filtered = ampacityTable.filter(row => value <= row.amps);
