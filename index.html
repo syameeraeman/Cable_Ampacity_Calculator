@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cable Ampacity Calculator</title>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
   <style>
     body {
       background: #f0f8ff;
@@ -142,6 +145,21 @@
     </div>
   </div>
   <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB_8ntUz0TnWzTtygzZ-r7d-9yVg-zj254",
+      authDomain: "attendance-ac65f.firebaseapp.com",
+      projectId: "attendance-ac65f",
+      storageBucket: "attendance-ac65f.firebasestorage.app",
+      messagingSenderId: "156838355463",
+      appId: "1:156838355463:web:c0533dfeae05014a0d40a2",
+      measurementId: "G-614JWRFCLQ"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
     // Metric ampacity table for 60°C (AWG, mm², Amps, Bending Space mm) from the image
     const ampacityTable = [
       { awg: '22', mm2: 0.25, amps: 3, bend_mm: 13 },
@@ -202,9 +220,15 @@
       const numCores = document.getElementById('numCores').value.trim();
       const cableRating = document.getElementById('cableRating').value.trim();
       if (!cableCategory || !oemPart || !cableDesc || !numCores || !cableRating) return;
+      
+      // Add to local array
       cableLibrary[cableCategory].push({ oemPart, cableDesc, numCores, cableRating });
-      cableForm.reset();
-      renderCableTables();
+      
+      // Save to Firebase
+      saveCableToFirebase(cableCategory, { oemPart, cableDesc, numCores, cableRating }).then(() => {
+        cableForm.reset();
+        renderCableTables();
+      });
     });
 
     const searchOEM = document.getElementById('searchOEM');
@@ -241,12 +265,73 @@
       if (e.target.classList.contains('remove-cable-btn')) {
         const cableCategory = e.target.getAttribute('data-cat');
         const idx = parseInt(e.target.getAttribute('data-idx'));
+        const cableToRemove = cableLibrary[cableCategory][idx];
         if (confirm('Are you sure you want to remove this cable?')) {
-          cableLibrary[cableCategory].splice(idx, 1);
-          renderCableTables();
+          deleteCableFromFirebase(cableToRemove.id).then(() => {
+            cableLibrary[cableCategory].splice(idx, 1);
+            renderCableTables();
+          });
         }
       }
     });
+
+    // Firebase functions for Cable Library
+    function saveCableToFirebase(category, cableData) {
+      return db.collection('cables').add({
+        category: category,
+        oemPart: cableData.oemPart,
+        cableDesc: cableData.cableDesc,
+        numCores: cableData.numCores,
+        cableRating: cableData.cableRating,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        console.log('Cable saved to Firebase');
+        return true;
+      }).catch((error) => {
+        console.error('Error saving cable: ', error);
+        return false;
+      });
+    }
+
+    function loadCablesFromFirebase() {
+      db.collection('cables').get().then((querySnapshot) => {
+        cableLibrary = {
+          'Single Core': [],
+          'Multi Core': [],
+          'Robotic Cable': [],
+          'Flexible Cable': []
+        };
+        
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          if (cableLibrary[data.category]) {
+            cableLibrary[data.category].push({
+              id: doc.id,
+              oemPart: data.oemPart,
+              cableDesc: data.cableDesc,
+              numCores: data.numCores,
+              cableRating: data.cableRating
+            });
+          }
+        });
+        renderCableTables();
+      }).catch((error) => {
+        console.error('Error loading cables: ', error);
+      });
+    }
+
+    function deleteCableFromFirebase(docId) {
+      return db.collection('cables').doc(docId).delete().then(() => {
+        console.log('Cable deleted from Firebase');
+        return true;
+      }).catch((error) => {
+        console.error('Error deleting cable: ', error);
+        return false;
+      });
+    }
+
+    // Load cables on page load
+    loadCablesFromFirebase();
   </script>
 
      <div class="circuit-breaker-library" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
@@ -306,10 +391,74 @@
       const cbPoles = document.getElementById('cbPoles').value.trim();
       const cbRating = document.getElementById('cbRating').value.trim();
       if (!cbCategory || !cbOEMPart || !cbDesc || !cbPoles || !cbRating) return;
+      
+      // Add to local array
       cbLibrary[cbCategory].push({ cbOEMPart, cbDesc, cbPoles, cbRating });
-      cbForm.reset();
-      renderCBTables();
+      
+      // Save to Firebase
+      saveCBToFirebase(cbCategory, { cbOEMPart, cbDesc, cbPoles, cbRating }).then(() => {
+        cbForm.reset();
+        renderCBTables();
+      });
     });
+
+    // Firebase functions for Circuit Breaker Library
+    function saveCBToFirebase(category, cbData) {
+      return db.collection('circuitBreakers').add({
+        category: category,
+        cbOEMPart: cbData.cbOEMPart,
+        cbDesc: cbData.cbDesc,
+        cbPoles: cbData.cbPoles,
+        cbRating: cbData.cbRating,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        console.log('Circuit Breaker saved to Firebase');
+        return true;
+      }).catch((error) => {
+        console.error('Error saving circuit breaker: ', error);
+        return false;
+      });
+    }
+
+    function loadCBsFromFirebase() {
+      db.collection('circuitBreakers').get().then((querySnapshot) => {
+        cbLibrary = {
+          'Main CB': [],
+          'RCCB': [],
+          'CB': [],
+          'DCB': []
+        };
+        
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          if (cbLibrary[data.category]) {
+            cbLibrary[data.category].push({
+              id: doc.id,
+              cbOEMPart: data.cbOEMPart,
+              cbDesc: data.cbDesc,
+              cbPoles: data.cbPoles,
+              cbRating: data.cbRating
+            });
+          }
+        });
+        renderCBTables();
+      }).catch((error) => {
+        console.error('Error loading circuit breakers: ', error);
+      });
+    }
+
+    function deleteCBFromFirebase(docId) {
+      return db.collection('circuitBreakers').doc(docId).delete().then(() => {
+        console.log('Circuit Breaker deleted from Firebase');
+        return true;
+      }).catch((error) => {
+        console.error('Error deleting circuit breaker: ', error);
+        return false;
+      });
+    }
+
+    // Load circuit breakers on page load
+    loadCBsFromFirebase();
 
     searchCBOEM.addEventListener('input', renderCBTables);
 
@@ -341,9 +490,12 @@
       if (e.target.classList.contains('remove-cb-btn')) {
         const cbCat = e.target.getAttribute('data-cat');
         const idx = parseInt(e.target.getAttribute('data-idx'));
+        const cbToRemove = cbLibrary[cbCat][idx];
         if (confirm('Are you sure you want to remove this circuit breaker?')) {
-          cbLibrary[cbCat].splice(idx, 1);
-          renderCBTables();
+          deleteCBFromFirebase(cbToRemove.id).then(() => {
+            cbLibrary[cbCat].splice(idx, 1);
+            renderCBTables();
+          });
         }
       }
     });
@@ -404,10 +556,72 @@
       const switchPoles = document.getElementById('switchPoles').value.trim();
       const switchRating = document.getElementById('switchRating').value.trim();
       if (!switchCategory || !switchOEMPart || !switchDesc || !switchPoles || !switchRating) return;
+      
+      // Add to local array
       switchLibrary[switchCategory].push({ switchOEMPart, switchDesc, switchPoles, switchRating });
-      switchForm.reset();
-      renderSwitchTables();
+      
+      // Save to Firebase
+      saveSwitchToFirebase(switchCategory, { switchOEMPart, switchDesc, switchPoles, switchRating }).then(() => {
+        switchForm.reset();
+        renderSwitchTables();
+      });
     });
+
+    // Firebase functions for Switch Library
+    function saveSwitchToFirebase(category, switchData) {
+      return db.collection('switches').add({
+        category: category,
+        switchOEMPart: switchData.switchOEMPart,
+        switchDesc: switchData.switchDesc,
+        switchPoles: switchData.switchPoles,
+        switchRating: switchData.switchRating,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        console.log('Switch saved to Firebase');
+        return true;
+      }).catch((error) => {
+        console.error('Error saving switch: ', error);
+        return false;
+      });
+    }
+
+    function loadSwitchesFromFirebase() {
+      db.collection('switches').get().then((querySnapshot) => {
+        switchLibrary = {
+          'Relay': [],
+          'Contactor': []
+        };
+        
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          if (switchLibrary[data.category]) {
+            switchLibrary[data.category].push({
+              id: doc.id,
+              switchOEMPart: data.switchOEMPart,
+              switchDesc: data.switchDesc,
+              switchPoles: data.switchPoles,
+              switchRating: data.switchRating
+            });
+          }
+        });
+        renderSwitchTables();
+      }).catch((error) => {
+        console.error('Error loading switches: ', error);
+      });
+    }
+
+    function deleteSwitchFromFirebase(docId) {
+      return db.collection('switches').doc(docId).delete().then(() => {
+        console.log('Switch deleted from Firebase');
+        return true;
+      }).catch((error) => {
+        console.error('Error deleting switch: ', error);
+        return false;
+      });
+    }
+
+    // Load switches on page load
+    loadSwitchesFromFirebase();
 
     searchSwitchOEM.addEventListener('input', renderSwitchTables);
 
@@ -439,9 +653,12 @@
       if (e.target.classList.contains('remove-switch-btn')) {
         const switchCat = e.target.getAttribute('data-cat');
         const idx = parseInt(e.target.getAttribute('data-idx'));
+        const switchToRemove = switchLibrary[switchCat][idx];
         if (confirm('Are you sure you want to remove this switch?')) {
-          switchLibrary[switchCat].splice(idx, 1);
-          renderSwitchTables();
+          deleteSwitchFromFirebase(switchToRemove.id).then(() => {
+            switchLibrary[switchCat].splice(idx, 1);
+            renderSwitchTables();
+          });
         }
       }
     });
