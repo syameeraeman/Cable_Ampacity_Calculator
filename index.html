@@ -6,7 +6,7 @@
   <title>Cable Ampacity Calculator</title>
   <style>
     body {
-      background: #23262c;
+      background: #f0f8ff;
       color: #fff;
       font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
@@ -100,16 +100,16 @@
     </div>
     <div id="results" class="results" style="display:none;"></div>
   </div>
-  <div style="margin-top: 24px; font-size: 0.95rem; color: #bbb; text-align: center;">
+  <div style="margin-top: 24px; font-size: 0.95rem; color: #000; text-align: center;">
     Ampacity data referenced from SEMI S22-1110b Standard.
   </div>
 
-  <div class="cable-library" style="margin: 40px auto 0 auto; max-width: 600px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+     <div class="cable-library" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <h2 style="color: #61dafb; margin-bottom: 18px;">Cable Library</h2>
     <form id="cableForm" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: center;">
       <div>
-        <label for="cableClass">Class:</label><br>
-        <select id="cableClass" required>
+        <label for="cableCategory">Category:</label><br>
+        <select id="cableCategory" required>
           <option value="Single Core">Single Core</option>
           <option value="Multi Core">Multi Core</option>
           <option value="Robotic Cable">Robotic Cable</option>
@@ -129,12 +129,16 @@
         <input type="number" id="numCores" min="1" required style="width: 60px;" />
       </div>
       <div>
+        <label for="cableRating">Rating (A):</label><br>
+        <input type="number" id="cableRating" min="1" required style="width: 60px;" />
+      </div>
+      <div>
         <button type="submit" style="padding: 8px 18px; background: #61dafb; color: #23262c; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Add Cable</button>
       </div>
     </form>
     <div id="cableTables" style="margin-top: 30px;"></div>
     <div style="margin-top: 18px;">
-      <input type="text" id="searchOEM" placeholder="Search by OEM Part No" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 220px; font-size: 1rem;" />
+      <input type="text" id="searchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem;" />
     </div>
   </div>
   <script>
@@ -175,6 +179,9 @@
       }
       resultsDiv.innerHTML = html;
       resultsDiv.style.display = 'block';
+      
+      // Show minimum components from libraries
+      showMinimumComponents(value);
     });
 
     // --- Cable Library Section ---
@@ -189,12 +196,13 @@
 
     cableForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      const cableClass = document.getElementById('cableClass').value;
+      const cableCategory = document.getElementById('cableCategory').value;
       const oemPart = document.getElementById('oemPart').value.trim();
       const cableDesc = document.getElementById('cableDesc').value.trim();
       const numCores = document.getElementById('numCores').value.trim();
-      if (!cableClass || !oemPart || !cableDesc || !numCores) return;
-      cableLibrary[cableClass].push({ oemPart, cableDesc, numCores });
+      const cableRating = document.getElementById('cableRating').value.trim();
+      if (!cableCategory || !oemPart || !cableDesc || !numCores || !cableRating) return;
+      cableLibrary[cableCategory].push({ oemPart, cableDesc, numCores, cableRating });
       cableForm.reset();
       renderCableTables();
     });
@@ -206,17 +214,21 @@
       let html = '';
       const searchVal = searchOEM.value.trim().toLowerCase();
       let found = false;
-      Object.keys(cableLibrary).forEach(cls => {
+      Object.keys(cableLibrary).forEach(cat => {
         // Filter cables by search value
         const filteredCables = searchVal
-          ? cableLibrary[cls].filter(cable => cable.oemPart.toLowerCase().includes(searchVal))
-          : cableLibrary[cls];
+          ? cableLibrary[cat].filter(cable => 
+              cable.oemPart.toLowerCase().includes(searchVal) || 
+              cable.numCores.toString().includes(searchVal) ||
+              cable.cableRating.toString().includes(searchVal)
+            )
+          : cableLibrary[cat];
         if (filteredCables.length === 0) return;
         found = true;
-        html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cls}</h3>`;
-        html += `<table style='margin-bottom:18px;'><thead><tr><th>OEM Part Number</th><th>Description</th><th>No. of Cores</th><th>Action</th></tr></thead><tbody>`;
+        html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
+        html += `<table style='margin-bottom:18px;'><thead><tr><th>OEM Part Number</th><th>Description</th><th>No. of Cores</th><th>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
         filteredCables.forEach((cable, idx) => {
-          html += `<tr><td>${cable.oemPart}</td><td>${cable.cableDesc}</td><td>${cable.numCores}</td><td><button class='remove-cable-btn' data-class='${cls}' data-idx='${cableLibrary[cls].indexOf(cable)}' style='padding:3px 10px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;'>Remove</button></td></tr>`;
+          html += `<tr><td>${cable.oemPart}</td><td>${cable.cableDesc}</td><td>${cable.numCores}</td><td>${cable.cableRating}</td><td><button class='remove-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 10px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;'>Remove</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
@@ -227,14 +239,299 @@
     // Remove cable event (event delegation)
     cableTablesDiv.addEventListener('click', function(e) {
       if (e.target.classList.contains('remove-cable-btn')) {
-        const cableClass = e.target.getAttribute('data-class');
+        const cableCategory = e.target.getAttribute('data-cat');
         const idx = parseInt(e.target.getAttribute('data-idx'));
         if (confirm('Are you sure you want to remove this cable?')) {
-          cableLibrary[cableClass].splice(idx, 1);
+          cableLibrary[cableCategory].splice(idx, 1);
           renderCableTables();
         }
       }
     });
+  </script>
+
+     <div class="circuit-breaker-library" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+    <h2 style="color: #61dafb; margin-bottom: 18px;">Circuit Breaker Library</h2>
+    <form id="cbForm" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: center;">
+      <div>
+        <label for="cbCategory">Category:</label><br>
+        <select id="cbCategory" required>
+          <option value="Main CB">Main CB</option>
+          <option value="RCCB">RCCB</option>
+          <option value="CB">CB</option>
+          <option value="DCB">DCB</option>
+        </select>
+      </div>
+      <div>
+        <label for="cbOEMPart">OEM Part Number:</label><br>
+        <input type="text" id="cbOEMPart" required style="width: 120px;" />
+      </div>
+      <div>
+        <label for="cbDesc">Description:</label><br>
+        <input type="text" id="cbDesc" required style="width: 160px;" />
+      </div>
+      <div>
+        <label for="cbPoles">Poles:</label><br>
+        <input type="number" id="cbPoles" min="1" max="4" required style="width: 60px;" />
+      </div>
+      <div>
+        <label for="cbRating">Rating (A):</label><br>
+        <input type="number" id="cbRating" min="1" required style="width: 60px;" />
+      </div>
+      <div>
+        <button type="submit" style="padding: 8px 18px; background: #61dafb; color: #23262c; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Add CB</button>
+      </div>
+    </form>
+    <div id="cbTables" style="margin-top: 30px;"></div>
+    <div style="margin-top: 18px;">
+      <input type="text" id="searchCBOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem;" />
+    </div>
+  </div>
+  <script>
+    // --- Circuit Breaker Library Section ---
+    const cbForm = document.getElementById('cbForm');
+    const cbTablesDiv = document.getElementById('cbTables');
+    const searchCBOEM = document.getElementById('searchCBOEM');
+    let cbLibrary = {
+      'Main CB': [],
+      'RCCB': [],
+      'CB': [],
+      'DCB': []
+    };
+
+    cbForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const cbCategory = document.getElementById('cbCategory').value;
+      const cbOEMPart = document.getElementById('cbOEMPart').value.trim();
+      const cbDesc = document.getElementById('cbDesc').value.trim();
+      const cbPoles = document.getElementById('cbPoles').value.trim();
+      const cbRating = document.getElementById('cbRating').value.trim();
+      if (!cbCategory || !cbOEMPart || !cbDesc || !cbPoles || !cbRating) return;
+      cbLibrary[cbCategory].push({ cbOEMPart, cbDesc, cbPoles, cbRating });
+      cbForm.reset();
+      renderCBTables();
+    });
+
+    searchCBOEM.addEventListener('input', renderCBTables);
+
+    function renderCBTables() {
+      let html = '';
+      const searchVal = searchCBOEM.value.trim().toLowerCase();
+      let found = false;
+      Object.keys(cbLibrary).forEach(cat => {
+        const filteredCBs = searchVal
+          ? cbLibrary[cat].filter(cb => 
+              cb.cbOEMPart.toLowerCase().includes(searchVal) || 
+              cb.cbRating.toString().includes(searchVal)
+            )
+          : cbLibrary[cat];
+        if (filteredCBs.length === 0) return;
+        found = true;
+        html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
+        html += `<table style='margin-bottom:18px;'><thead><tr><th>OEM Part Number</th><th>Description</th><th>Poles</th><th>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
+        filteredCBs.forEach((cb, idx) => {
+          html += `<tr><td>${cb.cbOEMPart}</td><td>${cb.cbDesc}</td><td>${cb.cbPoles}</td><td>${cb.cbRating}</td><td><button class='remove-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:3px 10px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;'>Remove</button></td></tr>`;
+        });
+        html += '</tbody></table>';
+      });
+      cbTablesDiv.innerHTML = found ? html : '<div style="color:#bbb;">No circuit breakers found.</div>';
+    }
+
+    // Remove CB event (event delegation)
+    cbTablesDiv.addEventListener('click', function(e) {
+      if (e.target.classList.contains('remove-cb-btn')) {
+        const cbCat = e.target.getAttribute('data-cat');
+        const idx = parseInt(e.target.getAttribute('data-idx'));
+        if (confirm('Are you sure you want to remove this circuit breaker?')) {
+          cbLibrary[cbCat].splice(idx, 1);
+          renderCBTables();
+        }
+      }
+    });
+
+    renderCBTables();
+  </script>
+
+     <div class="switch-library" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+    <h2 style="color: #61dafb; margin-bottom: 18px;">Switch Library</h2>
+    <form id="switchForm" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: center;">
+      <div>
+        <label for="switchCategory">Category:</label><br>
+        <select id="switchCategory" required>
+          <option value="Relay">Relay</option>
+          <option value="Contactor">Contactor</option>
+        </select>
+      </div>
+      <div>
+        <label for="switchOEMPart">OEM Part Number:</label><br>
+        <input type="text" id="switchOEMPart" required style="width: 120px;" />
+      </div>
+      <div>
+        <label for="switchDesc">Description:</label><br>
+        <input type="text" id="switchDesc" required style="width: 160px;" />
+      </div>
+      <div>
+        <label for="switchPoles">Poles:</label><br>
+        <input type="number" id="switchPoles" min="1" max="4" required style="width: 60px;" />
+      </div>
+      <div>
+        <label for="switchRating">Rating (A):</label><br>
+        <input type="number" id="switchRating" min="1" required style="width: 60px;" />
+      </div>
+      <div>
+        <button type="submit" style="padding: 8px 18px; background: #61dafb; color: #23262c; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Add Switch</button>
+      </div>
+    </form>
+    <div id="switchTables" style="margin-top: 30px;"></div>
+    <div style="margin-top: 18px;">
+      <input type="text" id="searchSwitchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem;" />
+    </div>
+  </div>
+  <script>
+    // --- Switch Library Section ---
+    const switchForm = document.getElementById('switchForm');
+    const switchTablesDiv = document.getElementById('switchTables');
+    const searchSwitchOEM = document.getElementById('searchSwitchOEM');
+    let switchLibrary = {
+      'Relay': [],
+      'Contactor': []
+    };
+
+    switchForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const switchCategory = document.getElementById('switchCategory').value;
+      const switchOEMPart = document.getElementById('switchOEMPart').value.trim();
+      const switchDesc = document.getElementById('switchDesc').value.trim();
+      const switchPoles = document.getElementById('switchPoles').value.trim();
+      const switchRating = document.getElementById('switchRating').value.trim();
+      if (!switchCategory || !switchOEMPart || !switchDesc || !switchPoles || !switchRating) return;
+      switchLibrary[switchCategory].push({ switchOEMPart, switchDesc, switchPoles, switchRating });
+      switchForm.reset();
+      renderSwitchTables();
+    });
+
+    searchSwitchOEM.addEventListener('input', renderSwitchTables);
+
+    function renderSwitchTables() {
+      let html = '';
+      const searchVal = searchSwitchOEM.value.trim().toLowerCase();
+      let found = false;
+      Object.keys(switchLibrary).forEach(cat => {
+        const filteredSwitches = searchVal
+          ? switchLibrary[cat].filter(sw => 
+              sw.switchOEMPart.toLowerCase().includes(searchVal) || 
+              sw.switchRating.toString().includes(searchVal)
+            )
+          : switchLibrary[cat];
+        if (filteredSwitches.length === 0) return;
+        found = true;
+        html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
+        html += `<table style='margin-bottom:18px;'><thead><tr><th>OEM Part Number</th><th>Description</th><th>Poles</th><th>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
+        filteredSwitches.forEach((sw, idx) => {
+          html += `<tr><td>${sw.switchOEMPart}</td><td>${sw.switchDesc}</td><td>${sw.switchPoles}</td><td>${sw.switchRating}</td><td><button class='remove-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:3px 10px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;'>Remove</button></td></tr>`;
+        });
+        html += '</tbody></table>';
+      });
+      switchTablesDiv.innerHTML = found ? html : '<div style="color:#bbb;">No switches found.</div>';
+    }
+
+    // Remove Switch event (event delegation)
+    switchTablesDiv.addEventListener('click', function(e) {
+      if (e.target.classList.contains('remove-switch-btn')) {
+        const switchCat = e.target.getAttribute('data-cat');
+        const idx = parseInt(e.target.getAttribute('data-idx'));
+        if (confirm('Are you sure you want to remove this switch?')) {
+          switchLibrary[switchCat].splice(idx, 1);
+          renderSwitchTables();
+        }
+      }
+    });
+
+    renderSwitchTables();
+  </script>
+
+  <script>
+    // Function to show minimum components from libraries
+    function showMinimumComponents(currentRating) {
+      let componentsHtml = '<div style="margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">';
+      componentsHtml += '<h2 style="color: #61dafb; text-align: center; margin-bottom: 20px;">Minimum Components for ' + currentRating + 'A</h2>';
+      
+      // Cable Library components
+      let suitableCables = [];
+      Object.keys(cableLibrary).forEach(cat => {
+        cableLibrary[cat].forEach(cable => {
+          if (parseInt(cable.cableRating) >= currentRating) {
+            suitableCables.push({...cable, category: cat});
+          }
+        });
+      });
+      
+      if (suitableCables.length > 0) {
+        componentsHtml += '<div style="background: #23262c; border-radius: 12px; padding: 20px; margin-bottom: 20px;">';
+        componentsHtml += '<h3 style="color: #ffb347; margin-bottom: 10px;">Suitable Cables</h3>';
+        componentsHtml += '<table style="width: 100%; border-collapse: collapse;"><thead><tr><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Category</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">OEM Part Number</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Description</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">No. of Cores</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Rating (A)</th></tr></thead><tbody>';
+        suitableCables.forEach(cable => {
+          componentsHtml += `<tr style="background: #2e323a;"><td style="border: 1px solid #444; padding: 8px; color: #fff;">${cable.category}</td><td style="border: 1px solid #444; padding: 8px; color: #fff;">${cable.oemPart}</td><td style="border: 1px solid #444; padding: 8px; color: #fff;">${cable.cableDesc}</td><td style="border: 1px solid #444; padding: 8px; color: #fff;">${cable.numCores}</td><td style="border: 1px solid #444; padding: 8px; color: #fff;">${cable.cableRating}</td></tr>`;
+        });
+        componentsHtml += '</tbody></table></div>';
+      }
+      
+      // Circuit Breaker Library components
+      let suitableCBs = [];
+      Object.keys(cbLibrary).forEach(cat => {
+        cbLibrary[cat].forEach(cb => {
+          if (parseInt(cb.cbRating) >= currentRating) {
+            suitableCBs.push({...cb, category: cat});
+          }
+        });
+      });
+      
+      if (suitableCBs.length > 0) {
+        componentsHtml += '<div style="background: #23262c; border-radius: 12px; padding: 20px; margin-bottom: 20px;">';
+        componentsHtml += '<h3 style="color: #ffb347; margin-bottom: 10px;">Suitable Circuit Breakers</h3>';
+        componentsHtml += '<table style="width: 100%; border-collapse: collapse;"><thead><tr><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Category</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">OEM Part Number</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Description</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Poles</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Rating (A)</th></tr></thead><tbody>';
+        suitableCBs.forEach(cb => {
+          componentsHtml += `<tr style="background: #2e323a;"><td style="border: 1px solid #444; padding: 8px; color: #fff;">${cb.category}</td><td style="border: 1px solid #444; padding: 8px; color: #fff;">${cb.cbOEMPart}</td><td style="border: 1px solid #444; padding: 8px; color: #fff;">${cb.cbDesc}</td><td style="border: 1px solid #444; padding: 8px; color: #fff;">${cb.cbPoles}</td><td style="border: 1px solid #444; padding: 8px; color: #fff;">${cb.cbRating}</td></tr>`;
+        });
+        componentsHtml += '</tbody></table></div>';
+      }
+      
+      // Switch Library components
+      let suitableSwitches = [];
+      Object.keys(switchLibrary).forEach(cat => {
+        switchLibrary[cat].forEach(sw => {
+          if (parseInt(sw.switchRating) >= currentRating) {
+            suitableSwitches.push({...sw, category: cat});
+          }
+        });
+      });
+      
+      if (suitableSwitches.length > 0) {
+        componentsHtml += '<div style="background: #23262c; border-radius: 12px; padding: 20px; margin-bottom: 20px;">';
+        componentsHtml += '<h3 style="color: #ffb347; margin-bottom: 10px;">Suitable Switches</h3>';
+        componentsHtml += '<table style="width: 100%; border-collapse: collapse;"><thead><tr><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Category</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">OEM Part Number</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Description</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Poles</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Rating (A)</th></tr></thead><tbody>';
+        suitableSwitches.forEach(sw => {
+          componentsHtml += `<tr style="background: #2e323a;"><td style="border: 1px solid #444; padding: 8px; color: #fff;">${sw.category}</td><td style="border: 1px solid #444; padding: 8px; color: #fff;">${sw.switchOEMPart}</td><td style="border: 1px solid #444; padding: 8px; color: #fff;">${sw.switchDesc}</td><td style="border: 1px solid #444; padding: 8px; color: #fff;">${sw.switchPoles}</td><td style="border: 1px solid #444; padding: 8px; color: #fff;">${sw.switchRating}</td></tr>`;
+        });
+        componentsHtml += '</tbody></table></div>';
+      }
+      
+      if (suitableCables.length === 0 && suitableCBs.length === 0 && suitableSwitches.length === 0) {
+        componentsHtml += '<div style="background: #23262c; border-radius: 12px; padding: 20px; text-align: center; color: #bbb;">No suitable components found in libraries for ' + currentRating + 'A. Add components with higher ratings to your libraries.</div>';
+      }
+      
+      componentsHtml += '</div>';
+      
+      // Add the components section after the results
+      const existingComponents = document.getElementById('minimumComponents');
+      if (existingComponents) {
+        existingComponents.remove();
+      }
+      
+      const componentsDiv = document.createElement('div');
+      componentsDiv.id = 'minimumComponents';
+      componentsDiv.innerHTML = componentsHtml;
+      resultsDiv.parentNode.insertBefore(componentsDiv, resultsDiv.nextSibling);
+    }
   </script>
 </body>
 </html> 
