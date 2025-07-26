@@ -624,44 +624,40 @@
         btn.addEventListener('click', function() {
           const selectedLibrary = this.getAttribute('data-library');
           
-          // Check if user is logged in
-          firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-              // User is logged in, show library selection
-              librarySelection.style.display = 'block';
-              backBtn.style.display = 'inline-block';
-              // Hide login section
-              loginSection.style.display = 'none';
-              // Hide library buttons
-              libraryButtons.style.display = 'flex';
-              logoutBtn.style.display = 'inline-block'; // Show logout button
+          // Check if user is logged in using local authentication
+          if (isAuthenticated) {
+            // User is logged in, hide library selection
+            librarySelection.style.display = 'none';
+            backBtn.style.display = 'inline-block';
+            // Hide login section
+            loginSection.style.display = 'none';
+            // Hide library buttons
+            libraryButtons.style.display = 'flex';
 
-              // Hide all library sections
-              librarySections.forEach(section => {
-                section.classList.remove('active');
-              });
-              
-              // Show selected library section
-              const targetSection = document.querySelector(`.${selectedLibrary}-library`);
-              if (targetSection) {
-                targetSection.classList.add('active');
-                // Scroll to the library section
-                targetSection.scrollIntoView({ behavior: 'smooth' });
-              }
-            } else {
-              // User is not logged in, show login modal
-              document.getElementById('loginModal').classList.add('show');
-              // Hide library selection
-              librarySelection.style.display = 'none';
-              // Hide back button
-              backBtn.style.display = 'none';
-              // Hide all library sections
-              librarySections.forEach(section => {
-                section.classList.remove('active');
-              });
-              logoutBtn.style.display = 'none'; // Hide logout button when logging out
+            // Hide all library sections
+            librarySections.forEach(section => {
+              section.classList.remove('active');
+            });
+
+            // Show selected library section
+            const targetSection = document.querySelector(`.${selectedLibrary}-library`);
+            if (targetSection) {
+              targetSection.classList.add('active');
+              // Scroll to the library section
+              targetSection.scrollIntoView({ behavior: 'smooth' });
             }
-          });
+          } else {
+            // User is not logged in, show login modal
+            document.getElementById('loginModal').classList.add('show');
+            // Hide library selection
+            librarySelection.style.display = 'none';
+            // Hide back button
+            backBtn.style.display = 'none';
+            // Hide all library sections
+            librarySections.forEach(section => {
+              section.classList.remove('active');
+            });
+          }
         });
       });
       
