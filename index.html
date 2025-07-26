@@ -193,9 +193,97 @@
     .library-section.active {
       display: block;
     }
+    
+    /* Login Modal Styles */
+    .login-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .login-modal.show {
+      display: flex;
+    }
+    
+    .login-container {
+      background: #23262c;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      min-width: 350px;
+    }
+    
+    .login-container h2 {
+      color: #61dafb;
+      margin-bottom: 30px;
+    }
+    
+    .login-input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background: #333;
+      color: white;
+      font-size: 1rem;
+    }
+    
+    .login-input::placeholder {
+      color: #888;
+    }
+    
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: #61dafb;
+      color: #23262c;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    
+    .login-btn:hover {
+      background: #4fa8c7;
+    }
+    
+    .error-message {
+      color: #ff7675;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+    
+    /* Shortcut Button Hover Effects */
+    #youtubeBtn:hover, #googleBtn:hover, #renEcosystemBtn:hover {
+      transform: scale(1.1);
+    }
   </style>
 </head>
 <body>
+  <!-- Login Modal -->
+  <div id="loginModal" class="login-modal">
+    <div class="login-container">
+      <h2>🔐 Library Management Login</h2>
+      <form id="loginForm">
+        <input type="text" id="username" class="login-input" placeholder="Username" required>
+        <input type="password" id="password" class="login-input" placeholder="Password" required>
+        <button type="submit" class="login-btn">Login</button>
+        <div id="loginError" class="error-message" style="display: none;"></div>
+      </form>
+    </div>
+  </div>
+  
   <div class="container">
     <h1>Cable Ampacity Calculator</h1>
     <div class="input-group">
@@ -210,7 +298,14 @@
   
   <!-- Library Selection Interface -->
   <div id="librarySelection" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
-    <h2 style="color: #61dafb; margin-bottom: 18px; text-align: center;">Library Management</h2>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+      <h2 style="color: #61dafb; margin: 0;">Library Management</h2>
+      <button id="logoutBtn" style="padding: 8px 16px; background: #ff7675; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; display: none;">🚪 Logout</button>
+    </div>
+    <div id="loginSection" style="text-align: center;">
+      <button id="loginBtn" style="padding: 15px 30px; background: #61dafb; color: #23262c; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer;">🔐 Login to Access Libraries</button>
+    </div>
+    <div id="libraryButtons" style="display: none;">
     <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
       <button class="library-btn" data-library="cable" style="padding: 20px 30px; background: white; color: #333; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; min-width: 150px; transition: transform 0.2s;">
         🔌 Cable Library
@@ -221,6 +316,7 @@
       <button class="library-btn" data-library="switch" style="padding: 20px 30px; background: white; color: #333; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; min-width: 150px; transition: transform 0.2s;">
         🔄 Switch Library
       </button>
+    </div>
     </div>
     <div style="text-align: center; margin-top: 20px;">
       <button id="backToSelection" style="padding: 10px 20px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; display: none;">← Back to Library Selection</button>
@@ -498,30 +594,74 @@
       const backBtn = document.getElementById('backToSelection');
       const librarySelection = document.getElementById('librarySelection');
       const librarySections = document.querySelectorAll('.library-section');
+      const loginBtn = document.getElementById('loginBtn');
+      const loginSection = document.getElementById('loginSection');
+      const libraryButtons = document.getElementById('libraryButtons');
+      const logoutBtn = document.getElementById('logoutBtn');
       
+      // Show login section initially
+      loginSection.style.display = 'block';
+      libraryButtons.style.display = 'none';
+      logoutBtn.style.display = 'none'; // Hide logout button initially
+
+      // Login button click handler
+      loginBtn.addEventListener('click', function() {
+        // Show login modal
+        document.getElementById('loginModal').classList.add('show');
+        // Hide library selection
+        librarySelection.style.display = 'none';
+        // Hide back button
+        backBtn.style.display = 'none';
+        // Hide all library sections
+        librarySections.forEach(section => {
+          section.classList.remove('active');
+        });
+        logoutBtn.style.display = 'none'; // Hide logout button when logging in
+      });
+
       // Library button click handlers
       libraryBtns.forEach(btn => {
         btn.addEventListener('click', function() {
           const selectedLibrary = this.getAttribute('data-library');
           
-          // Hide library selection
-          librarySelection.style.display = 'none';
-          
-          // Show back button
-          backBtn.style.display = 'inline-block';
-          
-          // Hide all library sections
-          librarySections.forEach(section => {
-            section.classList.remove('active');
+          // Check if user is logged in
+          firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+              // User is logged in, show library selection
+              librarySelection.style.display = 'block';
+              backBtn.style.display = 'inline-block';
+              // Hide login section
+              loginSection.style.display = 'none';
+              // Hide library buttons
+              libraryButtons.style.display = 'flex';
+              logoutBtn.style.display = 'inline-block'; // Show logout button
+
+              // Hide all library sections
+              librarySections.forEach(section => {
+                section.classList.remove('active');
+              });
+              
+              // Show selected library section
+              const targetSection = document.querySelector(`.${selectedLibrary}-library`);
+              if (targetSection) {
+                targetSection.classList.add('active');
+                // Scroll to the library section
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            } else {
+              // User is not logged in, show login modal
+              document.getElementById('loginModal').classList.add('show');
+              // Hide library selection
+              librarySelection.style.display = 'none';
+              // Hide back button
+              backBtn.style.display = 'none';
+              // Hide all library sections
+              librarySections.forEach(section => {
+                section.classList.remove('active');
+              });
+              logoutBtn.style.display = 'none'; // Hide logout button when logging out
+            }
           });
-          
-          // Show selected library section
-          const targetSection = document.querySelector(`.${selectedLibrary}-library`);
-          if (targetSection) {
-            targetSection.classList.add('active');
-            // Scroll to the library section
-            targetSection.scrollIntoView({ behavior: 'smooth' });
-          }
         });
       });
       
@@ -538,6 +678,12 @@
           section.classList.remove('active');
         });
         
+        // Show login section
+        loginSection.style.display = 'block';
+        // Hide library buttons
+        libraryButtons.style.display = 'none';
+        logoutBtn.style.display = 'none'; // Hide logout button
+
         // Scroll to library selection
         librarySelection.scrollIntoView({ behavior: 'smooth' });
       });
@@ -557,6 +703,12 @@
             section.classList.remove('active');
           });
           
+          // Show login section
+          loginSection.style.display = 'block';
+          // Hide library buttons
+          libraryButtons.style.display = 'none';
+          logoutBtn.style.display = 'none'; // Hide logout button
+
           // Scroll to top of page (main calculator)
           window.scrollTo({ top: 0, behavior: 'smooth' });
         });
@@ -1016,5 +1168,131 @@
       resultsDiv.parentNode.insertBefore(componentsDiv, resultsDiv.nextSibling);
     }
   </script>
+  <script>
+    // Authentication Logic
+    const ADMIN_CREDENTIALS = {
+      username: 'Stratus',
+      password: '12345678'
+    };
+    
+    let isAuthenticated = false;
+    
+    // Login form handler
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const loginError = document.getElementById('loginError');
+      
+      // Check credentials
+      if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+        isAuthenticated = true;
+        
+        // Hide login modal
+        document.getElementById('loginModal').classList.remove('show');
+        
+        // Show library selection
+        document.getElementById('librarySelection').style.display = 'block';
+        
+        // Show library buttons
+        document.getElementById('libraryButtons').style.display = 'flex';
+        document.getElementById('logoutBtn').style.display = 'inline-block'; // Show logout button
+        
+        // Hide login section
+        document.getElementById('loginSection').style.display = 'none';
+        
+        // Clear form
+        document.getElementById('loginForm').reset();
+        
+        // Hide error message
+        loginError.style.display = 'none';
+        
+        // Show success toast
+        showToast('Login successful! Welcome to Library Management.', 'success');
+        
+        // Scroll to library selection
+        document.getElementById('librarySelection').scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // Show error message
+        loginError.textContent = 'Invalid username or password. Please try again.';
+        loginError.style.display = 'block';
+        
+        // Clear password field
+        document.getElementById('password').value = '';
+      }
+    });
+    
+    // Close login modal when clicking outside
+    document.getElementById('loginModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('show');
+        // Show library selection again
+        document.getElementById('librarySelection').style.display = 'block';
+      }
+    });
+    
+    // Handle Enter key in password field
+    document.getElementById('password').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+      }
+    });
+    
+    // Logout button handler
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      // Reset authentication state
+      isAuthenticated = false;
+      
+      // Show login section
+      document.getElementById('loginSection').style.display = 'block';
+      
+      // Hide library buttons
+      document.getElementById('libraryButtons').style.display = 'none';
+      
+      // Hide logout button
+      document.getElementById('logoutBtn').style.display = 'none';
+      
+      // Hide all library sections
+      document.querySelectorAll('.library-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      // Hide back button
+      document.getElementById('backToSelection').style.display = 'none';
+      
+      // Show success toast
+      showToast('Logged out successfully!', 'info');
+      
+      // Scroll to library selection
+      document.getElementById('librarySelection').scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+  <script>
+    // Shortcut button handlers
+    document.getElementById('youtubeBtn').addEventListener('click', function() {
+      window.open('https://www.youtube.com', '_blank');
+    });
+    
+    document.getElementById('googleBtn').addEventListener('click', function() {
+      window.open('https://www.google.com', '_blank');
+    });
+    
+    document.getElementById('renEcosystemBtn').addEventListener('click', function() {
+      window.open('https://www.renecosystem.com/ESS/MY/sasb/', '_blank');
+    });
+  </script>
+  <!-- Bottom Shortcuts -->
+  <div style="text-align: center; margin: 40px 0 20px 0;">
+    <button id="youtubeBtn" style="width: 50px; height: 50px; background: #ff0000; border: none; border-radius: 50%; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(255,0,0,0.3); transition: transform 0.2s; margin: 0 10px;">
+      <div style="width: 0; height: 0; border-left: 12px solid white; border-top: 8px solid transparent; border-bottom: 8px solid transparent; margin-left: 2px;"></div>
+    </button>
+    <button id="googleBtn" style="width: 50px; height: 50px; background: #4285f4; border: none; border-radius: 50%; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(66,133,244,0.3); transition: transform 0.2s; margin: 0 10px;">
+      <div style="font-size: 18px; font-weight: bold; color: white; font-family: 'Arial', sans-serif;">G</div>
+    </button>
+    <button id="renEcosystemBtn" style="width: 50px; height: 50px; background: #2c3e50; border: none; border-radius: 50%; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(44,62,80,0.3); transition: transform 0.2s; margin: 0 10px;">
+      <div style="font-size: 12px; font-weight: bold; color: white; font-family: 'Arial', sans-serif; text-align: center; line-height: 1;">ECO</div>
+    </button>
+  </div>
 </body>
 </html> 
