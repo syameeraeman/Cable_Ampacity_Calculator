@@ -271,6 +271,7 @@
   </style>
 </head>
 <body>
+  
   <!-- Login Modal -->
   <div id="loginModal" class="login-modal">
     <div class="login-container">
@@ -1292,20 +1293,7 @@
       document.getElementById('librarySelection').scrollIntoView({ behavior: 'smooth' });
     });
   </script>
-  <script>
-    // Shortcut button handlers
-    document.getElementById('youtubeBtn').addEventListener('click', function() {
-      window.open('https://www.youtube.com', '_blank');
-    });
-    
-    document.getElementById('googleBtn').addEventListener('click', function() {
-      window.open('https://www.google.com', '_blank');
-    });
-    
-    document.getElementById('renEcosystemBtn').addEventListener('click', function() {
-      window.open('https://www.renecosystem.com/ESS/MY/sasb/', '_blank');
-    });
-  </script>
+  
   <!-- Bottom Shortcuts -->
   <div style="text-align: center; margin: 40px 0 20px 0;">
     <button id="youtubeBtn" style="width: 50px; height: 50px; background: #ff0000; border: none; border-radius: 50%; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(255,0,0,0.3); transition: transform 0.2s; margin: 0 10px;">
@@ -1318,5 +1306,37 @@
       <div style="font-size: 12px; font-weight: bold; color: white; font-family: 'Arial', sans-serif; text-align: center; line-height: 1;">ECO</div>
     </button>
   </div>
+  
+  <!-- Creator Note -->
+  <div style="text-align: left; padding: 10px; font-size: 0.9rem; color: #000;">
+    Page Created by: Syamir
+  </div>
+  
+  <script>
+    // Shortcut button handlers
+    document.addEventListener('DOMContentLoaded', function() {
+      const youtubeBtn = document.getElementById('youtubeBtn');
+      const googleBtn = document.getElementById('googleBtn');
+      const renEcosystemBtn = document.getElementById('renEcosystemBtn');
+      
+      if (youtubeBtn) {
+        youtubeBtn.addEventListener('click', function() {
+          window.open('https://www.youtube.com', '_blank');
+        });
+      }
+      
+      if (googleBtn) {
+        googleBtn.addEventListener('click', function() {
+          window.open('https://www.google.com', '_blank');
+        });
+      }
+      
+      if (renEcosystemBtn) {
+        renEcosystemBtn.addEventListener('click', function() {
+          window.open('https://www.renecosystem.com/ESS/MY/sasb/', '_blank');
+        });
+      }
+    });
+  </script>
 </body>
 </html> 
