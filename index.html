@@ -26,7 +26,7 @@
       border-radius: 14px;
       box-shadow: 0 2px 16px rgba(0,0,0,0.18);
       padding: 36px 32px 32px 32px;
-      max-width: 420px;
+      max-width: 800px;
       width: 100%;
       text-align: center;
     }
@@ -90,6 +90,94 @@
       th, td {
         padding: 6px 4px;
         font-size: 0.98rem;
+      }
+    }
+    
+    /* Loading Spinner */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #61dafb;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    
+    /* Toast Notifications */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      z-index: 1000;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+    }
+    
+    .toast.show {
+      transform: translateX(0);
+    }
+    
+    .toast.success {
+      background: #4CAF50;
+    }
+    
+    .toast.error {
+      background: #f44336;
+    }
+    
+    .toast.info {
+      background: #2196F3;
+    }
+    
+    /* Print Styles */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      
+      .container, .cable-library, .circuit-breaker-library, .switch-library {
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+      }
+      
+      h1, h2, h3 {
+        color: black !important;
+      }
+      
+      table {
+        border: 1px solid #000 !important;
+      }
+      
+      th, td {
+        border: 1px solid #000 !important;
+        color: black !important;
+        background: white !important;
+      }
+      
+      button, input, select {
+        display: none !important;
+      }
+      
+      #minimumComponents {
+        page-break-inside: avoid;
       }
     }
   </style>
@@ -226,8 +314,11 @@
       
       // Save to Firebase
       saveCableToFirebase(cableCategory, { oemPart, cableDesc, numCores, cableRating }).then(() => {
+        showToast('Cable added successfully!', 'success');
         cableForm.reset();
         renderCableTables();
+      }).catch(() => {
+        showToast('Error adding cable. Please try again.', 'error');
       });
     });
 
@@ -270,6 +361,9 @@
           deleteCableFromFirebase(cableToRemove.id).then(() => {
             cableLibrary[cableCategory].splice(idx, 1);
             renderCableTables();
+            showToast('Cable removed successfully!', 'success');
+          }).catch(() => {
+            showToast('Error removing cable. Please try again.', 'error');
           });
         }
       }
@@ -277,6 +371,11 @@
 
     // Firebase functions for Cable Library
     function saveCableToFirebase(category, cableData) {
+      const submitBtn = cableForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.innerHTML = '<span class="spinner"></span> Saving...';
+      submitBtn.disabled = true;
+      
       return db.collection('cables').add({
         category: category,
         oemPart: cableData.oemPart,
@@ -286,9 +385,13 @@
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       }).then(() => {
         console.log('Cable saved to Firebase');
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
         return true;
       }).catch((error) => {
         console.error('Error saving cable: ', error);
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
         return false;
       });
     }
@@ -332,6 +435,20 @@
 
     // Load cables on page load
     loadCablesFromFirebase();
+    
+    // Toast notification function
+    function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => toast.classList.add('show'), 100);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => document.body.removeChild(toast), 300);
+      }, 3000);
+    }
   </script>
 
      <div class="circuit-breaker-library" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
@@ -397,13 +514,21 @@
       
       // Save to Firebase
       saveCBToFirebase(cbCategory, { cbOEMPart, cbDesc, cbPoles, cbRating }).then(() => {
+        showToast('Circuit Breaker added successfully!', 'success');
         cbForm.reset();
         renderCBTables();
+      }).catch(() => {
+        showToast('Error adding circuit breaker. Please try again.', 'error');
       });
     });
 
     // Firebase functions for Circuit Breaker Library
     function saveCBToFirebase(category, cbData) {
+      const submitBtn = cbForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.innerHTML = '<span class="spinner"></span> Saving...';
+      submitBtn.disabled = true;
+      
       return db.collection('circuitBreakers').add({
         category: category,
         cbOEMPart: cbData.cbOEMPart,
@@ -413,9 +538,13 @@
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       }).then(() => {
         console.log('Circuit Breaker saved to Firebase');
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
         return true;
       }).catch((error) => {
         console.error('Error saving circuit breaker: ', error);
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
         return false;
       });
     }
@@ -495,6 +624,9 @@
           deleteCBFromFirebase(cbToRemove.id).then(() => {
             cbLibrary[cbCat].splice(idx, 1);
             renderCBTables();
+            showToast('Circuit Breaker removed successfully!', 'success');
+          }).catch(() => {
+            showToast('Error removing circuit breaker. Please try again.', 'error');
           });
         }
       }
@@ -562,13 +694,21 @@
       
       // Save to Firebase
       saveSwitchToFirebase(switchCategory, { switchOEMPart, switchDesc, switchPoles, switchRating }).then(() => {
+        showToast('Switch added successfully!', 'success');
         switchForm.reset();
         renderSwitchTables();
+      }).catch(() => {
+        showToast('Error adding switch. Please try again.', 'error');
       });
     });
 
     // Firebase functions for Switch Library
     function saveSwitchToFirebase(category, switchData) {
+      const submitBtn = switchForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.innerHTML = '<span class="spinner"></span> Saving...';
+      submitBtn.disabled = true;
+      
       return db.collection('switches').add({
         category: category,
         switchOEMPart: switchData.switchOEMPart,
@@ -578,9 +718,13 @@
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       }).then(() => {
         console.log('Switch saved to Firebase');
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
         return true;
       }).catch((error) => {
         console.error('Error saving switch: ', error);
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
         return false;
       });
     }
@@ -658,6 +802,9 @@
           deleteSwitchFromFirebase(switchToRemove.id).then(() => {
             switchLibrary[switchCat].splice(idx, 1);
             renderSwitchTables();
+            showToast('Switch removed successfully!', 'success');
+          }).catch(() => {
+            showToast('Error removing switch. Please try again.', 'error');
           });
         }
       }
