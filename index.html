@@ -180,6 +180,19 @@
         page-break-inside: avoid;
       }
     }
+    
+    /* Library Selection Styles */
+    .library-btn:hover {
+      transform: scale(1.05);
+    }
+    
+    .library-section {
+      display: none;
+    }
+    
+    .library-section.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -194,9 +207,31 @@
   <div style="margin-top: 24px; font-size: 0.95rem; color: #000; text-align: center;">
     Ampacity data referenced from SEMI S22-1110b Standard.
   </div>
+  
+  <!-- Library Selection Interface -->
+  <div id="librarySelection" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+    <h2 style="color: #61dafb; margin-bottom: 18px; text-align: center;">Library Management</h2>
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+      <button class="library-btn" data-library="cable" style="padding: 20px 30px; background: white; color: #333; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; min-width: 150px; transition: transform 0.2s;">
+        🔌 Cable Library
+      </button>
+      <button class="library-btn" data-library="circuit-breaker" style="padding: 20px 30px; background: white; color: #333; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; min-width: 150px; transition: transform 0.2s;">
+        ⚡ Circuit Breaker Library
+      </button>
+      <button class="library-btn" data-library="switch" style="padding: 20px 30px; background: white; color: #333; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; min-width: 150px; transition: transform 0.2s;">
+        🔄 Switch Library
+      </button>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="backToSelection" style="padding: 10px 20px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; display: none;">← Back to Library Selection</button>
+    </div>
+  </div>
 
-     <div class="cable-library" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
-    <h2 style="color: #61dafb; margin-bottom: 18px;">Cable Library</h2>
+     <div class="cable-library library-section" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+      <h2 style="color: #61dafb; margin: 0;">Cable Library</h2>
+      <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
+    </div>
     <form id="cableForm" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: center;">
       <div>
         <label for="cableCategory">Category:</label><br>
@@ -250,7 +285,9 @@
 
     // Metric ampacity table for 60°C (AWG, mm², Amps, Bending Space mm) from the image
     const ampacityTable = [
-      { awg: '22', mm2: 0.25, amps: 3, bend_mm: 13 },
+      { awg: '26', mm2: 0.14, amps: 0.75, bend_mm: 16.4 },
+      { awg: '24', mm2: 0.25, amps: 2, bend_mm: 16.4 },
+      { awg: '22', mm2: 0.34, amps: 3, bend_mm: 13 },
       { awg: '20', mm2: 0.5, amps: 5, bend_mm: 13 },
       { awg: '18', mm2: 0.75, amps: 6, bend_mm: 13 },
       { awg: '16', mm2: 1.0, amps: 8, bend_mm: 19 },
@@ -454,10 +491,84 @@
         setTimeout(() => document.body.removeChild(toast), 300);
       }, 3000);
     }
+    
+    // Library Navigation Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const libraryBtns = document.querySelectorAll('.library-btn');
+      const backBtn = document.getElementById('backToSelection');
+      const librarySelection = document.getElementById('librarySelection');
+      const librarySections = document.querySelectorAll('.library-section');
+      
+      // Library button click handlers
+      libraryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const selectedLibrary = this.getAttribute('data-library');
+          
+          // Hide library selection
+          librarySelection.style.display = 'none';
+          
+          // Show back button
+          backBtn.style.display = 'inline-block';
+          
+          // Hide all library sections
+          librarySections.forEach(section => {
+            section.classList.remove('active');
+          });
+          
+          // Show selected library section
+          const targetSection = document.querySelector(`.${selectedLibrary}-library`);
+          if (targetSection) {
+            targetSection.classList.add('active');
+            // Scroll to the library section
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+      
+      // Back button click handler
+      backBtn.addEventListener('click', function() {
+        // Show library selection
+        librarySelection.style.display = 'block';
+        
+        // Hide back button
+        backBtn.style.display = 'none';
+        
+        // Hide all library sections
+        librarySections.forEach(section => {
+          section.classList.remove('active');
+        });
+        
+        // Scroll to library selection
+        librarySelection.scrollIntoView({ behavior: 'smooth' });
+      });
+      
+      // Back to Main Page button handlers
+      const backToMainBtns = document.querySelectorAll('.back-to-main-btn');
+      backToMainBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Show library selection
+          librarySelection.style.display = 'block';
+          
+          // Hide back button
+          backBtn.style.display = 'none';
+          
+          // Hide all library sections
+          librarySections.forEach(section => {
+            section.classList.remove('active');
+          });
+          
+          // Scroll to top of page (main calculator)
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+    });
   </script>
 
-     <div class="circuit-breaker-library" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
-    <h2 style="color: #61dafb; margin-bottom: 18px;">Circuit Breaker Library</h2>
+     <div class="circuit-breaker-library library-section" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+      <h2 style="color: #61dafb; margin: 0;">Circuit Breaker Library</h2>
+      <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
+    </div>
     <form id="cbForm" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: center;">
       <div>
         <label for="cbCategory">Category:</label><br>
@@ -640,8 +751,11 @@
     renderCBTables();
   </script>
 
-     <div class="switch-library" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
-    <h2 style="color: #61dafb; margin-bottom: 18px;">Switch Library</h2>
+     <div class="switch-library library-section" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+      <h2 style="color: #61dafb; margin: 0;">Switch Library</h2>
+      <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
+    </div>
     <form id="switchForm" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: center;">
       <div>
         <label for="switchCategory">Category:</label><br>
