@@ -433,7 +433,7 @@
     </div>
   </div>
 
-     <div class="cable-library library-section" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+     <div class="cable-library library-section" style="margin: 40px auto 0 auto; max-width: 900px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
       <h2 style="color: #61dafb; margin: 0;">Cable Library</h2>
       <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
@@ -488,11 +488,11 @@
           <button type="button" class="import-category-btn" data-category="Flexible Cable" style="padding: 8px 16px; background: #9C27B0; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Flexible Cable</button>
         </div>
       </div>
+      <div style="margin-top: 18px; display: flex; justify-content: center;">
+        <input type="text" id="searchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem; text-align: center;" />
+      </div>
     </div>
     <div id="cableTables" style="margin-top: 30px;"></div>
-    <div style="margin-top: 18px;">
-      <input type="text" id="searchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem;" />
-    </div>
   </div>
   <script>
     // Firebase configuration
@@ -614,9 +614,9 @@
         if (filteredCables.length === 0) return;
         found = true;
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
-        html += `<table style='margin-bottom:18px;'><thead><tr><th>OEM Part Number</th><th>Description</th><th>No. of Cores</th><th>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
+        html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>No. of Cores</th><th style='text-align:center;'>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
         filteredCables.forEach((cable, idx) => {
-          html += `<tr><td>${cable.oemPart}</td><td>${cable.cableDesc}</td><td>${cable.numCores}</td><td>${cable.cableRating}</td><td><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
+          html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.cableDesc}</td><td style='text-align:center;'>${cable.numCores}</td><td style='text-align:center;'>${cable.cableRating}</td><td><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
@@ -646,7 +646,7 @@
     function saveCableToFirebase(category, cableData) {
       const submitBtn = cableForm.querySelector('button[type="submit"]');
       const originalText = submitBtn.textContent;
-      submitBtn.innerHTML = '<span class="spinner"></span> Saving...';
+      submitBtn.innerHTML = '<span class="spinner"></span> Save';
       submitBtn.disabled = true;
       
       return db.collection('cables').add({
@@ -1186,7 +1186,7 @@
     });
   </script>
 
-     <div class="circuit-breaker-library library-section" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+     <div class="circuit-breaker-library library-section" style="margin: 40px auto 0 auto; max-width: 900px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
       <h2 style="color: #61dafb; margin: 0;">Circuit Breaker Library</h2>
       <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
@@ -1364,9 +1364,9 @@
         if (filteredCBs.length === 0) return;
         found = true;
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
-        html += `<table style='margin-bottom:18px;'><thead><tr><th>OEM Part Number</th><th>Description</th><th>Poles</th><th>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
+        html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Poles</th><th style='text-align:center;'>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
         filteredCBs.forEach((cb, idx) => {
-          html += `<tr><td>${cb.cbOEMPart}</td><td>${cb.cbDesc}</td><td>${cb.cbPoles}</td><td>${cb.cbRating}</td><td><button class='edit-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
+          html += `<tr><td style='text-align:center;'>${cb.cbOEMPart}</td><td>${cb.cbDesc}</td><td style='text-align:center;'>${cb.cbPoles}</td><td style='text-align:center;'>${cb.cbRating}</td><td><button class='edit-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
@@ -1394,7 +1394,7 @@
     renderCBTables();
   </script>
 
-     <div class="switch-library library-section" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+     <div class="switch-library library-section" style="margin: 40px auto 0 auto; max-width: 900px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
       <h2 style="color: #61dafb; margin: 0;">Switch Library</h2>
       <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
@@ -1625,9 +1625,9 @@
         if (filteredSwitches.length === 0) return;
         found = true;
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
-        html += `<table style='margin-bottom:18px;'><thead><tr><th>OEM Part Number</th><th>Description</th><th>Poles</th><th>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
+        html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Poles</th><th style='text-align:center;'>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
         filteredSwitches.forEach((sw, idx) => {
-          html += `<tr><td>${sw.switchOEMPart}</td><td>${sw.switchDesc}</td><td>${sw.switchPoles}</td><td>${sw.switchRating}</td><td><button class='edit-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
+          html += `<tr><td style='text-align:center;'>${sw.switchOEMPart}</td><td>${sw.switchDesc}</td><td style='text-align:center;'>${sw.switchPoles}</td><td style='text-align:center;'>${sw.switchRating}</td><td><button class='edit-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
