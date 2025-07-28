@@ -843,6 +843,51 @@
             } else {
               console.log(`No AWG found in description: "${description}"`);
               console.log(`Tried patterns:`, awgPatterns.map(p => p.toString()));
+              
+              // If no AWG found, try to extract mm² size and convert to rating
+              const mm2Patterns = [
+                /(\d+)X(\d+\.\d+)/i,  // e.g., 2X0.14, 3X0.25
+                /(\d+)x(\d+\.\d+)/i,  // e.g., 2x0.14, 3x0.25
+                /(\d+)\s*X\s*(\d+\.\d+)/i,  // e.g., 2 X 0.14
+                /(\d+)\s*x\s*(\d+\.\d+)/i,  // e.g., 2 x 0.14
+              ];
+              
+              let mm2Size = null;
+              for (const pattern of mm2Patterns) {
+                const match = description.match(pattern);
+                if (match) {
+                  mm2Size = parseFloat(match[2]);
+                  console.log(`MM² pattern "${pattern}" matched: ${mm2Size} mm²`);
+                  break;
+                }
+              }
+              
+              if (mm2Size) {
+                // Convert mm² to rating using the ampacity table
+                const mm2Entry = ampacityTable.find(entry => entry.mm2 === mm2Size);
+                if (mm2Entry) {
+                  rating = mm2Entry.amps;
+                  console.log(`MM² ${mm2Size} found in ampacity table: ${rating}A`);
+                } else {
+                  // Fallback rating based on mm² size
+                  if (mm2Size <= 0.25) rating = 2;
+                  else if (mm2Size <= 0.34) rating = 3;
+                  else if (mm2Size <= 0.5) rating = 5;
+                  else if (mm2Size <= 0.75) rating = 6;
+                  else if (mm2Size <= 1.0) rating = 8;
+                  else if (mm2Size <= 1.5) rating = 11;
+                  else if (mm2Size <= 2.5) rating = 17;
+                  else if (mm2Size <= 4.0) rating = 24;
+                  else if (mm2Size <= 6.0) rating = 32;
+                  else if (mm2Size <= 10.0) rating = 45;
+                  else if (mm2Size <= 16.0) rating = 60;
+                  else rating = 1; // Default fallback
+                  
+                  console.log(`MM² ${mm2Size} using fallback calculation: ${rating}A`);
+                }
+              } else {
+                console.log(`No MM² size found in description: "${description}"`);
+              }
             }
             
             // Extract number of cores from description - improved pattern matching
