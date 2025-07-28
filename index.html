@@ -1972,8 +1972,12 @@
         cable.cableDesc = newDesc;
         cable.numCores = newCores;
         cable.cableRating = newRating;
-        
-        // Update in Firebase
+        // Debug log
+        console.log('Updating cable:', cable);
+        if (!cable.id) {
+          showToast('Error: Cable ID is missing. Cannot update.', 'error');
+          return;
+        }
         updateCableInFirebase(cable.id, cable).then((success) => {
           if (success) {
             renderCableTables();
@@ -1988,8 +1992,12 @@
         cb.cbDesc = newDesc;
         cb.cbPoles = newCores;
         cb.cbRating = newRating;
-        
-        // Update in Firebase
+        // Debug log
+        console.log('Updating circuit breaker:', cb);
+        if (!cb.id) {
+          showToast('Error: Circuit Breaker ID is missing. Cannot update.', 'error');
+          return;
+        }
         updateCBInFirebase(cb.id, cb).then((success) => {
           if (success) {
             renderCBTables();
@@ -2004,8 +2012,12 @@
         sw.switchDesc = newDesc;
         sw.switchPoles = newCores;
         sw.switchRating = newRating;
-        
-        // Update in Firebase
+        // Debug log
+        console.log('Updating switch:', sw);
+        if (!sw.id) {
+          showToast('Error: Switch ID is missing. Cannot update.', 'error');
+          return;
+        }
         updateSwitchInFirebase(sw.id, sw).then((success) => {
           if (success) {
             renderSwitchTables();
