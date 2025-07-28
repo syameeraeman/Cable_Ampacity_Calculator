@@ -7,6 +7,8 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <!-- SheetJS for Excel file reading -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
     body {
       background: #f0f8ff;
@@ -264,6 +266,84 @@
       font-size: 0.9rem;
     }
     
+    /* Edit Modal Styles */
+    .edit-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .edit-modal.show {
+      display: flex;
+    }
+    
+    .edit-container {
+      background: #23262c;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      min-width: 400px;
+    }
+    
+    .edit-container h3 {
+      color: #61dafb;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .edit-input-group {
+      margin-bottom: 15px;
+    }
+    
+    .edit-input-group label {
+      display: block;
+      color: #fff;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+    
+    .edit-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background: #333;
+      color: white;
+      font-size: 0.9rem;
+    }
+    
+    .edit-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    .edit-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    .save-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .cancel-btn {
+      background: #666;
+      color: white;
+    }
+    
     /* Shortcut Button Hover Effects */
     #youtubeBtn:hover, #googleBtn:hover, #renEcosystemBtn:hover {
       transform: scale(1.1);
@@ -281,6 +361,35 @@
         <input type="password" id="password" class="login-input" placeholder="Password" required>
         <button type="submit" class="login-btn">Login</button>
         <div id="loginError" class="error-message" style="display: none;"></div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Edit Modal -->
+  <div id="editModal" class="edit-modal">
+    <div class="edit-container">
+      <h3 id="editModalTitle">Edit Item</h3>
+      <form id="editForm">
+        <div class="edit-input-group">
+          <label for="editOEM">OEM Part Number:</label>
+          <input type="text" id="editOEM" class="edit-input" required>
+        </div>
+        <div class="edit-input-group">
+          <label for="editDesc">Description:</label>
+          <input type="text" id="editDesc" class="edit-input" required>
+        </div>
+        <div class="edit-input-group">
+          <label for="editCores">No. of Cores:</label>
+          <input type="number" id="editCores" class="edit-input" min="1" required>
+        </div>
+        <div class="edit-input-group">
+          <label for="editRating">Rating (A):</label>
+          <input type="number" id="editRating" class="edit-input" min="1" required>
+        </div>
+        <div class="edit-buttons">
+          <button type="submit" class="edit-btn save-btn">Save</button>
+          <button type="button" class="edit-btn cancel-btn" id="cancelEdit">Cancel</button>
+        </div>
       </form>
     </div>
   </div>
@@ -359,6 +468,27 @@
         <button type="submit" style="padding: 8px 18px; background: #61dafb; color: #23262c; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Add Cable</button>
       </div>
     </form>
+    <div style="margin-top: 20px; text-align: center;">
+      <h3 style="color: #ffb347; margin-bottom: 15px;">Import Excel Files by Category</h3>
+      <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <div>
+          <input type="file" id="singleCoreFile" accept=".xlsx,.xls" style="display: none;" data-category="Single Core" />
+          <button type="button" class="import-category-btn" data-category="Single Core" style="padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Single Core</button>
+        </div>
+        <div>
+          <input type="file" id="multiCoreFile" accept=".xlsx,.xls" style="display: none;" data-category="Multi Core" />
+          <button type="button" class="import-category-btn" data-category="Multi Core" style="padding: 8px 16px; background: #2196F3; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Multi Core</button>
+        </div>
+        <div>
+          <input type="file" id="roboticFile" accept=".xlsx,.xls" style="display: none;" data-category="Robotic Cable" />
+          <button type="button" class="import-category-btn" data-category="Robotic Cable" style="padding: 8px 16px; background: #FF9800; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Robotic Cable</button>
+        </div>
+        <div>
+          <input type="file" id="flexibleFile" accept=".xlsx,.xls" style="display: none;" data-category="Flexible Cable" />
+          <button type="button" class="import-category-btn" data-category="Flexible Cable" style="padding: 8px 16px; background: #9C27B0; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Flexible Cable</button>
+        </div>
+      </div>
+    </div>
     <div id="cableTables" style="margin-top: 30px;"></div>
     <div style="margin-top: 18px;">
       <input type="text" id="searchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem;" />
@@ -482,7 +612,7 @@
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
         html += `<table style='margin-bottom:18px;'><thead><tr><th>OEM Part Number</th><th>Description</th><th>No. of Cores</th><th>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
         filteredCables.forEach((cable, idx) => {
-          html += `<tr><td>${cable.oemPart}</td><td>${cable.cableDesc}</td><td>${cable.numCores}</td><td>${cable.cableRating}</td><td><button class='remove-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 10px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;'>Remove</button></td></tr>`;
+          html += `<tr><td>${cable.oemPart}</td><td>${cable.cableDesc}</td><td>${cable.numCores}</td><td>${cable.cableRating}</td><td><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
@@ -574,6 +704,272 @@
 
     // Load cables on page load
     loadCablesFromFirebase();
+    
+    // Excel Import Functionality
+    const importCategoryBtns = document.querySelectorAll('.import-category-btn');
+    
+    importCategoryBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const category = this.getAttribute('data-category');
+        let fileInput;
+        
+        // Get the correct file input based on category
+        switch(category) {
+          case 'Single Core':
+            fileInput = document.getElementById('singleCoreFile');
+            break;
+          case 'Multi Core':
+            fileInput = document.getElementById('multiCoreFile');
+            break;
+          case 'Robotic Cable':
+            fileInput = document.getElementById('roboticFile');
+            break;
+          case 'Flexible Cable':
+            fileInput = document.getElementById('flexibleFile');
+            break;
+        }
+        
+        if (fileInput) {
+          fileInput.click();
+        }
+      });
+    });
+    
+    document.getElementById('singleCoreFile').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        processExcelData(e.target.files[0], 'Single Core');
+      }
+      e.target.value = ''; // Clear the file input
+    });
+    document.getElementById('multiCoreFile').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        processExcelData(e.target.files[0], 'Multi Core');
+      }
+      e.target.value = ''; // Clear the file input
+    });
+    document.getElementById('roboticFile').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        processExcelData(e.target.files[0], 'Robotic Cable');
+      }
+      e.target.value = ''; // Clear the file input
+    });
+    document.getElementById('flexibleFile').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        processExcelData(e.target.files[0], 'Flexible Cable');
+      }
+      e.target.value = ''; // Clear the file input
+    });
+    
+    function processExcelData(file, category) {
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[firstSheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          
+          // Process the Excel data
+          processExcelDataForCategory(jsonData, category);
+          
+          showToast('Excel file imported successfully!', 'success');
+        } catch (error) {
+          console.error('Error reading Excel file:', error);
+          showToast('Error reading Excel file. Please check the format.', 'error');
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function processExcelDataForCategory(data, category) {
+      let importedCount = 0;
+      let updatedCount = 0;
+      
+      console.log(`Processing Excel data for category: ${category}`);
+      console.log(`Total rows in Excel: ${data.length}`);
+      
+      // Skip header rows (first 2 rows)
+      for (let i = 2; i < data.length; i++) {
+        const row = data[i];
+        console.log(`Processing row ${i}:`, row);
+        
+        if (row && row.length >= 3) {
+          const partNumber = row[0]; // Column A - Part number
+          const additionalName = row[2]; // Column C - Additional name
+          
+          console.log(`Row ${i} - Part Number: "${partNumber}", Additional Name: "${additionalName}"`);
+          
+          if (partNumber && additionalName) {
+            // Extract information from the description
+            const description = additionalName.toString();
+            
+            // Extract AWG rating from description - improved pattern matching
+            let rating = 1; // Default rating
+            let awg = null;
+            
+            // Multiple patterns to find AWG
+            const awgPatterns = [
+              /(\d+)AWG/i,
+              /(\d+)\s*AWG/i,
+              /AWG\s*(\d+)/i,
+              /(\d+)\s*G/i
+            ];
+            
+            console.log(`Processing description: "${description}"`);
+            // Test the first pattern specifically
+            const testMatch = description.match(/(\d+)AWG/i);
+            console.log(`Test match for 10AWG pattern:`, testMatch);
+            
+            for (const pattern of awgPatterns) {
+              const match = description.match(pattern);
+              if (match) {
+                awg = parseInt(match[1]);
+                console.log(`AWG pattern "${pattern}" matched: ${awg}`);
+                break;
+              }
+            }
+            
+            if (awg) {
+              // Use comprehensive AWG to rating conversion
+              rating = getRatingFromAWG(awg);
+              console.log(`Processing cable: ${partNumber} - AWG: ${awg}, Rating: ${rating}A`);
+            } else {
+              console.log(`No AWG found in description: "${description}"`);
+              console.log(`Tried patterns:`, awgPatterns.map(p => p.toString()));
+            }
+            
+            // Extract number of cores from description - improved pattern matching
+            let cores = 1; // Default
+            const corePatterns = [
+              /(\d+)X\d+/i,  // e.g., 2X0.5, 3X1.0
+              /(\d+)\s*CORE/i,  // e.g., 2 CORE, 3 CORE
+              /(\d+)\s*CONDUCTOR/i,  // e.g., 2 CONDUCTOR
+              /(\d+)\s*WIRE/i,  // e.g., 2 WIRE
+              /(\d+)\s*C/i,  // e.g., 2C, 3C
+              /(\d+)CORE/i,  // e.g., 2CORE, 3CORE
+              /(\d+)CONDUCTOR/i,  // e.g., 2CONDUCTOR
+              /(\d+)WIRE/i,  // e.g., 2WIRE
+              /(\d+)C/i,  // e.g., 2C, 3C
+              /(\d+)X/i,  // e.g., 2X, 3X
+              /(\d+)\s*X/i,  // e.g., 2 X, 3 X
+            ];
+            
+            for (const pattern of corePatterns) {
+              const match = description.match(pattern);
+              if (match) {
+                cores = parseInt(match[1]);
+                console.log(`Core pattern "${pattern}" matched: ${cores} cores`);
+                break;
+              }
+            }
+            
+            // Additional logic for specific cable types
+            if (description.toLowerCase().includes('single') || description.toLowerCase().includes('1x')) {
+              cores = 1;
+              console.log(`Single core detected: ${cores} cores`);
+            } else if (description.toLowerCase().includes('multi') || description.toLowerCase().includes('2x')) {
+              cores = Math.max(cores, 2);
+              console.log(`Multi core detected: ${cores} cores`);
+            } else if (description.toLowerCase().includes('3x')) {
+              cores = Math.max(cores, 3);
+            } else if (description.toLowerCase().includes('4x')) {
+              cores = Math.max(cores, 4);
+            } else if (description.toLowerCase().includes('5x')) {
+              cores = Math.max(cores, 5);
+            } else if (description.toLowerCase().includes('6x')) {
+              cores = Math.max(cores, 6);
+            } else if (description.toLowerCase().includes('7x')) {
+              cores = Math.max(cores, 7);
+            } else if (description.toLowerCase().includes('8x')) {
+              cores = Math.max(cores, 8);
+            }
+            
+            console.log(`Final values - Part Number: "${partNumber}", Cores: ${cores}, Rating: ${rating}`);
+            
+            // Create cable object
+            const cableData = {
+              oemPart: partNumber.toString(),
+              cableDesc: description,
+              numCores: cores.toString(),
+              cableRating: rating.toString()
+            };
+            
+            console.log(`Created cable object:`, cableData);
+            
+            // Check for duplicate part number
+            let isDuplicate = false;
+            let existingCable = null;
+            let existingCategory = null;
+            
+            // Check in all categories for duplicates
+            Object.keys(cableLibrary).forEach(cat => {
+              const existing = cableLibrary[cat].find(cable => cable.oemPart === cableData.oemPart);
+              if (existing) {
+                isDuplicate = true;
+                existingCable = existing;
+                existingCategory = cat;
+                console.log(`Duplicate found in category ${cat}:`, existing);
+                return;
+              }
+            });
+            
+            if (isDuplicate) {
+              // Cable already exists - increase rating
+              const newRating = Math.max(parseInt(existingCable.cableRating), parseInt(cableData.cableRating));
+              existingCable.cableRating = newRating.toString();
+              console.log(`Updating existing cable with new rating: ${newRating}`);
+              
+              // Update in Firebase
+              updateCableInFirebase(existingCable.id, existingCable);
+              updatedCount++;
+            } else {
+              // Add new cable to local array
+              if (cableLibrary[category]) {
+                cableLibrary[category].push(cableData);
+                console.log(`Adding new cable to category ${category}:`, cableData);
+                
+                // Save to Firebase
+                saveCableToFirebase(category, cableData);
+                importedCount++;
+              }
+            }
+          } else {
+            console.log(`Row ${i} skipped - missing part number or additional name`);
+          }
+        }
+      }
+      
+      // Show summary toast
+      if (importedCount > 0 || updatedCount > 0) {
+        let message = '';
+        if (importedCount > 0) message += `${importedCount} new cables imported. `;
+        if (updatedCount > 0) message += `${updatedCount} existing cables updated.`;
+        showToast(message, 'success');
+      }
+      
+      // Refresh the display
+      renderCableTables();
+    }
+    
+    // Function to update cable in Firebase
+    function updateCableInFirebase(docId, cableData) {
+      return db.collection('cables').doc(docId).update({
+        oemPart: cableData.oemPart,
+        cableDesc: cableData.cableDesc,
+        numCores: cableData.numCores,
+        cableRating: cableData.cableRating,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        console.log('Cable updated in Firebase');
+        return true;
+      }).catch((error) => {
+        console.error('Error updating cable: ', error);
+        return false;
+      });
+    }
     
     // Toast notification function
     function showToast(message, type = 'info') {
@@ -879,6 +1275,23 @@
       });
     }
 
+    // Function to update circuit breaker in Firebase
+    function updateCBInFirebase(docId, cbData) {
+      return db.collection('circuitBreakers').doc(docId).update({
+        cbOEMPart: cbData.cbOEMPart,
+        cbDesc: cbData.cbDesc,
+        cbPoles: cbData.cbPoles,
+        cbRating: cbData.cbRating,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        console.log('Circuit Breaker updated in Firebase');
+        return true;
+      }).catch((error) => {
+        console.error('Error updating circuit breaker: ', error);
+        return false;
+      });
+    }
+
     // Load circuit breakers on page load
     loadCBsFromFirebase();
 
@@ -900,7 +1313,7 @@
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
         html += `<table style='margin-bottom:18px;'><thead><tr><th>OEM Part Number</th><th>Description</th><th>Poles</th><th>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
         filteredCBs.forEach((cb, idx) => {
-          html += `<tr><td>${cb.cbOEMPart}</td><td>${cb.cbDesc}</td><td>${cb.cbPoles}</td><td>${cb.cbRating}</td><td><button class='remove-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:3px 10px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;'>Remove</button></td></tr>`;
+          html += `<tr><td>${cb.cbOEMPart}</td><td>${cb.cbDesc}</td><td>${cb.cbPoles}</td><td>${cb.cbRating}</td><td><button class='edit-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
@@ -1060,6 +1473,82 @@
       });
     }
 
+    // Function to update switch in Firebase
+    function updateSwitchInFirebase(docId, switchData) {
+      return db.collection('switches').doc(docId).update({
+        switchOEMPart: switchData.switchOEMPart,
+        switchDesc: switchData.switchDesc,
+        switchPoles: switchData.switchPoles,
+        switchRating: switchData.switchRating,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        console.log('Switch updated in Firebase');
+        return true;
+      }).catch((error) => {
+        console.error('Error updating switch: ', error);
+        return false;
+      });
+    }
+
+    // Comprehensive AWG to rating conversion function
+    function getRatingFromAWG(awg) {
+      console.log(`getRatingFromAWG called with awg: ${awg}, type: ${typeof awg}`);
+      
+      // Comprehensive AWG to current rating mapping
+      const awgRatingMap = {
+        26: 0.75,
+        24: 2,
+        22: 3,
+        20: 5,
+        18: 6,
+        16: 8,
+        14: 11,
+        12: 17,
+        10: 24,
+        8: 32,
+        6: 45,
+        4: 60,
+        2: 95,
+        1: 110,
+        0: 125,
+        '1/0': 150,
+        '2/0': 175,
+        '3/0': 200,
+        '4/0': 225
+      };
+      
+      // Try to find exact match first
+      if (awgRatingMap[awg] !== undefined) {
+        console.log(`AWG ${awg} found in rating map: ${awgRatingMap[awg]}A`);
+        return awgRatingMap[awg];
+      }
+      console.log(`AWG ${awg} not found in rating map, checking ampacity table...`);
+      
+      // If not found, use ampacity table
+      const awgEntry = ampacityTable.find(entry => entry.awg === awg.toString());
+      if (awgEntry) {
+        console.log(`AWG ${awg} found in ampacity table: ${awgEntry.amps}A`);
+        return awgEntry.amps;
+      }
+      console.log(`AWG ${awg} not found in ampacity table, using fallback calculation...`);
+      
+      // Fallback calculation based on AWG size
+      let rating = 1;
+      if (awg <= 22) rating = 3;
+      else if (awg <= 20) rating = 5;
+      else if (awg <= 18) rating = 6;
+      else if (awg <= 16) rating = 8;
+      else if (awg <= 14) rating = 11;
+      else if (awg <= 12) rating = 17;
+      else if (awg <= 10) rating = 24;
+      else if (awg <= 8) rating = 32;
+      else if (awg <= 6) rating = 45;
+      else if (awg <= 4) rating = 60;
+      
+      console.log(`AWG ${awg} using fallback calculation: ${rating}A`);
+      return rating;
+    }
+     
     // Load switches on page load
     loadSwitchesFromFirebase();
 
@@ -1081,7 +1570,7 @@
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
         html += `<table style='margin-bottom:18px;'><thead><tr><th>OEM Part Number</th><th>Description</th><th>Poles</th><th>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
         filteredSwitches.forEach((sw, idx) => {
-          html += `<tr><td>${sw.switchOEMPart}</td><td>${sw.switchDesc}</td><td>${sw.switchPoles}</td><td>${sw.switchRating}</td><td><button class='remove-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:3px 10px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;'>Remove</button></td></tr>`;
+          html += `<tr><td>${sw.switchOEMPart}</td><td>${sw.switchDesc}</td><td>${sw.switchPoles}</td><td>${sw.switchRating}</td><td><button class='edit-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
@@ -1335,6 +1824,157 @@
         renEcosystemBtn.addEventListener('click', function() {
           window.open('https://www.renecosystem.com/ESS/MY/sasb/', '_blank');
         });
+      }
+    });
+  </script>
+
+  <script>
+    // Edit functionality
+    let currentEditItem = null;
+    let currentEditType = null;
+    
+    // Edit button event handlers (event delegation)
+    cableTablesDiv.addEventListener('click', function(e) {
+      if (e.target.classList.contains('edit-cable-btn')) {
+        const cableCategory = e.target.getAttribute('data-cat');
+        const idx = parseInt(e.target.getAttribute('data-idx'));
+        const cableToEdit = cableLibrary[cableCategory][idx];
+        
+        // Populate edit modal
+        document.getElementById('editModalTitle').textContent = 'Edit Cable';
+        document.getElementById('editOEM').value = cableToEdit.oemPart;
+        document.getElementById('editDesc').value = cableToEdit.cableDesc;
+        document.getElementById('editCores').value = cableToEdit.numCores;
+        document.getElementById('editRating').value = cableToEdit.cableRating;
+        
+        // Store current edit item
+        currentEditItem = { category: cableCategory, idx: idx, type: 'cable' };
+        
+        // Show edit modal
+        document.getElementById('editModal').classList.add('show');
+      }
+    });
+    
+    cbTablesDiv.addEventListener('click', function(e) {
+      if (e.target.classList.contains('edit-cb-btn')) {
+        const cbCategory = e.target.getAttribute('data-cat');
+        const idx = parseInt(e.target.getAttribute('data-idx'));
+        const cbToEdit = cbLibrary[cbCategory][idx];
+        
+        // Populate edit modal
+        document.getElementById('editModalTitle').textContent = 'Edit Circuit Breaker';
+        document.getElementById('editOEM').value = cbToEdit.cbOEMPart;
+        document.getElementById('editDesc').value = cbToEdit.cbDesc;
+        document.getElementById('editCores').value = cbToEdit.cbPoles;
+        document.getElementById('editRating').value = cbToEdit.cbRating;
+        
+        // Store current edit item
+        currentEditItem = { category: cbCategory, idx: idx, type: 'cb' };
+        
+        // Show edit modal
+        document.getElementById('editModal').classList.add('show');
+      }
+    });
+    
+    switchTablesDiv.addEventListener('click', function(e) {
+      if (e.target.classList.contains('edit-switch-btn')) {
+        const switchCategory = e.target.getAttribute('data-cat');
+        const idx = parseInt(e.target.getAttribute('data-idx'));
+        const switchToEdit = switchLibrary[switchCategory][idx];
+        
+        // Populate edit modal
+        document.getElementById('editModalTitle').textContent = 'Edit Switch';
+        document.getElementById('editOEM').value = switchToEdit.switchOEMPart;
+        document.getElementById('editDesc').value = switchToEdit.switchDesc;
+        document.getElementById('editCores').value = switchToEdit.switchPoles;
+        document.getElementById('editRating').value = switchToEdit.switchRating;
+        
+        // Store current edit item
+        currentEditItem = { category: switchCategory, idx: idx, type: 'switch' };
+        
+        // Show edit modal
+        document.getElementById('editModal').classList.add('show');
+      }
+    });
+    
+    // Edit form submission
+    document.getElementById('editForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (!currentEditItem) return;
+      
+      const newOEM = document.getElementById('editOEM').value;
+      const newDesc = document.getElementById('editDesc').value;
+      const newCores = document.getElementById('editCores').value;
+      const newRating = document.getElementById('editRating').value;
+      
+      // Update the item based on type
+      if (currentEditItem.type === 'cable') {
+        const cable = cableLibrary[currentEditItem.category][currentEditItem.idx];
+        cable.oemPart = newOEM;
+        cable.cableDesc = newDesc;
+        cable.numCores = newCores;
+        cable.cableRating = newRating;
+        
+        // Update in Firebase
+        updateCableInFirebase(cable.id, cable).then((success) => {
+          if (success) {
+            renderCableTables();
+            showToast('Cable updated successfully!', 'success');
+          } else {
+            showToast('Error updating cable. Please try again.', 'error');
+          }
+        });
+      } else if (currentEditItem.type === 'cb') {
+        const cb = cbLibrary[currentEditItem.category][currentEditItem.idx];
+        cb.cbOEMPart = newOEM;
+        cb.cbDesc = newDesc;
+        cb.cbPoles = newCores;
+        cb.cbRating = newRating;
+        
+        // Update in Firebase
+        updateCBInFirebase(cb.id, cb).then((success) => {
+          if (success) {
+            renderCBTables();
+            showToast('Circuit Breaker updated successfully!', 'success');
+          } else {
+            showToast('Error updating circuit breaker. Please try again.', 'error');
+          }
+        });
+      } else if (currentEditItem.type === 'switch') {
+        const sw = switchLibrary[currentEditItem.category][currentEditItem.idx];
+        sw.switchOEMPart = newOEM;
+        sw.switchDesc = newDesc;
+        sw.switchPoles = newCores;
+        sw.switchRating = newRating;
+        
+        // Update in Firebase
+        updateSwitchInFirebase(sw.id, sw).then((success) => {
+          if (success) {
+            renderSwitchTables();
+            showToast('Switch updated successfully!', 'success');
+          } else {
+            showToast('Error updating switch. Please try again.', 'error');
+          }
+        });
+      }
+      
+      // Hide edit modal
+      document.getElementById('editModal').classList.remove('show');
+      currentEditItem = null;
+    });
+    
+    // Cancel edit button
+    document.getElementById('cancelEdit').addEventListener('click', function() {
+      document.getElementById('editModal').classList.remove('show');
+      currentEditItem = null;
+    });
+    
+    // Close edit modal when clicking outside
+    document.getElementById('editModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('show');
+        currentEditItem = null;
       }
     });
   </script>
