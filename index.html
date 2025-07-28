@@ -607,6 +607,10 @@
               cable.cableRating.toString().includes(searchVal)
             )
           : cableLibrary[cat];
+        
+        // Sort cables by rating in ascending order
+        filteredCables.sort((a, b) => parseInt(a.cableRating) - parseInt(b.cableRating));
+        
         if (filteredCables.length === 0) return;
         found = true;
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
@@ -1308,6 +1312,10 @@
               cb.cbRating.toString().includes(searchVal)
             )
           : cbLibrary[cat];
+        
+        // Sort circuit breakers by rating in ascending order
+        filteredCBs.sort((a, b) => parseInt(a.cbRating) - parseInt(b.cbRating));
+        
         if (filteredCBs.length === 0) return;
         found = true;
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
@@ -1565,6 +1573,10 @@
               sw.switchRating.toString().includes(searchVal)
             )
           : switchLibrary[cat];
+        
+        // Sort switches by rating in ascending order
+        filteredSwitches.sort((a, b) => parseInt(a.switchRating) - parseInt(b.switchRating));
+        
         if (filteredSwitches.length === 0) return;
         found = true;
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
