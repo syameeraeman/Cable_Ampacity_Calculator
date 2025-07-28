@@ -850,14 +850,23 @@
                 /(\d+)x(\d+\.\d+)/i,  // e.g., 2x0.14, 3x0.25
                 /(\d+)\s*X\s*(\d+\.\d+)/i,  // e.g., 2 X 0.14
                 /(\d+)\s*x\s*(\d+\.\d+)/i,  // e.g., 2 x 0.14
+                /(\d+)G\s*(\d+\.\d+)/i,  // e.g., 4G 0.5, 4G 0.75, 4G 1.5
+                /(\d+)G(\d+\.\d+)/i,  // e.g., 4G0.5, 4G0.75, 4G1.5
               ];
               
               let mm2Size = null;
+              let coresFromMm2 = null;
               for (const pattern of mm2Patterns) {
                 const match = description.match(pattern);
                 if (match) {
                   mm2Size = parseFloat(match[2]);
-                  console.log(`MM² pattern "${pattern}" matched: ${mm2Size} mm²`);
+                  // For G pattern, also extract the core count
+                  if (pattern.toString().includes('G')) {
+                    coresFromMm2 = parseInt(match[1]);
+                    console.log(`G pattern matched: ${coresFromMm2} cores, ${mm2Size} mm²`);
+                  } else {
+                    console.log(`MM² pattern "${pattern}" matched: ${mm2Size} mm²`);
+                  }
                   break;
                 }
               }
@@ -913,6 +922,12 @@
                 console.log(`Core pattern "${pattern}" matched: ${cores} cores`);
                 break;
               }
+            }
+            
+            // If we found cores from G pattern, use that instead
+            if (coresFromMm2) {
+              cores = coresFromMm2;
+              console.log(`Using core count from G pattern: ${cores} cores`);
             }
             
             // Additional logic for specific cable types
