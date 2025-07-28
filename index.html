@@ -348,6 +348,56 @@
     #youtubeBtn:hover, #googleBtn:hover, #renEcosystemBtn:hover {
       transform: scale(1.1);
     }
+    
+    /* Filter Buttons */
+    .min-comp-filter-btn {
+      padding: 8px 18px;
+      background: #353a45;
+      color: #61dafb;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s, color 0.2s;
+      margin-bottom: 8px;
+    }
+    .min-comp-filter-btn.active, .min-comp-filter-btn:hover {
+      background: #61dafb;
+      color: #23262c;
+    }
+    
+    /* Category Filter Buttons */
+    .category-filter-btn {
+      padding: 6px 12px;
+      background: #353a45;
+      color: #61dafb;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s, color 0.2s;
+      margin: 2px;
+    }
+    .category-filter-btn.active, .category-filter-btn:hover {
+      background: #61dafb;
+      color: #23262c;
+    }
+    
+    /* Add a CSS rule to ensure all form input, select, and button elements in the Cable Library add form have the same height */
+    #cableForm input[type="text"],
+    #cableForm input[type="number"],
+    #cableForm select,
+    #cableForm button[type="submit"] {
+      height: 38px;
+      box-sizing: border-box;
+      font-size: 1rem;
+      vertical-align: middle;
+      min-width: 140px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   </style>
 </head>
 <body>
@@ -433,36 +483,51 @@
     </div>
   </div>
 
-     <div class="cable-library library-section" style="margin: 40px auto 0 auto; max-width: 900px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+  <div id="minCompCableCategoryContainer" style="margin: 24px auto 0 auto; max-width: 800px; display: flex; justify-content: center; align-items: center; gap: 10px;">
+    <label for="minCompCableCategoryDropdown" style="color:#61dafb; font-weight:bold;">Cable Category:</label>
+    <select id="minCompCableCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
+      <option value="all">All Categories</option>
+      <option value="Single Core">Single Core</option>
+      <option value="Multi Core">Multi Core</option>
+      <option value="Robotic Cable">Robotic Cable</option>
+      <option value="Flexible Cable">Flexible Cable</option>
+      <option value="EtherNET">EtherNET</option>
+      <option value="EtherCAT">EtherCAT</option>
+    </select>
+  </div>
+
+     <div class="cable-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
       <h2 style="color: #61dafb; margin: 0;">Cable Library</h2>
       <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
     </div>
-    <form id="cableForm" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: center;">
-      <div>
+    <form id="cableForm" style="display: flex; flex-wrap: nowrap; gap: 18px; align-items: flex-end; justify-content: center; margin-bottom: 0;">
+      <div style="min-width: 120px;">
         <label for="cableCategory">Category:</label><br>
-        <select id="cableCategory" required>
+        <select id="cableCategory" required style="width: 120px;">
           <option value="Single Core">Single Core</option>
           <option value="Multi Core">Multi Core</option>
           <option value="Robotic Cable">Robotic Cable</option>
           <option value="Flexible Cable">Flexible Cable</option>
+          <option value="EtherNET">EtherNET</option>
+          <option value="EtherCAT">EtherCAT</option>
         </select>
       </div>
-      <div>
+      <div style="min-width: 120px;">
         <label for="oemPart">OEM Part Number:</label><br>
         <input type="text" id="oemPart" required style="width: 120px;" />
       </div>
-      <div>
+      <div style="min-width: 350px;">
         <label for="cableDesc">Description:</label><br>
-        <input type="text" id="cableDesc" required style="width: 160px;" />
+        <input type="text" id="cableDesc" required style="width: 350px;" />
       </div>
-      <div>
+      <div style="min-width: 40px;">
         <label for="numCores">No. of Cores:</label><br>
-        <input type="number" id="numCores" min="1" required style="width: 60px;" />
+        <input type="number" id="numCores" min="1" required style="width: 40px;" />
       </div>
-      <div>
+      <div style="min-width: 40px;">
         <label for="cableRating">Rating (A):</label><br>
-        <input type="number" id="cableRating" min="1" required style="width: 60px;" />
+        <input type="number" id="cableRating" min="1" required style="width: 40px;" />
       </div>
       <div>
         <button type="submit" style="padding: 8px 18px; background: #61dafb; color: #23262c; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Add Cable</button>
@@ -487,9 +552,29 @@
           <input type="file" id="flexibleFile" accept=".xlsx,.xls" style="display: none;" data-category="Flexible Cable" />
           <button type="button" class="import-category-btn" data-category="Flexible Cable" style="padding: 8px 16px; background: #9C27B0; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Flexible Cable</button>
         </div>
+        <div>
+          <input type="file" id="ethernetFile" accept=".xlsx,.xls" style="display: none;" data-category="EtherNET" />
+          <button type="button" class="import-category-btn" data-category="EtherNET" style="padding: 8px 16px; background: #009688; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 EtherNET</button>
+        </div>
+        <div>
+          <input type="file" id="ethercatFile" accept=".xlsx,.xls" style="display: none;" data-category="EtherCAT" />
+          <button type="button" class="import-category-btn" data-category="EtherCAT" style="padding: 8px 16px; background: #607D8B; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 EtherCAT</button>
+        </div>
       </div>
       <div style="margin-top: 18px; display: flex; justify-content: center;">
         <input type="text" id="searchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem; text-align: center;" />
+      </div>
+      <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 12px;">
+        <label for="cableCategoryDropdown" style="color:#61dafb; font-weight:bold;">Category:</label>
+        <select id="cableCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
+          <option value="all">All Categories</option>
+          <option value="Single Core">Single Core</option>
+          <option value="Multi Core">Multi Core</option>
+          <option value="Robotic Cable">Robotic Cable</option>
+          <option value="Flexible Cable">Flexible Cable</option>
+          <option value="EtherNET">EtherNET</option>
+          <option value="EtherCAT">EtherCAT</option>
+        </select>
       </div>
     </div>
     <div id="cableTables" style="margin-top: 30px;"></div>
@@ -566,7 +651,9 @@
       'Single Core': [],
       'Multi Core': [],
       'Robotic Cable': [],
-      'Flexible Cable': []
+      'Flexible Cable': [],
+      'EtherNET': [],
+      'EtherCAT': []
     };
 
     cableForm.addEventListener('submit', function(e) {
@@ -597,23 +684,58 @@
     function renderCableTables() {
       let html = '';
       const searchVal = searchOEM.value.trim().toLowerCase();
+      const activeCategoryFilter = document.getElementById('cableCategoryDropdown')?.value || 'all';
       let found = false;
+      
       Object.keys(cableLibrary).forEach(cat => {
+        if (activeCategoryFilter !== 'all' && cat !== activeCategoryFilter) return;
+        
         // Filter cables by search value
         const filteredCables = searchVal
-          ? cableLibrary[cat].filter(cable => 
-              cable.oemPart.toLowerCase().includes(searchVal) || 
-              cable.numCores.toString().includes(searchVal) ||
-              cable.cableRating.toString().includes(searchVal)
-            )
+          ? cableLibrary[cat].filter(cable => {
+              if (cat === 'EtherNET' || cat === 'EtherCAT') {
+                return (
+                  (cable.oemPart && cable.oemPart.toLowerCase().includes(searchVal)) ||
+                  (cable.description && cable.description.toLowerCase().includes(searchVal)) ||
+                  (cable.length && cable.length.toString().toLowerCase().includes(searchVal)) ||
+                  (cable.colour && cable.colour.toLowerCase().includes(searchVal))
+                );
+              } else {
+                return (
+                  (cable.oemPart && cable.oemPart.toLowerCase().includes(searchVal)) ||
+                  (cable.cableDesc && cable.cableDesc.toLowerCase().includes(searchVal)) ||
+                  (cable.numCores && cable.numCores.toString().includes(searchVal)) ||
+                  (cable.cableRating && cable.cableRating.toString().includes(searchVal))
+                );
+              }
+            })
           : cableLibrary[cat];
         
         // Sort cables by rating in ascending order
-        filteredCables.sort((a, b) => parseInt(a.cableRating) - parseInt(b.cableRating));
+        filteredCables.sort((a, b) => {
+          if (a.cableRating && b.cableRating) return parseInt(a.cableRating) - parseInt(b.cableRating);
+          return 0;
+        });
         
         if (filteredCables.length === 0) return;
         found = true;
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
+        if (cat === 'EtherNET') {
+          html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Length</th><th style='text-align:center;'>Colour</th><th>Action</th></tr></thead><tbody>`;
+          filteredCables.forEach((cable, idx) => {
+            html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.description}</td><td style='text-align:center;'>${cable.length || ''}</td><td style='text-align:center;'>${cable.colour || ''}</td><td><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
+          });
+          html += '</tbody></table>';
+          return;
+        }
+        if (cat === 'EtherCAT') {
+          html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Length</th><th style='text-align:center;'>Colour</th><th>Action</th></tr></thead><tbody>`;
+          filteredCables.forEach((cable, idx) => {
+            html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.description}</td><td style='text-align:center;'>${cable.length || ''}</td><td style='text-align:center;'>${cable.colour || ''}</td><td><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
+          });
+          html += '</tbody></table>';
+          return;
+        }
         html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>No. of Cores</th><th style='text-align:center;'>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
         filteredCables.forEach((cable, idx) => {
           html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.cableDesc}</td><td style='text-align:center;'>${cable.numCores}</td><td style='text-align:center;'>${cable.cableRating}</td><td><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
@@ -649,14 +771,23 @@
       submitBtn.innerHTML = '<span class="spinner"></span> Save';
       submitBtn.disabled = true;
       
-      return db.collection('cables').add({
+      let firebaseData = {
         category: category,
         oemPart: cableData.oemPart,
-        cableDesc: cableData.cableDesc,
-        numCores: cableData.numCores,
-        cableRating: cableData.cableRating,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
+      };
+      
+      if (category === 'EtherNET' || category === 'EtherCAT') {
+        firebaseData.description = cableData.description;
+        firebaseData.length = cableData.length;
+        firebaseData.colour = cableData.colour;
+      } else {
+        firebaseData.cableDesc = cableData.cableDesc;
+        firebaseData.numCores = cableData.numCores;
+        firebaseData.cableRating = cableData.cableRating;
+      }
+      
+      return db.collection('cables').add(firebaseData).then(() => {
         console.log('Cable saved to Firebase');
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
@@ -675,19 +806,31 @@
           'Single Core': [],
           'Multi Core': [],
           'Robotic Cable': [],
-          'Flexible Cable': []
+          'Flexible Cable': [],
+          'EtherNET': [],
+          'EtherCAT': []
         };
         
         querySnapshot.forEach((doc) => {
           const data = doc.data();
           if (cableLibrary[data.category]) {
-            cableLibrary[data.category].push({
-              id: doc.id,
-              oemPart: data.oemPart,
-              cableDesc: data.cableDesc,
-              numCores: data.numCores,
-              cableRating: data.cableRating
-            });
+            if (data.category === 'EtherNET' || data.category === 'EtherCAT') {
+              cableLibrary[data.category].push({
+                id: doc.id,
+                oemPart: data.oemPart,
+                description: data.description,
+                length: data.length,
+                colour: data.colour
+              });
+            } else {
+              cableLibrary[data.category].push({
+                id: doc.id,
+                oemPart: data.oemPart,
+                cableDesc: data.cableDesc,
+                numCores: data.numCores,
+                cableRating: data.cableRating
+              });
+            }
           }
         });
         renderCableTables();
@@ -731,6 +874,12 @@
           case 'Flexible Cable':
             fileInput = document.getElementById('flexibleFile');
             break;
+          case 'EtherNET':
+            fileInput = document.getElementById('ethernetFile');
+            break;
+          case 'EtherCAT':
+            fileInput = document.getElementById('ethercatFile');
+            break;
         }
         
         if (fileInput) {
@@ -762,6 +911,18 @@
         processExcelData(e.target.files[0], 'Flexible Cable');
       }
       e.target.value = ''; // Clear the file input
+    });
+    document.getElementById('ethernetFile').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        processExcelData(e.target.files[0], 'EtherNET');
+      }
+      e.target.value = '';
+    });
+    document.getElementById('ethercatFile').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        processExcelData(e.target.files[0], 'EtherCAT');
+      }
+      e.target.value = '';
     });
     
     function processExcelData(file, category) {
@@ -938,13 +1099,33 @@
             
             console.log(`Final values - Part Number: "${partNumber}", Cores: ${cores}, Rating: ${rating}`);
             
-            // Create cable object
-            const cableData = {
-              oemPart: partNumber.toString(),
-              cableDesc: description,
-              numCores: cores.toString(),
-              cableRating: rating.toString()
-            };
+            // Create cable object based on category
+            let cableData;
+            
+            if (category === 'EtherNET' || category === 'EtherCAT') {
+              // Extract length and colour from description for EtherNET/EtherCAT
+              const lengthMatch = description.match(/(\d+M)/i);
+              const colourMatch = description.match(/(GREY|BLACK|BLUE|WHITE|RED|GREEN|YELLOW|ORANGE|PURPLE|PINK|BROWN)/i);
+              
+              const length = lengthMatch ? lengthMatch[1] : '';
+              const colour = colourMatch ? colourMatch[1] : '';
+              
+              console.log(`${category} extraction - Length: "${length}", Colour: "${colour}"`);
+              
+              cableData = {
+                oemPart: partNumber.toString(),
+                description: description,
+                length: length,
+                colour: colour
+              };
+            } else {
+              cableData = {
+                oemPart: partNumber.toString(),
+                cableDesc: description,
+                numCores: cores.toString(),
+                cableRating: rating.toString()
+              };
+            }
             
             console.log(`Created cable object:`, cableData);
             
@@ -1005,13 +1186,23 @@
     
     // Function to update cable in Firebase
     function updateCableInFirebase(docId, cableData) {
-      return db.collection('cables').doc(docId).update({
+      let updateData = {
         oemPart: cableData.oemPart,
-        cableDesc: cableData.cableDesc,
-        numCores: cableData.numCores,
-        cableRating: cableData.cableRating,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
+      };
+      
+      // Check if this is EtherNET data by looking for description field
+      if (cableData.description !== undefined) {
+        updateData.description = cableData.description;
+        updateData.length = cableData.length;
+        updateData.colour = cableData.colour;
+      } else {
+        updateData.cableDesc = cableData.cableDesc;
+        updateData.numCores = cableData.numCores;
+        updateData.cableRating = cableData.cableRating;
+      }
+      
+      return db.collection('cables').doc(docId).update(updateData).then(() => {
         console.log('Cable updated in Firebase');
         return true;
       }).catch((error) => {
@@ -1091,6 +1282,10 @@
               targetSection.classList.add('active');
               // Scroll to the library section
               targetSection.scrollIntoView({ behavior: 'smooth' });
+              // Setup category filters for the shown section
+              if (selectedLibrary === 'cable') setupCableCategoryFilters();
+              if (selectedLibrary === 'circuit-breaker') setupCBCategoryFilters();
+              if (selectedLibrary === 'switch') setupSwitchCategoryFilters();
             }
           } else {
             // User is not logged in, show login modal
@@ -1186,7 +1381,7 @@
     });
   </script>
 
-     <div class="circuit-breaker-library library-section" style="margin: 40px auto 0 auto; max-width: 900px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+     <div class="circuit-breaker-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
       <h2 style="color: #61dafb; margin: 0;">Circuit Breaker Library</h2>
       <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
@@ -1224,6 +1419,16 @@
     <div id="cbTables" style="margin-top: 30px;"></div>
     <div style="margin-top: 18px;">
       <input type="text" id="searchCBOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem;" />
+    </div>
+    <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 12px;">
+      <label for="cbCategoryDropdown" style="color:#61dafb; font-weight:bold;">Category:</label>
+      <select id="cbCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
+        <option value="all">All Categories</option>
+        <option value="Main CB">Main CB</option>
+        <option value="RCCB">RCCB</option>
+        <option value="CB">CB</option>
+        <option value="DCB">DCB</option>
+      </select>
     </div>
   </div>
   <script>
@@ -1349,8 +1554,12 @@
     function renderCBTables() {
       let html = '';
       const searchVal = searchCBOEM.value.trim().toLowerCase();
+      const activeCategoryFilter = document.getElementById('cbCategoryDropdown')?.value || 'all';
       let found = false;
+      
       Object.keys(cbLibrary).forEach(cat => {
+        if (activeCategoryFilter !== 'all' && cat !== activeCategoryFilter) return;
+        
         const filteredCBs = searchVal
           ? cbLibrary[cat].filter(cb => 
               cb.cbOEMPart.toLowerCase().includes(searchVal) || 
@@ -1394,7 +1603,7 @@
     renderCBTables();
   </script>
 
-     <div class="switch-library library-section" style="margin: 40px auto 0 auto; max-width: 900px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+     <div class="switch-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
       <h2 style="color: #61dafb; margin: 0;">Switch Library</h2>
       <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
@@ -1430,6 +1639,14 @@
     <div id="switchTables" style="margin-top: 30px;"></div>
     <div style="margin-top: 18px;">
       <input type="text" id="searchSwitchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem;" />
+    </div>
+    <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 12px;">
+      <label for="switchCategoryDropdown" style="color:#61dafb; font-weight:bold;">Category:</label>
+      <select id="switchCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
+        <option value="all">All Categories</option>
+        <option value="Relay">Relay</option>
+        <option value="Contactor">Contactor</option>
+      </select>
     </div>
   </div>
   <script>
@@ -1610,8 +1827,12 @@
     function renderSwitchTables() {
       let html = '';
       const searchVal = searchSwitchOEM.value.trim().toLowerCase();
+      const activeCategoryFilter = document.getElementById('switchCategoryDropdown')?.value || 'all';
       let found = false;
+      
       Object.keys(switchLibrary).forEach(cat => {
+        if (activeCategoryFilter !== 'all' && cat !== activeCategoryFilter) return;
+        
         const filteredSwitches = searchVal
           ? switchLibrary[cat].filter(sw => 
               sw.switchOEMPart.toLowerCase().includes(searchVal) || 
@@ -1660,10 +1881,20 @@
     function showMinimumComponents(currentRating) {
       let componentsHtml = '<div style="margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">';
       componentsHtml += '<h2 style="color: #61dafb; text-align: center; margin-bottom: 20px;">Minimum Components for ' + currentRating + 'A</h2>';
+      componentsHtml += `<div id="minCompCategoryFilters" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 18px;">
+        <button class="min-comp-filter-btn active" data-filter="all">All</button>
+        <button class="min-comp-filter-btn" data-filter="cables">Cables</button>
+        <button class="min-comp-filter-btn" data-filter="cbs">Circuit Breakers</button>
+        <button class="min-comp-filter-btn" data-filter="switches">Switches</button>
+      </div>`;
       
       // Cable Library components
       let suitableCables = [];
+      const minCompCableCategoryDropdown = document.getElementById('minCompCableCategoryDropdown');
+      const selectedCableCat = minCompCableCategoryDropdown ? minCompCableCategoryDropdown.value : 'all';
       Object.keys(cableLibrary).forEach(cat => {
+        if (cat === 'EtherNET') return; // Skip EtherNET if you want
+        if (selectedCableCat !== 'all' && cat !== selectedCableCat) return;
         cableLibrary[cat].forEach(cable => {
           if (parseInt(cable.cableRating) >= currentRating) {
             suitableCables.push({...cable, category: cat});
@@ -1672,7 +1903,19 @@
       });
       
       if (suitableCables.length > 0) {
-        componentsHtml += '<div style="background: #23262c; border-radius: 12px; padding: 20px; margin-bottom: 20px;">';
+        componentsHtml += `<div style='display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-bottom: 8px;'>
+          <label for='minCompCableCategoryDropdown' style='color:#61dafb; font-weight:bold;'>Cable Category:</label>
+          <select id='minCompCableCategoryDropdown' style='padding: 6px 12px; border-radius: 4px; font-size: 1rem;'>
+            <option value='all'>All Categories</option>
+            <option value='Single Core'>Single Core</option>
+            <option value='Multi Core'>Multi Core</option>
+            <option value='Robotic Cable'>Robotic Cable</option>
+            <option value='Flexible Cable'>Flexible Cable</option>
+            <option value='EtherNET'>EtherNET</option>
+            <option value='EtherCAT'>EtherCAT</option>
+          </select>
+        </div>`;
+        componentsHtml += '<div class="min-comp-table" data-filter="cables" style="background: #23262c; border-radius: 12px; padding: 20px; margin-bottom: 20px;">';
         componentsHtml += '<h3 style="color: #ffb347; margin-bottom: 10px;">Suitable Cables</h3>';
         componentsHtml += '<table style="width: 100%; border-collapse: collapse;"><thead><tr><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Category</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">OEM Part Number</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Description</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">No. of Cores</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Rating (A)</th></tr></thead><tbody>';
         suitableCables.forEach(cable => {
@@ -1692,7 +1935,7 @@
       });
       
       if (suitableCBs.length > 0) {
-        componentsHtml += '<div style="background: #23262c; border-radius: 12px; padding: 20px; margin-bottom: 20px;">';
+        componentsHtml += '<div class="min-comp-table" data-filter="cbs" style="background: #23262c; border-radius: 12px; padding: 20px; margin-bottom: 20px;">';
         componentsHtml += '<h3 style="color: #ffb347; margin-bottom: 10px;">Suitable Circuit Breakers</h3>';
         componentsHtml += '<table style="width: 100%; border-collapse: collapse;"><thead><tr><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Category</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">OEM Part Number</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Description</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Poles</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Rating (A)</th></tr></thead><tbody>';
         suitableCBs.forEach(cb => {
@@ -1712,7 +1955,7 @@
       });
       
       if (suitableSwitches.length > 0) {
-        componentsHtml += '<div style="background: #23262c; border-radius: 12px; padding: 20px; margin-bottom: 20px;">';
+        componentsHtml += '<div class="min-comp-table" data-filter="switches" style="background: #23262c; border-radius: 12px; padding: 20px; margin-bottom: 20px;">';
         componentsHtml += '<h3 style="color: #ffb347; margin-bottom: 10px;">Suitable Switches</h3>';
         componentsHtml += '<table style="width: 100%; border-collapse: collapse;"><thead><tr><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Category</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">OEM Part Number</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Description</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Poles</th><th style="border: 1px solid #444; padding: 8px; background: #353a45; color: #61dafb;">Rating (A)</th></tr></thead><tbody>';
         suitableSwitches.forEach(sw => {
@@ -1737,6 +1980,30 @@
       componentsDiv.id = 'minimumComponents';
       componentsDiv.innerHTML = componentsHtml;
       resultsDiv.parentNode.insertBefore(componentsDiv, resultsDiv.nextSibling);
+      // Attach filter button event listeners immediately after rendering
+      Array.from(componentsDiv.querySelectorAll('.min-comp-filter-btn')).forEach(btn => {
+        btn.addEventListener('click', function() {
+          componentsDiv.querySelectorAll('.min-comp-filter-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          const filter = this.getAttribute('data-filter');
+          componentsDiv.querySelectorAll('.min-comp-table').forEach(table => {
+            if (filter === 'all' || table.getAttribute('data-filter') === filter) {
+              table.style.display = '';
+            } else {
+              table.style.display = 'none';
+            }
+          });
+        });
+      });
+      
+      // After rendering Minimum Components, re-attach the event listener to the dropdown
+      const minCompCableCategoryDropdownLocal = document.getElementById('minCompCableCategoryDropdown');
+      if (minCompCableCategoryDropdownLocal) {
+        minCompCableCategoryDropdownLocal.value = selectedCableCat;
+        minCompCableCategoryDropdownLocal.addEventListener('change', function() {
+          showMinimumComponents(currentRating);
+        });
+      }
     }
   </script>
   <script>
@@ -2047,5 +2314,142 @@
       }
     });
   </script>
+  
+  <script>
+    document.querySelectorAll('.min-comp-filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.min-comp-filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const filter = this.getAttribute('data-filter');
+        document.querySelectorAll('.min-comp-table').forEach(table => {
+          if (filter === 'all' || table.getAttribute('data-filter') === filter) {
+            table.style.display = '';
+          } else {
+            table.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+
+  <script>
+    // Add event listeners for category filter buttons
+    document.addEventListener('DOMContentLoaded', function() {
+      // Cable Library category filters
+      const cableCategoryBtns = document.querySelectorAll('.category-filter-btn[data-category]');
+      cableCategoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Remove active class from all buttons
+          cableCategoryBtns.forEach(b => b.classList.remove('active'));
+          // Add active class to clicked button
+          this.classList.add('active');
+          // Re-render tables
+          renderCableTables();
+        });
+      });
+      
+      // Circuit Breaker Library category filters
+      const cbCategoryBtns = document.querySelectorAll('.category-filter-btn[data-category]');
+      cbCategoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          cbCategoryBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          renderCBTables();
+        });
+      });
+      
+      // Switch Library category filters
+      const switchCategoryBtns = document.querySelectorAll('.category-filter-btn[data-category]');
+      switchCategoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          switchCategoryBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          renderSwitchTables();
+        });
+      });
+    });
+  </script>
+
+  <script>
+    // Replace the global event listener logic for category filter buttons with section-specific logic
+    // Remove the previous global event listener script for .category-filter-btn
+    // Add this after each library section is shown (e.g., in the code that activates .cable-library, .circuit-breaker-library, .switch-library):
+
+    function setupCableCategoryFilters() {
+      const cableCategoryBtns = document.querySelectorAll('.cable-library .category-filter-btn[data-category]');
+      cableCategoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          cableCategoryBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          renderCableTables();
+        });
+      });
+    }
+
+    function setupCBCategoryFilters() {
+      const cbCategoryBtns = document.querySelectorAll('.circuit-breaker-library .category-filter-btn[data-category]');
+      cbCategoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          cbCategoryBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          renderCBTables();
+        });
+      });
+    }
+
+    function setupSwitchCategoryFilters() {
+      const switchCategoryBtns = document.querySelectorAll('.switch-library .category-filter-btn[data-category]');
+      switchCategoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          switchCategoryBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          renderSwitchTables();
+        });
+      });
+    }
+
+    // Call these functions after showing each library section, e.g.:
+    // When showing Cable Library:
+    // setupCableCategoryFilters();
+    // When showing Circuit Breaker Library:
+    // setupCBCategoryFilters();
+    // When showing Switch Library:
+    // setupSwitchCategoryFilters();
+
+    // Also call the relevant setup function in DOMContentLoaded for the initially visible section (if any)
+    document.addEventListener('DOMContentLoaded', function() {
+      setupCableCategoryFilters();
+      setupCBCategoryFilters();
+      setupSwitchCategoryFilters();
+    });
+  </script>
+
+  <script>
+    // Add event listeners for the dropdowns to re-render tables on change
+    document.addEventListener('DOMContentLoaded', function() {
+      const cableCategoryDropdown = document.getElementById('cableCategoryDropdown');
+      if (cableCategoryDropdown) cableCategoryDropdown.addEventListener('change', renderCableTables);
+      const cbCategoryDropdown = document.getElementById('cbCategoryDropdown');
+      if (cbCategoryDropdown) cbCategoryDropdown.addEventListener('change', renderCBTables);
+      const switchCategoryDropdown = document.getElementById('switchCategoryDropdown');
+      if (switchCategoryDropdown) switchCategoryDropdown.addEventListener('change', renderSwitchTables);
+    });
+  </script>
+
+  <script>
+    // Add event listener to the dropdown to re-run showMinimumComponents when changed
+    document.addEventListener('DOMContentLoaded', function() {
+      const minCompCableCategoryDropdown = document.getElementById('minCompCableCategoryDropdown');
+      if (minCompCableCategoryDropdown) {
+        minCompCableCategoryDropdown.addEventListener('change', function() {
+          const value = parseFloat(document.getElementById('currentInput').value);
+          if (!isNaN(value) && value > 0) {
+            showMinimumComponents(value);
+          }
+        });
+      }
+    });
+  </script>
 </body>
+</html> 
 </html> 
