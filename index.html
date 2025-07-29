@@ -402,6 +402,11 @@
 </head>
 <body>
   
+  <!-- Creator Note -->
+  <div style="margin-top: 24px; font-size: 0.95rem; color: #000; text-align: center;">
+    Page Created by: Syamir
+  </div>
+  
   <!-- Login Modal -->
   <div id="loginModal" class="login-modal">
     <div class="login-container">
@@ -439,8 +444,27 @@
         <div class="edit-buttons">
           <button type="submit" class="edit-btn save-btn">Save</button>
           <button type="button" class="edit-btn cancel-btn" id="cancelEdit">Cancel</button>
+          <button type="button" class="edit-btn cancel-btn" id="removeItem" style="background: #ff7675;">🗑️ Remove</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Datasheet Modal -->
+  <div id="datasheetModal" class="edit-modal">
+    <div class="edit-container">
+      <h3 id="datasheetModalTitle">Datasheet Management</h3>
+      <div id="datasheetContent">
+        <div style="margin-bottom: 20px; text-align: center;">
+          <p id="datasheetStatus" style="color: #61dafb; font-weight: bold;"></p>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+          <button id="uploadDatasheetBtn" class="edit-btn save-btn" style="background: #007bff;">📤 Upload PDF</button>
+          <button id="downloadDatasheetBtn" class="edit-btn save-btn" style="background: #28a745; display: none;">📥 Download PDF</button>
+          <button id="deleteDatasheetBtn" class="edit-btn cancel-btn" style="background: #dc3545; display: none;">🗑️ Delete PDF</button>
+          <button id="cancelDatasheetBtn" class="edit-btn cancel-btn">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
   
@@ -721,24 +745,24 @@
         found = true;
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
         if (cat === 'EtherNET') {
-          html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Length</th><th style='text-align:center;'>Colour</th><th>Action</th></tr></thead><tbody>`;
+          html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Length</th><th style='text-align:center;'>Colour</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
           filteredCables.forEach((cable, idx) => {
-            html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.description}</td><td style='text-align:center;'>${cable.length || ''}</td><td style='text-align:center;'>${cable.colour || ''}</td><td><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
+            html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.description}</td><td style='text-align:center;'>${cable.length || ''}</td><td style='text-align:center;'>${cable.colour || ''}</td><td style='text-align:center;'><button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
           });
           html += '</tbody></table>';
           return;
         }
         if (cat === 'EtherCAT') {
-          html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Length</th><th style='text-align:center;'>Colour</th><th>Action</th></tr></thead><tbody>`;
+          html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Length</th><th style='text-align:center;'>Colour</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
           filteredCables.forEach((cable, idx) => {
-            html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.description}</td><td style='text-align:center;'>${cable.length || ''}</td><td style='text-align:center;'>${cable.colour || ''}</td><td><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
+            html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.description}</td><td style='text-align:center;'>${cable.length || ''}</td><td style='text-align:center;'>${cable.colour || ''}</td><td style='text-align:center;'><button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
           });
           html += '</tbody></table>';
           return;
         }
-        html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>No. of Cores</th><th style='text-align:center;'>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
+        html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>No. of Cores</th><th style='text-align:center;'>Rating (A)</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
         filteredCables.forEach((cable, idx) => {
-          html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.cableDesc}</td><td style='text-align:center;'>${cable.numCores}</td><td style='text-align:center;'>${cable.cableRating}</td><td><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
+          html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.cableDesc}</td><td style='text-align:center;'>${cable.numCores}</td><td style='text-align:center;'>${cable.cableRating}</td><td style='text-align:center;'><button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
@@ -746,23 +770,19 @@
     }
     renderCableTables();
 
-    // Remove cable event (event delegation)
+    // Datasheet cable event (event delegation)
     cableTablesDiv.addEventListener('click', function(e) {
-      if (e.target.classList.contains('remove-cable-btn')) {
+      if (e.target.classList.contains('datasheet-cable-btn')) {
         const cableCategory = e.target.getAttribute('data-cat');
         const idx = parseInt(e.target.getAttribute('data-idx'));
-        const cableToRemove = cableLibrary[cableCategory][idx];
-        if (confirm('Are you sure you want to remove this cable?')) {
-          deleteCableFromFirebase(cableToRemove.id).then(() => {
-            cableLibrary[cableCategory].splice(idx, 1);
-            renderCableTables();
-            showToast('Cable removed successfully!', 'success');
-          }).catch(() => {
-            showToast('Error removing cable. Please try again.', 'error');
-          });
-        }
+        const cable = cableLibrary[cableCategory][idx];
+        
+        // Show datasheet modal
+        showDatasheetModal(cable, 'cable', cableCategory, idx);
       }
     });
+
+
 
     // Firebase functions for Cable Library
     function saveCableToFirebase(category, cableData) {
@@ -820,7 +840,8 @@
                 oemPart: data.oemPart,
                 description: data.description,
                 length: data.length,
-                colour: data.colour
+                colour: data.colour,
+                datasheetUrl: data.datasheetUrl || null
               });
             } else {
               cableLibrary[data.category].push({
@@ -828,7 +849,8 @@
                 oemPart: data.oemPart,
                 cableDesc: data.cableDesc,
                 numCores: data.numCores,
-                cableRating: data.cableRating
+                cableRating: data.cableRating,
+                datasheetUrl: data.datasheetUrl || null
               });
             }
           }
@@ -838,6 +860,145 @@
         console.error('Error loading cables: ', error);
       });
     }
+
+    // Global variables for datasheet modal
+    let currentDatasheetItem = null;
+    let currentDatasheetType = null;
+    let currentDatasheetCategory = null;
+    let currentDatasheetIndex = null;
+
+    // Function to show datasheet modal
+    function showDatasheetModal(item, type, category, index) {
+      currentDatasheetItem = item;
+      currentDatasheetType = type;
+      currentDatasheetCategory = category;
+      currentDatasheetIndex = index;
+      
+      const modal = document.getElementById('datasheetModal');
+      const status = document.getElementById('datasheetStatus');
+      const uploadBtn = document.getElementById('uploadDatasheetBtn');
+      const downloadBtn = document.getElementById('downloadDatasheetBtn');
+      const deleteBtn = document.getElementById('deleteDatasheetBtn');
+      
+      // Update modal title
+      const title = document.getElementById('datasheetModalTitle');
+      const itemName = type === 'cable' ? item.oemPart : (type === 'cb' ? item.cbOEMPart : item.switchOEMPart);
+      title.textContent = `Datasheet Management - ${itemName}`;
+      
+      if (item.datasheetUrl) {
+        // Datasheet exists
+        status.textContent = '📄 Datasheet available';
+        uploadBtn.style.display = 'none';
+        downloadBtn.style.display = 'inline-block';
+        deleteBtn.style.display = 'inline-block';
+      } else {
+        // No datasheet
+        status.textContent = '📄 No datasheet uploaded';
+        uploadBtn.style.display = 'inline-block';
+        downloadBtn.style.display = 'none';
+        deleteBtn.style.display = 'none';
+      }
+      
+      modal.classList.add('show');
+    }
+
+    // Datasheet modal event handlers
+    document.getElementById('uploadDatasheetBtn').addEventListener('click', function() {
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = '.pdf';
+      fileInput.style.display = 'none';
+      document.body.appendChild(fileInput);
+      
+      fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const pdfData = e.target.result;
+            currentDatasheetItem.datasheetUrl = pdfData;
+            
+            // Save to Firebase based on type
+            let updatePromise;
+            if (currentDatasheetType === 'cable') {
+              updatePromise = updateCableInFirebase(currentDatasheetItem.id, currentDatasheetItem);
+            } else if (currentDatasheetType === 'cb') {
+              updatePromise = updateCBInFirebase(currentDatasheetItem.id, currentDatasheetItem);
+            } else if (currentDatasheetType === 'switch') {
+              updatePromise = updateSwitchInFirebase(currentDatasheetItem.id, currentDatasheetItem);
+            }
+            
+            updatePromise.then(() => {
+              showToast('Datasheet PDF uploaded successfully!', 'success');
+              document.getElementById('datasheetModal').classList.remove('show');
+              // Refresh the tables
+              if (currentDatasheetType === 'cable') renderCableTables();
+              else if (currentDatasheetType === 'cb') renderCBTables();
+              else if (currentDatasheetType === 'switch') renderSwitchTables();
+            }).catch(() => {
+              showToast('Error uploading datasheet PDF. Please try again.', 'error');
+            });
+          };
+          reader.readAsDataURL(file);
+        }
+        document.body.removeChild(fileInput);
+      });
+      
+      fileInput.click();
+    });
+
+    document.getElementById('downloadDatasheetBtn').addEventListener('click', function() {
+      const link = document.createElement('a');
+      link.href = currentDatasheetItem.datasheetUrl;
+      link.target = '_blank';
+      
+      let filename;
+      if (currentDatasheetType === 'cable') {
+        filename = currentDatasheetItem.oemPart + '_datasheet.pdf';
+      } else if (currentDatasheetType === 'cb') {
+        filename = currentDatasheetItem.cbOEMPart + '_datasheet.pdf';
+      } else if (currentDatasheetType === 'switch') {
+        filename = currentDatasheetItem.switchOEMPart + '_datasheet.pdf';
+      }
+      
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      document.getElementById('datasheetModal').classList.remove('show');
+    });
+
+    document.getElementById('deleteDatasheetBtn').addEventListener('click', function() {
+      if (confirm('Are you sure you want to delete this datasheet?')) {
+        currentDatasheetItem.datasheetUrl = null;
+        
+        // Save to Firebase based on type
+        let updatePromise;
+        if (currentDatasheetType === 'cable') {
+          updatePromise = updateCableInFirebase(currentDatasheetItem.id, currentDatasheetItem);
+        } else if (currentDatasheetType === 'cb') {
+          updatePromise = updateCBInFirebase(currentDatasheetItem.id, currentDatasheetItem);
+        } else if (currentDatasheetType === 'switch') {
+          updatePromise = updateSwitchInFirebase(currentDatasheetItem.id, currentDatasheetItem);
+        }
+        
+        updatePromise.then(() => {
+          showToast('Datasheet deleted successfully!', 'success');
+          document.getElementById('datasheetModal').classList.remove('show');
+          // Refresh the tables
+          if (currentDatasheetType === 'cable') renderCableTables();
+          else if (currentDatasheetType === 'cb') renderCBTables();
+          else if (currentDatasheetType === 'switch') renderSwitchTables();
+        }).catch(() => {
+          showToast('Error deleting datasheet. Please try again.', 'error');
+        });
+      }
+    });
+
+    document.getElementById('cancelDatasheetBtn').addEventListener('click', function() {
+      document.getElementById('datasheetModal').classList.remove('show');
+    });
 
     function deleteCableFromFirebase(docId) {
       return db.collection('cables').doc(docId).delete().then(() => {
@@ -1202,6 +1363,11 @@
         updateData.cableRating = cableData.cableRating;
       }
       
+      // Add datasheet URL if it exists
+      if (cableData.datasheetUrl !== undefined) {
+        updateData.datasheetUrl = cableData.datasheetUrl;
+      }
+      
       return db.collection('cables').doc(docId).update(updateData).then(() => {
         console.log('Cable updated in Firebase');
         return true;
@@ -1509,7 +1675,8 @@
               cbOEMPart: data.cbOEMPart,
               cbDesc: data.cbDesc,
               cbPoles: data.cbPoles,
-              cbRating: data.cbRating
+              cbRating: data.cbRating,
+              datasheetUrl: data.datasheetUrl || null
             });
           }
         });
@@ -1531,13 +1698,20 @@
 
     // Function to update circuit breaker in Firebase
     function updateCBInFirebase(docId, cbData) {
-      return db.collection('circuitBreakers').doc(docId).update({
+      let updateData = {
         cbOEMPart: cbData.cbOEMPart,
         cbDesc: cbData.cbDesc,
         cbPoles: cbData.cbPoles,
         cbRating: cbData.cbRating,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
+      };
+      
+      // Add datasheet URL if it exists
+      if (cbData.datasheetUrl !== undefined) {
+        updateData.datasheetUrl = cbData.datasheetUrl;
+      }
+      
+      return db.collection('circuitBreakers').doc(docId).update(updateData).then(() => {
         console.log('Circuit Breaker updated in Firebase');
         return true;
       }).catch((error) => {
@@ -1573,32 +1747,28 @@
         if (filteredCBs.length === 0) return;
         found = true;
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
-        html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Poles</th><th style='text-align:center;'>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
+        html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Poles</th><th style='text-align:center;'>Rating (A)</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
         filteredCBs.forEach((cb, idx) => {
-          html += `<tr><td style='text-align:center;'>${cb.cbOEMPart}</td><td>${cb.cbDesc}</td><td style='text-align:center;'>${cb.cbPoles}</td><td style='text-align:center;'>${cb.cbRating}</td><td><button class='edit-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
+          html += `<tr><td style='text-align:center;'>${cb.cbOEMPart}</td><td>${cb.cbDesc}</td><td style='text-align:center;'>${cb.cbPoles}</td><td style='text-align:center;'>${cb.cbRating}</td><td style='text-align:center;'><button class='datasheet-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:4px 8px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
       cbTablesDiv.innerHTML = found ? html : '<div style="color:#bbb;">No circuit breakers found.</div>';
     }
 
-    // Remove CB event (event delegation)
+    // Datasheet CB event (event delegation)
     cbTablesDiv.addEventListener('click', function(e) {
-      if (e.target.classList.contains('remove-cb-btn')) {
+      if (e.target.classList.contains('datasheet-cb-btn')) {
         const cbCat = e.target.getAttribute('data-cat');
         const idx = parseInt(e.target.getAttribute('data-idx'));
-        const cbToRemove = cbLibrary[cbCat][idx];
-        if (confirm('Are you sure you want to remove this circuit breaker?')) {
-          deleteCBFromFirebase(cbToRemove.id).then(() => {
-            cbLibrary[cbCat].splice(idx, 1);
-            renderCBTables();
-            showToast('Circuit Breaker removed successfully!', 'success');
-          }).catch(() => {
-            showToast('Error removing circuit breaker. Please try again.', 'error');
-          });
-        }
+        const cb = cbLibrary[cbCat][idx];
+        
+        // Show datasheet modal
+        showDatasheetModal(cb, 'cb', cbCat, idx);
       }
     });
+
+
 
     renderCBTables();
   </script>
@@ -1723,7 +1893,8 @@
               switchOEMPart: data.switchOEMPart,
               switchDesc: data.switchDesc,
               switchPoles: data.switchPoles,
-              switchRating: data.switchRating
+              switchRating: data.switchRating,
+              datasheetUrl: data.datasheetUrl || null
             });
           }
         });
@@ -1745,13 +1916,20 @@
 
     // Function to update switch in Firebase
     function updateSwitchInFirebase(docId, switchData) {
-      return db.collection('switches').doc(docId).update({
+      let updateData = {
         switchOEMPart: switchData.switchOEMPart,
         switchDesc: switchData.switchDesc,
         switchPoles: switchData.switchPoles,
         switchRating: switchData.switchRating,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
+      };
+      
+      // Add datasheet URL if it exists
+      if (switchData.datasheetUrl !== undefined) {
+        updateData.datasheetUrl = switchData.datasheetUrl;
+      }
+      
+      return db.collection('switches').doc(docId).update(updateData).then(() => {
         console.log('Switch updated in Firebase');
         return true;
       }).catch((error) => {
@@ -1846,32 +2024,28 @@
         if (filteredSwitches.length === 0) return;
         found = true;
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
-        html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Poles</th><th style='text-align:center;'>Rating (A)</th><th>Action</th></tr></thead><tbody>`;
+        html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Poles</th><th style='text-align:center;'>Rating (A)</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
         filteredSwitches.forEach((sw, idx) => {
-          html += `<tr><td style='text-align:center;'>${sw.switchOEMPart}</td><td>${sw.switchDesc}</td><td style='text-align:center;'>${sw.switchPoles}</td><td style='text-align:center;'>${sw.switchRating}</td><td><button class='edit-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:3px 10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:2px;width:60px;'>Edit</button><br><button class='remove-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:3px 8px;background:#ff7675;color:#fff;border:none;border-radius:4px;cursor:pointer;width:60px;text-align:center;'>Remove</button></td></tr>`;
+          html += `<tr><td style='text-align:center;'>${sw.switchOEMPart}</td><td>${sw.switchDesc}</td><td style='text-align:center;'>${sw.switchPoles}</td><td style='text-align:center;'>${sw.switchRating}</td><td style='text-align:center;'><button class='datasheet-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:4px 8px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
       switchTablesDiv.innerHTML = found ? html : '<div style="color:#bbb;">No switches found.</div>';
     }
 
-    // Remove Switch event (event delegation)
+    // Datasheet Switch event (event delegation)
     switchTablesDiv.addEventListener('click', function(e) {
-      if (e.target.classList.contains('remove-switch-btn')) {
+      if (e.target.classList.contains('datasheet-switch-btn')) {
         const switchCat = e.target.getAttribute('data-cat');
         const idx = parseInt(e.target.getAttribute('data-idx'));
-        const switchToRemove = switchLibrary[switchCat][idx];
-        if (confirm('Are you sure you want to remove this switch?')) {
-          deleteSwitchFromFirebase(switchToRemove.id).then(() => {
-            switchLibrary[switchCat].splice(idx, 1);
-            renderSwitchTables();
-            showToast('Switch removed successfully!', 'success');
-          }).catch(() => {
-            showToast('Error removing switch. Please try again.', 'error');
-          });
-        }
+        const sw = switchLibrary[switchCat][idx];
+        
+        // Show datasheet modal
+        showDatasheetModal(sw, 'switch', switchCat, idx);
       }
     });
+
+
 
     renderSwitchTables();
   </script>
@@ -2304,6 +2478,46 @@
     document.getElementById('cancelEdit').addEventListener('click', function() {
       document.getElementById('editModal').classList.remove('show');
       currentEditItem = null;
+    });
+    
+    // Remove item button
+    document.getElementById('removeItem').addEventListener('click', function() {
+      if (!currentEditItem) return;
+      
+      if (confirm('Are you sure you want to remove this item?')) {
+        if (currentEditItem.type === 'cable') {
+          const cable = cableLibrary[currentEditItem.category][currentEditItem.idx];
+          deleteCableFromFirebase(cable.id).then(() => {
+            cableLibrary[currentEditItem.category].splice(currentEditItem.idx, 1);
+            renderCableTables();
+            showToast('Cable removed successfully!', 'success');
+          }).catch(() => {
+            showToast('Error removing cable. Please try again.', 'error');
+          });
+        } else if (currentEditItem.type === 'cb') {
+          const cb = cbLibrary[currentEditItem.category][currentEditItem.idx];
+          deleteCBFromFirebase(cb.id).then(() => {
+            cbLibrary[currentEditItem.category].splice(currentEditItem.idx, 1);
+            renderCBTables();
+            showToast('Circuit Breaker removed successfully!', 'success');
+          }).catch(() => {
+            showToast('Error removing circuit breaker. Please try again.', 'error');
+          });
+        } else if (currentEditItem.type === 'switch') {
+          const sw = switchLibrary[currentEditItem.category][currentEditItem.idx];
+          deleteSwitchFromFirebase(sw.id).then(() => {
+            switchLibrary[currentEditItem.category].splice(currentEditItem.idx, 1);
+            renderSwitchTables();
+            showToast('Switch removed successfully!', 'success');
+          }).catch(() => {
+            showToast('Error removing switch. Please try again.', 'error');
+          });
+        }
+        
+        // Hide edit modal
+        document.getElementById('editModal').classList.remove('show');
+        currentEditItem = null;
+      }
     });
     
     // Close edit modal when clicking outside
