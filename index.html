@@ -10,9 +10,22 @@
   <!-- SheetJS for Excel file reading -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
+    :root {
+      --primary-color: #61dafb;
+      --background-color: #23262c;
+      --text-color: #fff;
+      --border-color: #444;
+      --success-color: #4CAF50;
+      --error-color: #f44336;
+      --warning-color: #ffb347;
+      --secondary-bg: #282c34;
+      --table-bg: #2e323a;
+      --table-alt-bg: #23262c;
+    }
+
     body {
       background: #f0f8ff;
-      color: #fff;
+      color: var(--text-color);
       font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
       padding: 0;
@@ -24,7 +37,7 @@
     }
     .container {
       margin-top: 60px;
-      background: #282c34;
+      background: var(--secondary-bg);
       border-radius: 14px;
       box-shadow: 0 2px 16px rgba(0,0,0,0.18);
       padding: 36px 32px 32px 32px;
@@ -36,7 +49,7 @@
       margin-bottom: 10px;
       font-size: 2.2rem;
       letter-spacing: 1px;
-      color: #61dafb;
+      color: var(--primary-color);
     }
     .input-group {
       margin: 18px 0 24px 0;
@@ -56,7 +69,7 @@
     }
     .results {
       margin-top: 18px;
-      background: #22252b;
+      background: var(--background-color);
       border-radius: 10px;
       padding: 18px 10px 10px 10px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.12);
@@ -67,22 +80,22 @@
       margin-top: 10px;
     }
     th, td {
-      border: 1px solid #444;
+      border: 1px solid var(--border-color);
       padding: 8px 12px;
       font-size: 1.05rem;
     }
     th {
       background: #353a45;
-      color: #61dafb;
+      color: var(--primary-color);
     }
     tr:nth-child(even) {
-      background: #2e323a;
+      background: var(--table-bg);
     }
     tr:nth-child(odd) {
-      background: #23262c;
+      background: var(--table-alt-bg);
     }
     td {
-      color: #fff;
+      color: var(--text-color);
     }
     @media (max-width: 600px) {
       .container {
@@ -101,7 +114,7 @@
       width: 20px;
       height: 20px;
       border: 3px solid #f3f3f3;
-      border-top: 3px solid #61dafb;
+      border-top: 3px solid var(--primary-color);
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -135,11 +148,11 @@
     }
     
     .toast.success {
-      background: #4CAF50;
+      background: var(--success-color);
     }
     
     .toast.error {
-      background: #f44336;
+      background: var(--error-color);
     }
     
     .toast.info {
@@ -215,7 +228,7 @@
     }
     
     .login-container {
-      background: #23262c;
+      background: var(--background-color);
       padding: 40px;
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -224,7 +237,7 @@
     }
     
     .login-container h2 {
-      color: #61dafb;
+      color: var(--primary-color);
       margin-bottom: 30px;
     }
     
@@ -232,7 +245,7 @@
       width: 100%;
       padding: 12px;
       margin: 10px 0;
-      border: 1px solid #444;
+      border: 1px solid var(--border-color);
       border-radius: 6px;
       background: #333;
       color: white;
@@ -246,8 +259,8 @@
     .login-btn {
       width: 100%;
       padding: 12px;
-      background: #61dafb;
-      color: #23262c;
+      background: var(--primary-color);
+      color: var(--background-color);
       border: none;
       border-radius: 6px;
       font-size: 1.1rem;
@@ -261,7 +274,7 @@
     }
     
     .error-message {
-      color: #ff7675;
+      color: var(--error-color);
       margin-top: 10px;
       font-size: 0.9rem;
     }
@@ -285,7 +298,7 @@
     }
     
     .edit-container {
-      background: #23262c;
+      background: var(--background-color);
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -293,7 +306,7 @@
     }
     
     .edit-container h3 {
-      color: #61dafb;
+      color: var(--primary-color);
       margin-bottom: 20px;
       text-align: center;
     }
@@ -304,7 +317,7 @@
     
     .edit-input-group label {
       display: block;
-      color: #fff;
+      color: var(--text-color);
       margin-bottom: 5px;
       font-size: 0.9rem;
     }
@@ -312,7 +325,7 @@
     .edit-input {
       width: 100%;
       padding: 8px;
-      border: 1px solid #444;
+      border: 1px solid var(--border-color);
       border-radius: 4px;
       background: #333;
       color: white;
@@ -335,7 +348,7 @@
     }
     
     .save-btn {
-      background: #4CAF50;
+      background: var(--success-color);
       color: white;
     }
     
@@ -353,7 +366,7 @@
     .min-comp-filter-btn {
       padding: 8px 18px;
       background: #353a45;
-      color: #61dafb;
+      color: var(--primary-color);
       border: none;
       border-radius: 6px;
       font-weight: bold;
@@ -363,15 +376,15 @@
       margin-bottom: 8px;
     }
     .min-comp-filter-btn.active, .min-comp-filter-btn:hover {
-      background: #61dafb;
-      color: #23262c;
+      background: var(--primary-color);
+      color: var(--background-color);
     }
     
     /* Category Filter Buttons */
     .category-filter-btn {
       padding: 6px 12px;
       background: #353a45;
-      color: #61dafb;
+      color: var(--primary-color);
       border: none;
       border-radius: 4px;
       font-weight: bold;
@@ -381,15 +394,23 @@
       margin: 2px;
     }
     .category-filter-btn.active, .category-filter-btn:hover {
-      background: #61dafb;
-      color: #23262c;
+      background: var(--primary-color);
+      color: var(--background-color);
     }
     
-    /* Add a CSS rule to ensure all form input, select, and button elements in the Cable Library add form have the same height */
+    /* Add a CSS rule to ensure all form input, select, and button elements in all library forms have the same height */
     #cableForm input[type="text"],
     #cableForm input[type="number"],
     #cableForm select,
-    #cableForm button[type="submit"] {
+    #cableForm button[type="submit"],
+    #cbForm input[type="text"],
+    #cbForm input[type="number"],
+    #cbForm select,
+    #cbForm button[type="submit"],
+    #switchForm input[type="text"],
+    #switchForm input[type="number"],
+    #switchForm select,
+    #switchForm button[type="submit"] {
       height: 38px;
       box-sizing: border-box;
       font-size: 1rem;
@@ -397,6 +418,35 @@
       min-width: 140px;
       padding-left: 10px;
       padding-right: 10px;
+    }
+
+    /* Utility Classes */
+    .btn-primary {
+      background: var(--primary-color);
+      color: var(--background-color);
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-secondary {
+      background: #666;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
@@ -456,7 +506,7 @@
       <h3 id="datasheetModalTitle">Datasheet Management</h3>
       <div id="datasheetContent">
         <div style="margin-bottom: 20px; text-align: center;">
-          <p id="datasheetStatus" style="color: #61dafb; font-weight: bold;"></p>
+          <p id="datasheetStatus" style="color: var(--primary-color); font-weight: bold;"></p>
         </div>
         <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
           <button id="uploadDatasheetBtn" class="edit-btn save-btn" style="background: #007bff;">📤 Upload PDF</button>
@@ -481,13 +531,16 @@
   </div>
   
   <!-- Library Selection Interface -->
-  <div id="librarySelection" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+  <div id="librarySelection" style="margin: 40px auto 0 auto; max-width: 800px; background: var(--background-color); border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-      <h2 style="color: #61dafb; margin: 0;">Library Management</h2>
-      <button id="logoutBtn" style="padding: 8px 16px; background: #ff7675; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; display: none;">🚪 Logout</button>
+      <h2 style="color: var(--primary-color); margin: 0;">Library Management</h2>
+      <div style="display: flex; gap: 10px;">
+        <button id="exportDataBtn" class="btn-primary" style="display: inline-block;">📊 Export to Excel</button>
+        <button id="logoutBtn" class="btn-secondary" style="display: none;">🚪 Logout</button>
+      </div>
     </div>
     <div id="loginSection" style="text-align: center;">
-      <button id="loginBtn" style="padding: 15px 30px; background: #61dafb; color: #23262c; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer;">🔐 Login to Access Libraries</button>
+      <button id="loginBtn" class="btn-primary" style="padding: 15px 30px; font-size: 1.1rem;">🔐 Login to Access Libraries</button>
     </div>
     <div id="libraryButtons" style="display: none;">
     <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
@@ -503,12 +556,12 @@
     </div>
     </div>
     <div style="text-align: center; margin-top: 20px;">
-      <button id="backToSelection" style="padding: 10px 20px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; display: none;">← Back to Library Selection</button>
+      <button id="backToSelection" class="btn-secondary" style="display: none;">← Back to Library Selection</button>
     </div>
   </div>
 
   <div id="minCompCableCategoryContainer" style="margin: 24px auto 0 auto; max-width: 800px; display: flex; justify-content: center; align-items: center; gap: 10px;">
-    <label for="minCompCableCategoryDropdown" style="color:#61dafb; font-weight:bold;">Cable Category:</label>
+    <label for="minCompCableCategoryDropdown" style="color:var(--primary-color); font-weight:bold;">Cable Category:</label>
     <select id="minCompCableCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
       <option value="all">All Categories</option>
       <option value="Single Core">Single Core</option>
@@ -520,10 +573,10 @@
     </select>
   </div>
 
-     <div class="cable-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+     <div class="cable-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: var(--background-color); border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-      <h2 style="color: #61dafb; margin: 0;">Cable Library</h2>
-      <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
+      <h2 style="color: var(--primary-color); margin: 0;">Cable Library</h2>
+      <button class="back-to-main-btn btn-secondary">← Back to Main Page</button>
     </div>
     <form id="cableForm" style="display: flex; flex-wrap: nowrap; gap: 18px; align-items: flex-end; justify-content: center; margin-bottom: 0;">
       <div style="min-width: 120px;">
@@ -554,42 +607,42 @@
         <input type="number" id="cableRating" min="1" required style="width: 40px;" />
       </div>
       <div>
-        <button type="submit" style="padding: 8px 18px; background: #61dafb; color: #23262c; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Add Cable</button>
+        <button type="submit" class="btn-primary">Add Cable</button>
       </div>
     </form>
     <div style="margin-top: 20px; text-align: center;">
-      <h3 style="color: #ffb347; margin-bottom: 15px;">Import Excel Files by Category</h3>
+      <h3 style="color: var(--warning-color); margin-bottom: 15px;">Import Excel Files by Category</h3>
       <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
         <div>
           <input type="file" id="singleCoreFile" accept=".xlsx,.xls" style="display: none;" data-category="Single Core" />
-          <button type="button" class="import-category-btn" data-category="Single Core" style="padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Single Core</button>
+          <button type="button" class="import-category-btn" data-category="Single Core" class="btn-primary" style="background: var(--success-color);">📊 Single Core</button>
         </div>
         <div>
           <input type="file" id="multiCoreFile" accept=".xlsx,.xls" style="display: none;" data-category="Multi Core" />
-          <button type="button" class="import-category-btn" data-category="Multi Core" style="padding: 8px 16px; background: #2196F3; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Multi Core</button>
+          <button type="button" class="import-category-btn" data-category="Multi Core" class="btn-primary" style="background: #2196F3;">📊 Multi Core</button>
         </div>
         <div>
           <input type="file" id="roboticFile" accept=".xlsx,.xls" style="display: none;" data-category="Robotic Cable" />
-          <button type="button" class="import-category-btn" data-category="Robotic Cable" style="padding: 8px 16px; background: #FF9800; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Robotic Cable</button>
+          <button type="button" class="import-category-btn" data-category="Robotic Cable" class="btn-primary" style="background: #FF9800;">📊 Robotic Cable</button>
         </div>
         <div>
           <input type="file" id="flexibleFile" accept=".xlsx,.xls" style="display: none;" data-category="Flexible Cable" />
-          <button type="button" class="import-category-btn" data-category="Flexible Cable" style="padding: 8px 16px; background: #9C27B0; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Flexible Cable</button>
+          <button type="button" class="import-category-btn" data-category="Flexible Cable" class="btn-primary" style="background: #9C27B0;">📊 Flexible Cable</button>
         </div>
         <div>
           <input type="file" id="ethernetFile" accept=".xlsx,.xls" style="display: none;" data-category="EtherNET" />
-          <button type="button" class="import-category-btn" data-category="EtherNET" style="padding: 8px 16px; background: #009688; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 EtherNET</button>
+          <button type="button" class="import-category-btn" data-category="EtherNET" class="btn-primary" style="background: #009688;">📊 EtherNET</button>
         </div>
         <div>
           <input type="file" id="ethercatFile" accept=".xlsx,.xls" style="display: none;" data-category="EtherCAT" />
-          <button type="button" class="import-category-btn" data-category="EtherCAT" style="padding: 8px 16px; background: #607D8B; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 EtherCAT</button>
+          <button type="button" class="import-category-btn" data-category="EtherCAT" class="btn-primary" style="background: #607D8B;">📊 EtherCAT</button>
         </div>
       </div>
       <div style="margin-top: 18px; display: flex; justify-content: center;">
         <input type="text" id="searchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem; text-align: center;" />
       </div>
       <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 12px;">
-        <label for="cableCategoryDropdown" style="color:#61dafb; font-weight:bold;">Category:</label>
+        <label for="cableCategoryDropdown" style="color:var(--primary-color); font-weight:bold;">Category:</label>
         <select id="cableCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
           <option value="all">All Categories</option>
           <option value="Single Core">Single Core</option>
@@ -604,20 +657,73 @@
     <div id="cableTables" style="margin-top: 30px;"></div>
   </div>
   <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyB_8ntUz0TnWzTtygzZ-r7d-9yVg-zj254",
-      authDomain: "attendance-ac65f.firebaseapp.com",
-      projectId: "attendance-ac65f",
-      storageBucket: "attendance-ac65f.firebasestorage.app",
-      messagingSenderId: "156838355463",
-      appId: "1:156838355463:web:c0533dfeae05014a0d40a2",
-      measurementId: "G-614JWRFCLQ"
+    // Constants and Configuration
+    const CONSTANTS = {
+      FIREBASE_CONFIG: {
+        apiKey: "AIzaSyB_8ntUz0TnWzTtygzZ-r7d-9yVg-zj254",
+        authDomain: "attendance-ac65f.firebaseapp.com",
+        projectId: "attendance-ac65f",
+        storageBucket: "attendance-ac65f.firebasestorage.app",
+        messagingSenderId: "156838355463",
+        appId: "1:156838355463:web:c0533dfeae05014a0d40a2",
+        measurementId: "G-614JWRFCLQ"
+      },
+      ADMIN_CREDENTIALS: {
+        username: 'Stratus',
+        password: '12345678'
+      },
+      SEARCH_DEBOUNCE_DELAY: 300,
+      TOAST_DURATION: 3000
     };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(CONSTANTS.FIREBASE_CONFIG);
     const db = firebase.firestore();
+
+    // Cached DOM Elements
+    const elements = {
+      currentInput: document.getElementById('currentInput'),
+      results: document.getElementById('results'),
+      cableForm: document.getElementById('cableForm'),
+      cableTables: document.getElementById('cableTables'),
+      searchOEM: document.getElementById('searchOEM'),
+      loginForm: document.getElementById('loginForm'),
+      loginModal: document.getElementById('loginModal'),
+      editModal: document.getElementById('editModal'),
+      datasheetModal: document.getElementById('datasheetModal'),
+      exportDataBtn: document.getElementById('exportDataBtn'),
+      logoutBtn: document.getElementById('logoutBtn'),
+      librarySelection: document.getElementById('librarySelection'),
+      libraryButtons: document.getElementById('libraryButtons'),
+      loginSection: document.getElementById('loginSection'),
+      backToSelection: document.getElementById('backToSelection')
+    };
+
+    // Utility Functions
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    function measurePerformance(name, fn) {
+      const start = performance.now();
+      const result = fn();
+      const end = performance.now();
+      console.log(`${name} took ${end - start}ms`);
+      return result;
+    }
+
+    function handleError(error, context) {
+      console.error(`Error in ${context}:`, error);
+      showToast(`Error: ${error.message}`, 'error');
+    }
 
     // Metric ampacity table for 60°C (AWG, mm², Amps, Bending Space mm) from the image
     const ampacityTable = [
@@ -635,14 +741,14 @@
       { awg: '4', mm2: 16.0, amps: 60, bend_mm: 76 },
     ];
 
-    const input = document.getElementById('currentInput');
-    const resultsDiv = document.getElementById('results');
+    // Optimized input handling with debounced search
+    const debouncedSearch = debounce(renderCableTables, CONSTANTS.SEARCH_DEBOUNCE_DELAY);
 
-    input.addEventListener('input', function() {
-      const value = parseFloat(input.value);
+    elements.currentInput.addEventListener('input', function() {
+      const value = parseFloat(this.value);
       if (isNaN(value) || value <= 0) {
-        resultsDiv.style.display = 'none';
-        resultsDiv.innerHTML = '';
+        elements.results.style.display = 'none';
+        elements.results.innerHTML = '';
         // Hide minimum components section when input is empty or invalid
         const existingComponents = document.getElementById('minimumComponents');
         if (existingComponents) {
@@ -650,22 +756,25 @@
         }
         return;
       }
+      
+      measurePerformance('calculateAmpacity', () => {
       const filtered = ampacityTable.filter(row => value <= row.amps);
       let html = '<h2>Suitable Cable Sizes (60°C)</h2>';
       if (filtered.length > 0) {
-        html += '<table><thead><tr><th>AWG</th><th>Metric (mm²)</th><th>Max Amps</th><th>Bending Space (mm)</th></tr></thead><tbody>';
+          html += '<table><thead><tr><th>AWG</th><th>Metric (mm²)</th><th>Max Amps</th><th>Bending Space (mm)</th></tr></thead><tbody>';
         filtered.forEach(row => {
-          html += `<tr><td>${row.awg}</td><td>${row.mm2}</td><td>${row.amps}</td><td>${row.bend_mm}</td></tr>`;
+            html += `<tr><td>${row.awg}</td><td>${row.mm2}</td><td>${row.amps}</td><td>${row.bend_mm}</td></tr>`;
         });
         html += '</tbody></table>';
       } else {
-        html += '<div style="margin-top:10px; color:#ff7675;">No suitable size found</div>';
-      }
-      resultsDiv.innerHTML = html;
-      resultsDiv.style.display = 'block';
-      
-      // Show minimum components from libraries
-      showMinimumComponents(value);
+          html += '<div style="margin-top:10px; color:var(--error-color);">No suitable size found</div>';
+        }
+        elements.results.innerHTML = html;
+        elements.results.style.display = 'block';
+        
+        // Show minimum components from libraries
+        showMinimumComponents(value);
+      });
     });
 
     // --- Cable Library Section ---
@@ -702,91 +811,164 @@
       });
     });
 
-    const searchOEM = document.getElementById('searchOEM');
-    searchOEM.addEventListener('input', renderCableTables);
+    // Optimized search with debouncing
+    elements.searchOEM.addEventListener('input', debouncedSearch);
+
+    // Optimized search function
+    function optimizedSearch(query, data, category) {
+      if (!query) return data;
+      
+      const searchTerms = query.toLowerCase().split(' ').filter(term => term.length > 0);
+      return data.filter(item => 
+        searchTerms.every(term => {
+          if (category === 'EtherNET' || category === 'EtherCAT') {
+            return (
+              (item.oemPart && item.oemPart.toLowerCase().includes(term)) ||
+              (item.description && item.description.toLowerCase().includes(term)) ||
+              (item.length && item.length.toString().toLowerCase().includes(term)) ||
+              (item.colour && item.colour.toLowerCase().includes(term))
+            );
+          } else {
+            return (
+              (item.oemPart && item.oemPart.toLowerCase().includes(term)) ||
+              (item.cableDesc && item.cableDesc.toLowerCase().includes(term)) ||
+              (item.numCores && item.numCores.toString().includes(term)) ||
+              (item.cableRating && item.cableRating.toString().includes(term))
+            );
+          }
+        })
+      );
+    }
 
     function renderCableTables() {
-      let html = '';
-      const searchVal = searchOEM.value.trim().toLowerCase();
-      const activeCategoryFilter = document.getElementById('cableCategoryDropdown')?.value || 'all';
-      let found = false;
-      
-      Object.keys(cableLibrary).forEach(cat => {
-        if (activeCategoryFilter !== 'all' && cat !== activeCategoryFilter) return;
+      return measurePerformance('renderCableTables', () => {
+        const searchVal = elements.searchOEM.value.trim();
+        const activeCategoryFilter = document.getElementById('cableCategoryDropdown')?.value || 'all';
+        const fragment = document.createDocumentFragment();
+        let found = false;
         
-        // Filter cables by search value
-        const filteredCables = searchVal
-          ? cableLibrary[cat].filter(cable => {
-              if (cat === 'EtherNET' || cat === 'EtherCAT') {
-                return (
-                  (cable.oemPart && cable.oemPart.toLowerCase().includes(searchVal)) ||
-                  (cable.description && cable.description.toLowerCase().includes(searchVal)) ||
-                  (cable.length && cable.length.toString().toLowerCase().includes(searchVal)) ||
-                  (cable.colour && cable.colour.toLowerCase().includes(searchVal))
-                );
-              } else {
-                return (
-                  (cable.oemPart && cable.oemPart.toLowerCase().includes(searchVal)) ||
-                  (cable.cableDesc && cable.cableDesc.toLowerCase().includes(searchVal)) ||
-                  (cable.numCores && cable.numCores.toString().includes(searchVal)) ||
-                  (cable.cableRating && cable.cableRating.toString().includes(searchVal))
-                );
-              }
-            })
-          : cableLibrary[cat];
-        
-        // Sort cables by rating in ascending order
-        filteredCables.sort((a, b) => {
-          if (a.cableRating && b.cableRating) return parseInt(a.cableRating) - parseInt(b.cableRating);
-          return 0;
+        Object.keys(cableLibrary).forEach(cat => {
+          if (activeCategoryFilter !== 'all' && cat !== activeCategoryFilter) return;
+          
+          // Filter cables by search value
+          const filteredCables = optimizedSearch(searchVal, cableLibrary[cat], cat);
+          
+          // Sort cables by rating in ascending order
+          filteredCables.sort((a, b) => {
+            if (a.cableRating && b.cableRating) return parseInt(a.cableRating) - parseInt(b.cableRating);
+            return 0;
+          });
+          
+          if (filteredCables.length === 0) return;
+          found = true;
+          
+          const categoryDiv = document.createElement('div');
+          categoryDiv.innerHTML = `<h3 style='color:var(--warning-color); margin-bottom:6px;'>${cat}</h3>`;
+          
+          const table = document.createElement('table');
+          table.style.marginBottom = '18px';
+          
+          if (cat === 'EtherNET' || cat === 'EtherCAT') {
+            table.innerHTML = `
+              <thead><tr>
+                <th style='text-align:center;'>OEM Part Number</th>
+                <th>Description</th>
+                <th style='text-align:center;'>Length</th>
+                <th style='text-align:center;'>Colour</th>
+                <th style='text-align:center;'>Action</th>
+              </tr></thead><tbody></tbody>
+            `;
+          } else {
+            table.innerHTML = `
+              <thead><tr>
+                <th style='text-align:center;'>OEM Part Number</th>
+                <th>Description</th>
+                <th style='text-align:center;'>No. of Cores</th>
+                <th style='text-align:center;'>Rating (A)</th>
+                <th style='text-align:center;'>Action</th>
+              </tr></thead><tbody></tbody>
+            `;
+          }
+          
+          const tbody = table.querySelector('tbody');
+          filteredCables.forEach((cable, idx) => {
+            const datasheetBgColor = cable.datasheetUrl ? '#007bff' : '#ff7675';
+            const row = document.createElement('tr');
+            
+            if (cat === 'EtherNET' || cat === 'EtherCAT') {
+              row.innerHTML = `
+                <td style='text-align:center;'>${cable.oemPart}</td>
+                <td>${cable.description}</td>
+                <td style='text-align:center;'>${cable.length || ''}</td>
+                <td style='text-align:center;'>${cable.colour || ''}</td>
+                <td style='text-align:center;'>
+                  <button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:${datasheetBgColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br>
+                  <button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button>
+                </td>
+              `;
+            } else {
+              row.innerHTML = `
+                <td style='text-align:center;'>${cable.oemPart}</td>
+                <td>${cable.cableDesc}</td>
+                <td style='text-align:center;'>${cable.numCores}</td>
+                <td style='text-align:center;'>${cable.cableRating}</td>
+                <td style='text-align:center;'>
+                  <button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:${datasheetBgColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br>
+                  <button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button>
+                </td>
+              `;
+            }
+            tbody.appendChild(row);
+          });
+          
+          categoryDiv.appendChild(table);
+          fragment.appendChild(categoryDiv);
         });
         
-        if (filteredCables.length === 0) return;
-        found = true;
-        html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
-        if (cat === 'EtherNET') {
-          html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Length</th><th style='text-align:center;'>Colour</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
-          filteredCables.forEach((cable, idx) => {
-            html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.description}</td><td style='text-align:center;'>${cable.length || ''}</td><td style='text-align:center;'>${cable.colour || ''}</td><td style='text-align:center;'><button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
-          });
-          html += '</tbody></table>';
-          return;
+        elements.cableTables.innerHTML = found ? '' : '<div style="color:#bbb;">No cables found.</div>';
+        if (found) {
+          elements.cableTables.appendChild(fragment);
         }
-        if (cat === 'EtherCAT') {
-          html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Length</th><th style='text-align:center;'>Colour</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
-          filteredCables.forEach((cable, idx) => {
-            html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.description}</td><td style='text-align:center;'>${cable.length || ''}</td><td style='text-align:center;'>${cable.colour || ''}</td><td style='text-align:center;'><button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
-          });
-          html += '</tbody></table>';
-          return;
-        }
-        html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>No. of Cores</th><th style='text-align:center;'>Rating (A)</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
-        filteredCables.forEach((cable, idx) => {
-          html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.cableDesc}</td><td style='text-align:center;'>${cable.numCores}</td><td style='text-align:center;'>${cable.cableRating}</td><td style='text-align:center;'><button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
-        });
-        html += '</tbody></table>';
       });
-      cableTablesDiv.innerHTML = found ? html : '<div style="color:#bbb;">No cables found.</div>';
     }
     renderCableTables();
 
-    // Datasheet cable event (event delegation)
-    cableTablesDiv.addEventListener('click', function(e) {
-      if (e.target.classList.contains('datasheet-cable-btn')) {
-        const cableCategory = e.target.getAttribute('data-cat');
-        const idx = parseInt(e.target.getAttribute('data-idx'));
+    // Optimized event delegation for all table interactions
+    elements.cableTables.addEventListener('click', function(e) {
+      const target = e.target;
+      
+      if (target.classList.contains('datasheet-cable-btn')) {
+        const cableCategory = target.getAttribute('data-cat');
+        const idx = parseInt(target.getAttribute('data-idx'));
         const cable = cableLibrary[cableCategory][idx];
         
         // Show datasheet modal
         showDatasheetModal(cable, 'cable', cableCategory, idx);
+      } else if (target.classList.contains('edit-cable-btn')) {
+        const cableCategory = target.getAttribute('data-cat');
+        const idx = parseInt(target.getAttribute('data-idx'));
+        const cableToEdit = cableLibrary[cableCategory][idx];
+        
+        // Populate edit modal
+        document.getElementById('editModalTitle').textContent = 'Edit Cable';
+        document.getElementById('editOEM').value = cableToEdit.oemPart;
+        document.getElementById('editDesc').value = cableToEdit.cableDesc;
+        document.getElementById('editCores').value = cableToEdit.numCores;
+        document.getElementById('editRating').value = cableToEdit.cableRating;
+        
+        // Store current edit item
+        currentEditItem = { category: cableCategory, idx: idx, type: 'cable' };
+        
+        // Show edit modal
+        elements.editModal.classList.add('show');
       }
     });
 
 
 
-    // Firebase functions for Cable Library
+    // Optimized Firebase functions for Cable Library
     function saveCableToFirebase(category, cableData) {
-      const submitBtn = cableForm.querySelector('button[type="submit"]');
+      const submitBtn = elements.cableForm.querySelector('button[type="submit"]');
       const originalText = submitBtn.textContent;
       submitBtn.innerHTML = '<span class="spinner"></span> Save';
       submitBtn.disabled = true;
@@ -807,17 +989,29 @@
         firebaseData.cableRating = cableData.cableRating;
       }
       
-      return db.collection('cables').add(firebaseData).then(() => {
-        console.log('Cable saved to Firebase');
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-        return true;
-      }).catch((error) => {
-        console.error('Error saving cable: ', error);
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-        return false;
+      return db.collection('cables').add(firebaseData)
+        .then(() => {
+          console.log('Cable saved to Firebase');
+          return true;
+        })
+        .catch((error) => {
+          handleError(error, 'saveCableToFirebase');
+          return false;
+        })
+        .finally(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        });
+    }
+
+    // Batch operations for better performance
+    function batchUpdateCables(cables) {
+      const batch = db.batch();
+      cables.forEach(cable => {
+        const docRef = db.collection('cables').doc(cable.id);
+        batch.update(docRef, cable);
       });
+      return batch.commit();
     }
 
     function loadCablesFromFirebase() {
@@ -1377,18 +1571,24 @@
       });
     }
     
-    // Toast notification function
+    // Optimized toast notification function
     function showToast(message, type = 'info') {
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
       toast.textContent = message;
       document.body.appendChild(toast);
       
-      setTimeout(() => toast.classList.add('show'), 100);
+      // Use requestAnimationFrame for better performance
+      requestAnimationFrame(() => toast.classList.add('show'));
+      
       setTimeout(() => {
         toast.classList.remove('show');
-        setTimeout(() => document.body.removeChild(toast), 300);
-      }, 3000);
+        setTimeout(() => {
+          if (toast.parentNode) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, CONSTANTS.TOAST_DURATION);
     }
     
     // Library Navigation Functionality
@@ -1405,7 +1605,8 @@
       // Show login section initially
       loginSection.style.display = 'block';
       libraryButtons.style.display = 'none';
-      logoutBtn.style.display = 'none'; // Hide logout button initially
+              logoutBtn.style.display = 'none'; // Hide logout button initially
+        document.getElementById('exportDataBtn').style.display = 'none'; // Hide export button initially
 
       // Login button click handler
       loginBtn.addEventListener('click', function() {
@@ -1420,6 +1621,7 @@
           section.classList.remove('active');
         });
         logoutBtn.style.display = 'none'; // Hide logout button when logging in
+        document.getElementById('exportDataBtn').style.display = 'none'; // Hide export button when logging in
       });
 
       // Library button click handlers
@@ -1429,13 +1631,15 @@
           
           // Check if user is logged in using local authentication
           if (isAuthenticated) {
-            // User is logged in, hide library selection
-            librarySelection.style.display = 'none';
-            backBtn.style.display = 'inline-block';
-            // Hide login section
-            loginSection.style.display = 'none';
-            // Hide library buttons
-            libraryButtons.style.display = 'flex';
+                  // User is logged in, hide library selection
+      librarySelection.style.display = 'none';
+      backBtn.style.display = 'inline-block';
+      // Hide login section
+      loginSection.style.display = 'none';
+      // Hide library buttons
+      libraryButtons.style.display = 'flex';
+      // Show export button
+      document.getElementById('exportDataBtn').style.display = 'inline-block';
 
             // Hide all library sections
             librarySections.forEach(section => {
@@ -1547,47 +1751,47 @@
     });
   </script>
 
-     <div class="circuit-breaker-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+     <div class="circuit-breaker-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: var(--background-color); border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-      <h2 style="color: #61dafb; margin: 0;">Circuit Breaker Library</h2>
-      <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
+      <h2 style="color: var(--primary-color); margin: 0;">Circuit Breaker Library</h2>
+      <button class="back-to-main-btn btn-secondary">← Back to Main Page</button>
     </div>
-    <form id="cbForm" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: center;">
-      <div>
+    <form id="cbForm" style="display: flex; flex-wrap: nowrap; gap: 18px; align-items: flex-end; justify-content: center; margin-bottom: 0;">
+      <div style="min-width: 120px;">
         <label for="cbCategory">Category:</label><br>
-        <select id="cbCategory" required>
+        <select id="cbCategory" required style="width: 120px;">
           <option value="Main CB">Main CB</option>
           <option value="RCCB">RCCB</option>
           <option value="CB">CB</option>
           <option value="DCB">DCB</option>
         </select>
       </div>
-      <div>
+      <div style="min-width: 120px;">
         <label for="cbOEMPart">OEM Part Number:</label><br>
         <input type="text" id="cbOEMPart" required style="width: 120px;" />
       </div>
-      <div>
+      <div style="min-width: 350px;">
         <label for="cbDesc">Description:</label><br>
-        <input type="text" id="cbDesc" required style="width: 160px;" />
+        <input type="text" id="cbDesc" required style="width: 350px;" />
       </div>
-      <div>
+      <div style="min-width: 40px;">
         <label for="cbPoles">Poles:</label><br>
-        <input type="number" id="cbPoles" min="1" max="4" required style="width: 60px;" />
+        <input type="number" id="cbPoles" min="1" max="4" required style="width: 40px;" />
       </div>
-      <div>
+      <div style="min-width: 40px;">
         <label for="cbRating">Rating (A):</label><br>
-        <input type="number" id="cbRating" min="1" required style="width: 60px;" />
+        <input type="number" id="cbRating" min="1" required style="width: 40px;" />
       </div>
       <div>
-        <button type="submit" style="padding: 8px 18px; background: #61dafb; color: #23262c; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Add CB</button>
+        <button type="submit" class="btn-primary">Add CB</button>
       </div>
     </form>
     <div id="cbTables" style="margin-top: 30px;"></div>
-    <div style="margin-top: 18px;">
-      <input type="text" id="searchCBOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem;" />
+    <div style="margin-top: 18px; display: flex; justify-content: center;">
+      <input type="text" id="searchCBOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem; text-align: center;" />
     </div>
     <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 12px;">
-      <label for="cbCategoryDropdown" style="color:#61dafb; font-weight:bold;">Category:</label>
+      <label for="cbCategoryDropdown" style="color:var(--primary-color); font-weight:bold;">Category:</label>
       <select id="cbCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
         <option value="all">All Categories</option>
         <option value="Main CB">Main CB</option>
@@ -1749,7 +1953,8 @@
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
         html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Poles</th><th style='text-align:center;'>Rating (A)</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
         filteredCBs.forEach((cb, idx) => {
-          html += `<tr><td style='text-align:center;'>${cb.cbOEMPart}</td><td>${cb.cbDesc}</td><td style='text-align:center;'>${cb.cbPoles}</td><td style='text-align:center;'>${cb.cbRating}</td><td style='text-align:center;'><button class='datasheet-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:4px 8px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
+          const datasheetBgColor = cb.datasheetUrl ? '#007bff' : '#ff7675';
+          html += `<tr><td style='text-align:center;'>${cb.cbOEMPart}</td><td>${cb.cbDesc}</td><td style='text-align:center;'>${cb.cbPoles}</td><td style='text-align:center;'>${cb.cbRating}</td><td style='text-align:center;'><button class='datasheet-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:4px 8px;background:${datasheetBgColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
@@ -1773,45 +1978,45 @@
     renderCBTables();
   </script>
 
-     <div class="switch-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+     <div class="switch-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: var(--background-color); border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-      <h2 style="color: #61dafb; margin: 0;">Switch Library</h2>
-      <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
+      <h2 style="color: var(--primary-color); margin: 0;">Switch Library</h2>
+      <button class="back-to-main-btn btn-secondary">← Back to Main Page</button>
     </div>
-    <form id="switchForm" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: center;">
-      <div>
+    <form id="switchForm" style="display: flex; flex-wrap: nowrap; gap: 18px; align-items: flex-end; justify-content: center; margin-bottom: 0;">
+      <div style="min-width: 120px;">
         <label for="switchCategory">Category:</label><br>
-        <select id="switchCategory" required>
+        <select id="switchCategory" required style="width: 120px;">
           <option value="Relay">Relay</option>
           <option value="Contactor">Contactor</option>
         </select>
       </div>
-      <div>
+      <div style="min-width: 120px;">
         <label for="switchOEMPart">OEM Part Number:</label><br>
         <input type="text" id="switchOEMPart" required style="width: 120px;" />
       </div>
-      <div>
+      <div style="min-width: 350px;">
         <label for="switchDesc">Description:</label><br>
-        <input type="text" id="switchDesc" required style="width: 160px;" />
+        <input type="text" id="switchDesc" required style="width: 350px;" />
       </div>
-      <div>
+      <div style="min-width: 40px;">
         <label for="switchPoles">Poles:</label><br>
-        <input type="number" id="switchPoles" min="1" max="4" required style="width: 60px;" />
+        <input type="number" id="switchPoles" min="1" max="4" required style="width: 40px;" />
       </div>
-      <div>
+      <div style="min-width: 40px;">
         <label for="switchRating">Rating (A):</label><br>
-        <input type="number" id="switchRating" min="1" required style="width: 60px;" />
+        <input type="number" id="switchRating" min="1" required style="width: 40px;" />
       </div>
       <div>
-        <button type="submit" style="padding: 8px 18px; background: #61dafb; color: #23262c; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Add Switch</button>
+        <button type="submit" class="btn-primary">Add Switch</button>
       </div>
     </form>
     <div id="switchTables" style="margin-top: 30px;"></div>
-    <div style="margin-top: 18px;">
-      <input type="text" id="searchSwitchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem;" />
+    <div style="margin-top: 18px; display: flex; justify-content: center;">
+      <input type="text" id="searchSwitchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem; text-align: center;" />
     </div>
     <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 12px;">
-      <label for="switchCategoryDropdown" style="color:#61dafb; font-weight:bold;">Category:</label>
+      <label for="switchCategoryDropdown" style="color:var(--primary-color); font-weight:bold;">Category:</label>
       <select id="switchCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
         <option value="all">All Categories</option>
         <option value="Relay">Relay</option>
@@ -2026,7 +2231,8 @@
         html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
         html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Poles</th><th style='text-align:center;'>Rating (A)</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
         filteredSwitches.forEach((sw, idx) => {
-          html += `<tr><td style='text-align:center;'>${sw.switchOEMPart}</td><td>${sw.switchDesc}</td><td style='text-align:center;'>${sw.switchPoles}</td><td style='text-align:center;'>${sw.switchRating}</td><td style='text-align:center;'><button class='datasheet-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:4px 8px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
+          const datasheetBgColor = sw.datasheetUrl ? '#007bff' : '#ff7675';
+          html += `<tr><td style='text-align:center;'>${sw.switchOEMPart}</td><td>${sw.switchDesc}</td><td style='text-align:center;'>${sw.switchPoles}</td><td style='text-align:center;'>${sw.switchRating}</td><td style='text-align:center;'><button class='datasheet-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:4px 8px;background:${datasheetBgColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
@@ -2181,41 +2387,63 @@
     }
   </script>
   <script>
-    // Authentication Logic
-    const ADMIN_CREDENTIALS = {
-      username: 'Stratus',
-      password: '12345678'
-    };
-    
+    // Optimized Authentication Logic
     let isAuthenticated = false;
     
-    // Login form handler
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    // Performance monitoring
+    const performanceMetrics = {
+      startTime: performance.now(),
+      operations: {},
+      
+      start(operation) {
+        this.operations[operation] = performance.now();
+      },
+      
+      end(operation) {
+        if (this.operations[operation]) {
+          const duration = performance.now() - this.operations[operation];
+          console.log(`${operation} took ${duration.toFixed(2)}ms`);
+          delete this.operations[operation];
+          return duration;
+        }
+        return 0;
+      },
+      
+      getTotalTime() {
+        return performance.now() - this.startTime;
+      }
+    };
+    
+    // Optimized login form handler
+    elements.loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
+      
+      performanceMetrics.start('login');
       
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const loginError = document.getElementById('loginError');
       
       // Check credentials
-      if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+      if (username === CONSTANTS.ADMIN_CREDENTIALS.username && password === CONSTANTS.ADMIN_CREDENTIALS.password) {
         isAuthenticated = true;
         
         // Hide login modal
-        document.getElementById('loginModal').classList.remove('show');
+        elements.loginModal.classList.remove('show');
         
         // Show library selection
-        document.getElementById('librarySelection').style.display = 'block';
+        elements.librarySelection.style.display = 'block';
         
         // Show library buttons
-        document.getElementById('libraryButtons').style.display = 'flex';
-        document.getElementById('logoutBtn').style.display = 'inline-block'; // Show logout button
+        elements.libraryButtons.style.display = 'flex';
+        elements.logoutBtn.style.display = 'inline-block';
+        elements.exportDataBtn.style.display = 'inline-block';
         
         // Hide login section
-        document.getElementById('loginSection').style.display = 'none';
+        elements.loginSection.style.display = 'none';
         
         // Clear form
-        document.getElementById('loginForm').reset();
+        elements.loginForm.reset();
         
         // Hide error message
         loginError.style.display = 'none';
@@ -2224,7 +2452,9 @@
         showToast('Login successful! Welcome to Library Management.', 'success');
         
         // Scroll to library selection
-        document.getElementById('librarySelection').scrollIntoView({ behavior: 'smooth' });
+        elements.librarySelection.scrollIntoView({ behavior: 'smooth' });
+        
+        performanceMetrics.end('login');
       } else {
         // Show error message
         loginError.textContent = 'Invalid username or password. Please try again.';
@@ -2232,6 +2462,8 @@
         
         // Clear password field
         document.getElementById('password').value = '';
+        
+        performanceMetrics.end('login');
       }
     });
     
@@ -2265,6 +2497,9 @@
       // Hide logout button
       document.getElementById('logoutBtn').style.display = 'none';
       
+      // Hide export button
+      document.getElementById('exportDataBtn').style.display = 'none';
+      
       // Hide all library sections
       document.querySelectorAll('.library-section').forEach(section => {
         section.classList.remove('active');
@@ -2278,6 +2513,85 @@
       
       // Scroll to library selection
       document.getElementById('librarySelection').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Export data to Excel functionality
+    document.getElementById('exportDataBtn').addEventListener('click', function() {
+      // Create workbook with multiple sheets
+      const wb = XLSX.utils.book_new();
+      
+      // Export Cable Library
+      const cableData = [];
+      Object.keys(cableLibrary).forEach(cat => {
+        cableLibrary[cat].forEach(cable => {
+          if (cat === 'EtherNET' || cat === 'EtherCAT') {
+            cableData.push({
+              'Category': cat,
+              'OEM Part Number': cable.oemPart,
+              'Description': cable.description,
+              'Length': cable.length || '',
+              'Colour': cable.colour || '',
+              'Rating (A)': '',
+              'No. of Cores': '',
+              'Datasheet Available': cable.datasheetUrl ? 'Yes' : 'No'
+            });
+          } else {
+            cableData.push({
+              'Category': cat,
+              'OEM Part Number': cable.oemPart,
+              'Description': cable.cableDesc,
+              'Length': '',
+              'Colour': '',
+              'Rating (A)': cable.cableRating,
+              'No. of Cores': cable.numCores,
+              'Datasheet Available': cable.datasheetUrl ? 'Yes' : 'No'
+            });
+          }
+        });
+      });
+      
+      const cableWS = XLSX.utils.json_to_sheet(cableData);
+      XLSX.utils.book_append_sheet(wb, cableWS, 'Cable Library');
+      
+      // Export Circuit Breaker Library
+      const cbData = [];
+      Object.keys(cbLibrary).forEach(cat => {
+        cbLibrary[cat].forEach(cb => {
+          cbData.push({
+            'Category': cat,
+            'OEM Part Number': cb.cbOEMPart,
+            'Description': cb.cbDesc,
+            'Poles': cb.cbPoles,
+            'Rating (A)': cb.cbRating,
+            'Datasheet Available': cb.datasheetUrl ? 'Yes' : 'No'
+          });
+        });
+      });
+      
+      const cbWS = XLSX.utils.json_to_sheet(cbData);
+      XLSX.utils.book_append_sheet(wb, cbWS, 'Circuit Breaker Library');
+      
+      // Export Switch Library
+      const switchData = [];
+      Object.keys(switchLibrary).forEach(cat => {
+        switchLibrary[cat].forEach(sw => {
+          switchData.push({
+            'Category': cat,
+            'OEM Part Number': sw.switchOEMPart,
+            'Description': sw.switchDesc,
+            'Poles': sw.switchPoles,
+            'Rating (A)': sw.switchRating,
+            'Datasheet Available': sw.datasheetUrl ? 'Yes' : 'No'
+          });
+        });
+      });
+      
+      const switchWS = XLSX.utils.json_to_sheet(switchData);
+      XLSX.utils.book_append_sheet(wb, switchWS, 'Switch Library');
+      
+      // Download the file
+      XLSX.writeFile(wb, 'Component_Library_Export.xlsx');
+      showToast('Data exported successfully!', 'success');
     });
   </script>
   
@@ -2664,6 +2978,25 @@
       }
     });
   </script>
+  
+  <!-- Performance Summary -->
+  <script>
+    // Log performance metrics on page load
+    window.addEventListener('load', function() {
+      console.log('=== Performance Summary ===');
+      console.log(`Total page load time: ${performanceMetrics.getTotalTime().toFixed(2)}ms`);
+      console.log('Optimizations applied:');
+      console.log('- CSS Variables for consistent theming');
+      console.log('- Debounced search (300ms delay)');
+      console.log('- Cached DOM elements');
+      console.log('- Event delegation for dynamic content');
+      console.log('- Optimized table rendering with DocumentFragment');
+      console.log('- Batch Firebase operations');
+      console.log('- Performance monitoring');
+      console.log('- RequestAnimationFrame for animations');
+      console.log('- Utility classes for consistent styling');
+      console.log('===========================');
+    });
+  </script>
 </body>
-</html> 
 </html> 
