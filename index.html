@@ -10,22 +10,9 @@
   <!-- SheetJS for Excel file reading -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
-    :root {
-      --primary-color: #61dafb;
-      --background-color: #23262c;
-      --text-color: #fff;
-      --border-color: #444;
-      --success-color: #4CAF50;
-      --error-color: #f44336;
-      --warning-color: #ffb347;
-      --secondary-bg: #282c34;
-      --table-bg: #2e323a;
-      --table-alt-bg: #23262c;
-    }
-
     body {
       background: #f0f8ff;
-      color: var(--text-color);
+      color: #fff;
       font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
       padding: 0;
@@ -37,7 +24,7 @@
     }
     .container {
       margin-top: 60px;
-      background: var(--secondary-bg);
+      background: #282c34;
       border-radius: 14px;
       box-shadow: 0 2px 16px rgba(0,0,0,0.18);
       padding: 36px 32px 32px 32px;
@@ -49,7 +36,7 @@
       margin-bottom: 10px;
       font-size: 2.2rem;
       letter-spacing: 1px;
-      color: var(--primary-color);
+      color: #61dafb;
     }
     .input-group {
       margin: 18px 0 24px 0;
@@ -69,7 +56,7 @@
     }
     .results {
       margin-top: 18px;
-      background: var(--background-color);
+      background: #22252b;
       border-radius: 10px;
       padding: 18px 10px 10px 10px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.12);
@@ -80,22 +67,22 @@
       margin-top: 10px;
     }
     th, td {
-      border: 1px solid var(--border-color);
+      border: 1px solid #444;
       padding: 8px 12px;
       font-size: 1.05rem;
     }
     th {
       background: #353a45;
-      color: var(--primary-color);
+      color: #61dafb;
     }
     tr:nth-child(even) {
-      background: var(--table-bg);
+      background: #2e323a;
     }
     tr:nth-child(odd) {
-      background: var(--table-alt-bg);
+      background: #23262c;
     }
     td {
-      color: var(--text-color);
+      color: #fff;
     }
     @media (max-width: 600px) {
       .container {
@@ -108,13 +95,34 @@
       }
     }
     
+    /* Enhanced input focus and hover effects */
+    input:focus, select:focus {
+      outline: none;
+      border-color: #61dafb !important;
+      box-shadow: 0 0 0 3px rgba(97, 218, 251, 0.2) !important;
+    }
+    
+    input:hover, select:hover {
+      border-color: #61dafb !important;
+    }
+    
+    /* Button hover effects */
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(97, 218, 251, 0.4) !important;
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
     /* Loading Spinner */
     .spinner {
       display: inline-block;
       width: 20px;
       height: 20px;
       border: 3px solid #f3f3f3;
-      border-top: 3px solid var(--primary-color);
+      border-top: 3px solid #61dafb;
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -148,11 +156,11 @@
     }
     
     .toast.success {
-      background: var(--success-color);
+      background: #4CAF50;
     }
     
     .toast.error {
-      background: var(--error-color);
+      background: #f44336;
     }
     
     .toast.info {
@@ -228,7 +236,7 @@
     }
     
     .login-container {
-      background: var(--background-color);
+      background: #23262c;
       padding: 40px;
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -237,7 +245,7 @@
     }
     
     .login-container h2 {
-      color: var(--primary-color);
+      color: #61dafb;
       margin-bottom: 30px;
     }
     
@@ -245,7 +253,7 @@
       width: 100%;
       padding: 12px;
       margin: 10px 0;
-      border: 1px solid var(--border-color);
+      border: 1px solid #444;
       border-radius: 6px;
       background: #333;
       color: white;
@@ -259,8 +267,8 @@
     .login-btn {
       width: 100%;
       padding: 12px;
-      background: var(--primary-color);
-      color: var(--background-color);
+      background: #61dafb;
+      color: #23262c;
       border: none;
       border-radius: 6px;
       font-size: 1.1rem;
@@ -274,7 +282,7 @@
     }
     
     .error-message {
-      color: var(--error-color);
+      color: #ff7675;
       margin-top: 10px;
       font-size: 0.9rem;
     }
@@ -298,7 +306,7 @@
     }
     
     .edit-container {
-      background: var(--background-color);
+      background: #23262c;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -306,7 +314,7 @@
     }
     
     .edit-container h3 {
-      color: var(--primary-color);
+      color: #61dafb;
       margin-bottom: 20px;
       text-align: center;
     }
@@ -317,7 +325,7 @@
     
     .edit-input-group label {
       display: block;
-      color: var(--text-color);
+      color: #fff;
       margin-bottom: 5px;
       font-size: 0.9rem;
     }
@@ -325,7 +333,7 @@
     .edit-input {
       width: 100%;
       padding: 8px;
-      border: 1px solid var(--border-color);
+      border: 1px solid #444;
       border-radius: 4px;
       background: #333;
       color: white;
@@ -348,7 +356,7 @@
     }
     
     .save-btn {
-      background: var(--success-color);
+      background: #4CAF50;
       color: white;
     }
     
@@ -366,7 +374,7 @@
     .min-comp-filter-btn {
       padding: 8px 18px;
       background: #353a45;
-      color: var(--primary-color);
+      color: #61dafb;
       border: none;
       border-radius: 6px;
       font-weight: bold;
@@ -376,15 +384,15 @@
       margin-bottom: 8px;
     }
     .min-comp-filter-btn.active, .min-comp-filter-btn:hover {
-      background: var(--primary-color);
-      color: var(--background-color);
+      background: #61dafb;
+      color: #23262c;
     }
     
     /* Category Filter Buttons */
     .category-filter-btn {
       padding: 6px 12px;
       background: #353a45;
-      color: var(--primary-color);
+      color: #61dafb;
       border: none;
       border-radius: 4px;
       font-weight: bold;
@@ -394,23 +402,15 @@
       margin: 2px;
     }
     .category-filter-btn.active, .category-filter-btn:hover {
-      background: var(--primary-color);
-      color: var(--background-color);
+      background: #61dafb;
+      color: #23262c;
     }
     
-    /* Add a CSS rule to ensure all form input, select, and button elements in all library forms have the same height */
+    /* Add a CSS rule to ensure all form input, select, and button elements in the Cable Library add form have the same height */
     #cableForm input[type="text"],
     #cableForm input[type="number"],
     #cableForm select,
-    #cableForm button[type="submit"],
-    #cbForm input[type="text"],
-    #cbForm input[type="number"],
-    #cbForm select,
-    #cbForm button[type="submit"],
-    #switchForm input[type="text"],
-    #switchForm input[type="number"],
-    #switchForm select,
-    #switchForm button[type="submit"] {
+    #cableForm button[type="submit"] {
       height: 38px;
       box-sizing: border-box;
       font-size: 1rem;
@@ -418,35 +418,6 @@
       min-width: 140px;
       padding-left: 10px;
       padding-right: 10px;
-    }
-
-    /* Utility Classes */
-    .btn-primary {
-      background: var(--primary-color);
-      color: var(--background-color);
-      border: none;
-      border-radius: 6px;
-      padding: 8px 16px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .btn-secondary {
-      background: #666;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 16px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .text-center {
-      text-align: center;
-    }
-
-    .hidden {
-      display: none !important;
     }
   </style>
 </head>
@@ -462,8 +433,8 @@
     <div class="login-container">
       <h2>🔐 Library Management Login</h2>
       <form id="loginForm">
-        <input type="text" id="username" class="login-input" placeholder="Username" required>
-        <input type="password" id="password" class="login-input" placeholder="Password" required>
+        <input type="text" id="username" name="username" class="login-input" placeholder="Username" required>
+        <input type="password" id="password" name="password" class="login-input" placeholder="Password" required>
         <button type="submit" class="login-btn">Login</button>
         <div id="loginError" class="error-message" style="display: none;"></div>
       </form>
@@ -506,13 +477,39 @@
       <h3 id="datasheetModalTitle">Datasheet Management</h3>
       <div id="datasheetContent">
         <div style="margin-bottom: 20px; text-align: center;">
-          <p id="datasheetStatus" style="color: var(--primary-color); font-weight: bold;"></p>
+          <p id="datasheetStatus" style="color: #61dafb; font-weight: bold;"></p>
         </div>
         <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
           <button id="uploadDatasheetBtn" class="edit-btn save-btn" style="background: #007bff;">📤 Upload PDF</button>
           <button id="downloadDatasheetBtn" class="edit-btn save-btn" style="background: #28a745; display: none;">📥 Download PDF</button>
           <button id="deleteDatasheetBtn" class="edit-btn cancel-btn" style="background: #dc3545; display: none;">🗑️ Delete PDF</button>
           <button id="cancelDatasheetBtn" class="edit-btn cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Export Progress Modal -->
+  <div id="exportModal" class="edit-modal">
+    <div class="edit-container">
+      <h3 id="exportModalTitle">📊 Exporting Library Data</h3>
+      <div id="exportContent">
+        <div style="margin-bottom: 20px; text-align: center;">
+          <div id="exportProgress" style="margin: 20px 0;">
+            <div style="width: 100%; background-color: #f0f0f0; border-radius: 10px; overflow: hidden; height: 20px;">
+              <div id="exportProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #4CAF50, #45a049); transition: width 0.3s ease;"></div>
+            </div>
+            <p id="exportProgressText" style="margin-top: 10px; color: #61dafb; font-weight: bold;">Preparing export...</p>
+          </div>
+          <div id="exportDetails" style="text-align: left; background: #2e323a; padding: 15px; border-radius: 6px; margin: 15px 0; color: #fff;">
+            <p><strong>Cable Library:</strong> <span id="cableCount">0</span> items</p>
+            <p><strong>Circuit Breaker Library:</strong> <span id="cbCount">0</span> items</p>
+            <p><strong>Switch Library:</strong> <span id="switchCount">0</span> items</p>
+          </div>
+        </div>
+        <div id="exportButtons" style="display: none; text-align: center;">
+          <button id="exportCloseBtn" class="edit-btn save-btn" style="background: #007bff; margin: 0 10px;">Close</button>
+          <button id="exportRetryBtn" class="edit-btn cancel-btn" style="background: #dc3545; margin: 0 10px;">Retry</button>
         </div>
       </div>
     </div>
@@ -531,16 +528,16 @@
   </div>
   
   <!-- Library Selection Interface -->
-  <div id="librarySelection" style="margin: 40px auto 0 auto; max-width: 800px; background: var(--background-color); border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+  <div id="librarySelection" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-      <h2 style="color: var(--primary-color); margin: 0;">Library Management</h2>
-      <div style="display: flex; gap: 10px;">
-        <button id="exportDataBtn" class="btn-primary" style="display: inline-block;">📊 Export to Excel</button>
-        <button id="logoutBtn" class="btn-secondary" style="display: none;">🚪 Logout</button>
+      <h2 style="color: #61dafb; margin: 0;">Library Management</h2>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <button id="exportLibraryBtn" style="padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; display: none;">📊 Export Library</button>
+        <button id="logoutBtn" style="padding: 8px 16px; background: #ff7675; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; display: none;">🚪 Logout</button>
       </div>
     </div>
     <div id="loginSection" style="text-align: center;">
-      <button id="loginBtn" class="btn-primary" style="padding: 15px 30px; font-size: 1.1rem;">🔐 Login to Access Libraries</button>
+      <button id="loginBtn" style="padding: 15px 30px; background: #61dafb; color: #23262c; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer;">🔐 Login to Access Libraries</button>
     </div>
     <div id="libraryButtons" style="display: none;">
     <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
@@ -556,12 +553,12 @@
     </div>
     </div>
     <div style="text-align: center; margin-top: 20px;">
-      <button id="backToSelection" class="btn-secondary" style="display: none;">← Back to Library Selection</button>
+      <button id="backToSelection" style="padding: 10px 20px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; display: none;">← Back to Library Selection</button>
     </div>
   </div>
 
   <div id="minCompCableCategoryContainer" style="margin: 24px auto 0 auto; max-width: 800px; display: flex; justify-content: center; align-items: center; gap: 10px;">
-    <label for="minCompCableCategoryDropdown" style="color:var(--primary-color); font-weight:bold;">Cable Category:</label>
+    <label for="minCompCableCategoryDropdown" style="color:#61dafb; font-weight:bold;">Cable Category:</label>
     <select id="minCompCableCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
       <option value="all">All Categories</option>
       <option value="Single Core">Single Core</option>
@@ -573,15 +570,15 @@
     </select>
   </div>
 
-     <div class="cable-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: var(--background-color); border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+     <div class="cable-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-      <h2 style="color: var(--primary-color); margin: 0;">Cable Library</h2>
-      <button class="back-to-main-btn btn-secondary">← Back to Main Page</button>
+      <h2 style="color: #61dafb; margin: 0;">Cable Library</h2>
+      <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
     </div>
-    <form id="cableForm" style="display: flex; flex-wrap: nowrap; gap: 18px; align-items: flex-end; justify-content: center; margin-bottom: 0;">
-      <div style="min-width: 120px;">
-        <label for="cableCategory">Category:</label><br>
-        <select id="cableCategory" required style="width: 120px;">
+    <form id="cableForm" style="display: flex; flex-wrap: nowrap; gap: 20px; align-items: flex-end; justify-content: center; margin-bottom: 0;">
+      <div style="min-width: 140px;">
+        <label for="cableCategory" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">Category:</label>
+        <select id="cableCategory" required style="width: 140px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease;">
           <option value="Single Core">Single Core</option>
           <option value="Multi Core">Multi Core</option>
           <option value="Robotic Cable">Robotic Cable</option>
@@ -590,60 +587,60 @@
           <option value="EtherCAT">EtherCAT</option>
         </select>
       </div>
-      <div style="min-width: 120px;">
-        <label for="oemPart">OEM Part Number:</label><br>
-        <input type="text" id="oemPart" required style="width: 120px;" />
+      <div style="min-width: 140px;">
+        <label for="oemPart" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">OEM Part Number:</label>
+        <input type="text" id="oemPart" required style="width: 140px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease;" placeholder="Enter part number" />
       </div>
-      <div style="min-width: 350px;">
-        <label for="cableDesc">Description:</label><br>
-        <input type="text" id="cableDesc" required style="width: 350px;" />
+      <div style="min-width: 300px;">
+        <label for="cableDesc" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">Description:</label>
+        <input type="text" id="cableDesc" required style="width: 300px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease;" placeholder="Enter description" />
       </div>
-      <div style="min-width: 40px;">
-        <label for="numCores">No. of Cores:</label><br>
-        <input type="number" id="numCores" min="1" required style="width: 40px;" />
+      <div style="min-width: 80px;">
+        <label for="numCores" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">No. of Cores:</label>
+        <input type="number" id="numCores" min="1" required style="width: 80px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease; text-align: center;" placeholder="1" />
       </div>
-      <div style="min-width: 40px;">
-        <label for="cableRating">Rating (A):</label><br>
-        <input type="number" id="cableRating" min="1" required style="width: 40px;" />
+      <div style="min-width: 80px;">
+        <label for="cableRating" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">Rating (A):</label>
+        <input type="number" id="cableRating" min="1" required style="width: 80px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease; text-align: center;" placeholder="16" />
       </div>
       <div>
-        <button type="submit" class="btn-primary">Add Cable</button>
+        <button type="submit" style="padding: 12px 24px; background: linear-gradient(45deg, #61dafb, #4fa8c7); color: #23262c; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(97, 218, 251, 0.3);">Add Cable</button>
       </div>
     </form>
     <div style="margin-top: 20px; text-align: center;">
-      <h3 style="color: var(--warning-color); margin-bottom: 15px;">Import Excel Files by Category</h3>
+      <h3 style="color: #ffb347; margin-bottom: 15px;">Import Excel Files by Category</h3>
       <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
         <div>
           <input type="file" id="singleCoreFile" accept=".xlsx,.xls" style="display: none;" data-category="Single Core" />
-          <button type="button" class="import-category-btn" data-category="Single Core" class="btn-primary" style="background: var(--success-color);">📊 Single Core</button>
+          <button type="button" class="import-category-btn" data-category="Single Core" style="padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Single Core</button>
         </div>
         <div>
           <input type="file" id="multiCoreFile" accept=".xlsx,.xls" style="display: none;" data-category="Multi Core" />
-          <button type="button" class="import-category-btn" data-category="Multi Core" class="btn-primary" style="background: #2196F3;">📊 Multi Core</button>
+          <button type="button" class="import-category-btn" data-category="Multi Core" style="padding: 8px 16px; background: #2196F3; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Multi Core</button>
         </div>
         <div>
           <input type="file" id="roboticFile" accept=".xlsx,.xls" style="display: none;" data-category="Robotic Cable" />
-          <button type="button" class="import-category-btn" data-category="Robotic Cable" class="btn-primary" style="background: #FF9800;">📊 Robotic Cable</button>
+          <button type="button" class="import-category-btn" data-category="Robotic Cable" style="padding: 8px 16px; background: #FF9800; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Robotic Cable</button>
         </div>
         <div>
           <input type="file" id="flexibleFile" accept=".xlsx,.xls" style="display: none;" data-category="Flexible Cable" />
-          <button type="button" class="import-category-btn" data-category="Flexible Cable" class="btn-primary" style="background: #9C27B0;">📊 Flexible Cable</button>
+          <button type="button" class="import-category-btn" data-category="Flexible Cable" style="padding: 8px 16px; background: #9C27B0; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Flexible Cable</button>
         </div>
         <div>
           <input type="file" id="ethernetFile" accept=".xlsx,.xls" style="display: none;" data-category="EtherNET" />
-          <button type="button" class="import-category-btn" data-category="EtherNET" class="btn-primary" style="background: #009688;">📊 EtherNET</button>
+          <button type="button" class="import-category-btn" data-category="EtherNET" style="padding: 8px 16px; background: #009688; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 EtherNET</button>
         </div>
         <div>
           <input type="file" id="ethercatFile" accept=".xlsx,.xls" style="display: none;" data-category="EtherCAT" />
-          <button type="button" class="import-category-btn" data-category="EtherCAT" class="btn-primary" style="background: #607D8B;">📊 EtherCAT</button>
+          <button type="button" class="import-category-btn" data-category="EtherCAT" style="padding: 8px 16px; background: #607D8B; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 EtherCAT</button>
         </div>
       </div>
       <div style="margin-top: 18px; display: flex; justify-content: center;">
-        <input type="text" id="searchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem; text-align: center;" />
+        <input type="text" id="searchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 12px 16px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; width: 350px; text-align: center; transition: border-color 0.3s ease;" />
       </div>
       <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 12px;">
-        <label for="cableCategoryDropdown" style="color:var(--primary-color); font-weight:bold;">Category:</label>
-        <select id="cableCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
+        <label for="cableCategoryDropdown" style="color:#61dafb; font-weight:bold;">Category:</label>
+        <select id="cableCategoryDropdown" style="padding: 8px 12px; border: 2px solid #444; border-radius: 6px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease;">
           <option value="all">All Categories</option>
           <option value="Single Core">Single Core</option>
           <option value="Multi Core">Multi Core</option>
@@ -657,73 +654,20 @@
     <div id="cableTables" style="margin-top: 30px;"></div>
   </div>
   <script>
-    // Constants and Configuration
-    const CONSTANTS = {
-      FIREBASE_CONFIG: {
-        apiKey: "AIzaSyB_8ntUz0TnWzTtygzZ-r7d-9yVg-zj254",
-        authDomain: "attendance-ac65f.firebaseapp.com",
-        projectId: "attendance-ac65f",
-        storageBucket: "attendance-ac65f.firebasestorage.app",
-        messagingSenderId: "156838355463",
-        appId: "1:156838355463:web:c0533dfeae05014a0d40a2",
-        measurementId: "G-614JWRFCLQ"
-      },
-      ADMIN_CREDENTIALS: {
-        username: 'Stratus',
-        password: '12345678'
-      },
-      SEARCH_DEBOUNCE_DELAY: 300,
-      TOAST_DURATION: 3000
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB_8ntUz0TnWzTtygzZ-r7d-9yVg-zj254",
+      authDomain: "attendance-ac65f.firebaseapp.com",
+      projectId: "attendance-ac65f",
+      storageBucket: "attendance-ac65f.firebasestorage.app",
+      messagingSenderId: "156838355463",
+      appId: "1:156838355463:web:c0533dfeae05014a0d40a2",
+      measurementId: "G-614JWRFCLQ"
     };
 
     // Initialize Firebase
-    firebase.initializeApp(CONSTANTS.FIREBASE_CONFIG);
+    firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-
-    // Cached DOM Elements
-    const elements = {
-      currentInput: document.getElementById('currentInput'),
-      results: document.getElementById('results'),
-      cableForm: document.getElementById('cableForm'),
-      cableTables: document.getElementById('cableTables'),
-      searchOEM: document.getElementById('searchOEM'),
-      loginForm: document.getElementById('loginForm'),
-      loginModal: document.getElementById('loginModal'),
-      editModal: document.getElementById('editModal'),
-      datasheetModal: document.getElementById('datasheetModal'),
-      exportDataBtn: document.getElementById('exportDataBtn'),
-      logoutBtn: document.getElementById('logoutBtn'),
-      librarySelection: document.getElementById('librarySelection'),
-      libraryButtons: document.getElementById('libraryButtons'),
-      loginSection: document.getElementById('loginSection'),
-      backToSelection: document.getElementById('backToSelection')
-    };
-
-    // Utility Functions
-    function debounce(func, wait) {
-      let timeout;
-      return function executedFunction(...args) {
-        const later = () => {
-          clearTimeout(timeout);
-          func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-      };
-    }
-
-    function measurePerformance(name, fn) {
-      const start = performance.now();
-      const result = fn();
-      const end = performance.now();
-      console.log(`${name} took ${end - start}ms`);
-      return result;
-    }
-
-    function handleError(error, context) {
-      console.error(`Error in ${context}:`, error);
-      showToast(`Error: ${error.message}`, 'error');
-    }
 
     // Metric ampacity table for 60°C (AWG, mm², Amps, Bending Space mm) from the image
     const ampacityTable = [
@@ -741,14 +685,14 @@
       { awg: '4', mm2: 16.0, amps: 60, bend_mm: 76 },
     ];
 
-    // Optimized input handling with debounced search
-    const debouncedSearch = debounce(renderCableTables, CONSTANTS.SEARCH_DEBOUNCE_DELAY);
+    const input = document.getElementById('currentInput');
+    const resultsDiv = document.getElementById('results');
 
-    elements.currentInput.addEventListener('input', function() {
-      const value = parseFloat(this.value);
+    input.addEventListener('input', function() {
+      const value = parseFloat(input.value);
       if (isNaN(value) || value <= 0) {
-        elements.results.style.display = 'none';
-        elements.results.innerHTML = '';
+        resultsDiv.style.display = 'none';
+        resultsDiv.innerHTML = '';
         // Hide minimum components section when input is empty or invalid
         const existingComponents = document.getElementById('minimumComponents');
         if (existingComponents) {
@@ -756,25 +700,22 @@
         }
         return;
       }
-      
-      measurePerformance('calculateAmpacity', () => {
       const filtered = ampacityTable.filter(row => value <= row.amps);
       let html = '<h2>Suitable Cable Sizes (60°C)</h2>';
       if (filtered.length > 0) {
-          html += '<table><thead><tr><th>AWG</th><th>Metric (mm²)</th><th>Max Amps</th><th>Bending Space (mm)</th></tr></thead><tbody>';
+        html += '<table><thead><tr><th>AWG</th><th>Metric (mm²)</th><th>Max Amps</th><th>Bending Space (mm)</th></tr></thead><tbody>';
         filtered.forEach(row => {
-            html += `<tr><td>${row.awg}</td><td>${row.mm2}</td><td>${row.amps}</td><td>${row.bend_mm}</td></tr>`;
+          html += `<tr><td>${row.awg}</td><td>${row.mm2}</td><td>${row.amps}</td><td>${row.bend_mm}</td></tr>`;
         });
         html += '</tbody></table>';
       } else {
-          html += '<div style="margin-top:10px; color:var(--error-color);">No suitable size found</div>';
-        }
-        elements.results.innerHTML = html;
-        elements.results.style.display = 'block';
-        
-        // Show minimum components from libraries
-        showMinimumComponents(value);
-      });
+        html += '<div style="margin-top:10px; color:#ff7675;">No suitable size found</div>';
+      }
+      resultsDiv.innerHTML = html;
+      resultsDiv.style.display = 'block';
+      
+      // Show minimum components from libraries
+      showMinimumComponents(value);
     });
 
     // --- Cable Library Section ---
@@ -798,177 +739,126 @@
       const cableRating = document.getElementById('cableRating').value.trim();
       if (!cableCategory || !oemPart || !cableDesc || !numCores || !cableRating) return;
       
-      // Add to local array
-      cableLibrary[cableCategory].push({ oemPart, cableDesc, numCores, cableRating });
-      
-      // Save to Firebase
-      saveCableToFirebase(cableCategory, { oemPart, cableDesc, numCores, cableRating }).then(() => {
-        showToast('Cable added successfully!', 'success');
-        cableForm.reset();
-        renderCableTables();
+      // Save to Firebase first, then add to local array with the ID
+      saveCableToFirebase(cableCategory, { oemPart, cableDesc, numCores, cableRating }).then((docRef) => {
+        if (docRef) {
+          // Add to local array with the ID
+          const newCable = { 
+            id: docRef.id, 
+            oemPart, 
+            cableDesc, 
+            numCores, 
+            cableRating 
+          };
+          cableLibrary[cableCategory].push(newCable);
+          
+          showToast('Cable added successfully!', 'success');
+          cableForm.reset();
+          renderCableTables();
+        } else {
+          showToast('Error adding cable. Please try again.', 'error');
+        }
       }).catch(() => {
         showToast('Error adding cable. Please try again.', 'error');
       });
     });
 
-    // Optimized search with debouncing
-    elements.searchOEM.addEventListener('input', debouncedSearch);
-
-    // Optimized search function
-    function optimizedSearch(query, data, category) {
-      if (!query) return data;
-      
-      const searchTerms = query.toLowerCase().split(' ').filter(term => term.length > 0);
-      return data.filter(item => 
-        searchTerms.every(term => {
-          if (category === 'EtherNET' || category === 'EtherCAT') {
-            return (
-              (item.oemPart && item.oemPart.toLowerCase().includes(term)) ||
-              (item.description && item.description.toLowerCase().includes(term)) ||
-              (item.length && item.length.toString().toLowerCase().includes(term)) ||
-              (item.colour && item.colour.toLowerCase().includes(term))
-            );
-          } else {
-            return (
-              (item.oemPart && item.oemPart.toLowerCase().includes(term)) ||
-              (item.cableDesc && item.cableDesc.toLowerCase().includes(term)) ||
-              (item.numCores && item.numCores.toString().includes(term)) ||
-              (item.cableRating && item.cableRating.toString().includes(term))
-            );
-          }
-        })
-      );
-    }
+    const searchOEM = document.getElementById('searchOEM');
+    searchOEM.addEventListener('input', renderCableTables);
 
     function renderCableTables() {
-      return measurePerformance('renderCableTables', () => {
-        const searchVal = elements.searchOEM.value.trim();
-        const activeCategoryFilter = document.getElementById('cableCategoryDropdown')?.value || 'all';
-        const fragment = document.createDocumentFragment();
-        let found = false;
+      let html = '';
+      const searchVal = searchOEM.value.trim().toLowerCase();
+      const activeCategoryFilter = document.getElementById('cableCategoryDropdown')?.value || 'all';
+      let found = false;
+      
+      Object.keys(cableLibrary).forEach(cat => {
+        if (activeCategoryFilter !== 'all' && cat !== activeCategoryFilter) return;
         
-        Object.keys(cableLibrary).forEach(cat => {
-          if (activeCategoryFilter !== 'all' && cat !== activeCategoryFilter) return;
-          
-          // Filter cables by search value
-          const filteredCables = optimizedSearch(searchVal, cableLibrary[cat], cat);
-          
-          // Sort cables by rating in ascending order
-          filteredCables.sort((a, b) => {
-            if (a.cableRating && b.cableRating) return parseInt(a.cableRating) - parseInt(b.cableRating);
-            return 0;
-          });
-          
-          if (filteredCables.length === 0) return;
-          found = true;
-          
-          const categoryDiv = document.createElement('div');
-          categoryDiv.innerHTML = `<h3 style='color:var(--warning-color); margin-bottom:6px;'>${cat}</h3>`;
-          
-          const table = document.createElement('table');
-          table.style.marginBottom = '18px';
-          
-          if (cat === 'EtherNET' || cat === 'EtherCAT') {
-            table.innerHTML = `
-              <thead><tr>
-                <th style='text-align:center;'>OEM Part Number</th>
-                <th>Description</th>
-                <th style='text-align:center;'>Length</th>
-                <th style='text-align:center;'>Colour</th>
-                <th style='text-align:center;'>Action</th>
-              </tr></thead><tbody></tbody>
-            `;
-          } else {
-            table.innerHTML = `
-              <thead><tr>
-                <th style='text-align:center;'>OEM Part Number</th>
-                <th>Description</th>
-                <th style='text-align:center;'>No. of Cores</th>
-                <th style='text-align:center;'>Rating (A)</th>
-                <th style='text-align:center;'>Action</th>
-              </tr></thead><tbody></tbody>
-            `;
-          }
-          
-          const tbody = table.querySelector('tbody');
-          filteredCables.forEach((cable, idx) => {
-            const datasheetBgColor = cable.datasheetUrl ? '#007bff' : '#ff7675';
-            const row = document.createElement('tr');
-            
-            if (cat === 'EtherNET' || cat === 'EtherCAT') {
-              row.innerHTML = `
-                <td style='text-align:center;'>${cable.oemPart}</td>
-                <td>${cable.description}</td>
-                <td style='text-align:center;'>${cable.length || ''}</td>
-                <td style='text-align:center;'>${cable.colour || ''}</td>
-                <td style='text-align:center;'>
-                  <button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:${datasheetBgColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br>
-                  <button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button>
-                </td>
-              `;
-            } else {
-              row.innerHTML = `
-                <td style='text-align:center;'>${cable.oemPart}</td>
-                <td>${cable.cableDesc}</td>
-                <td style='text-align:center;'>${cable.numCores}</td>
-                <td style='text-align:center;'>${cable.cableRating}</td>
-                <td style='text-align:center;'>
-                  <button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:${datasheetBgColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br>
-                  <button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button>
-                </td>
-              `;
-            }
-            tbody.appendChild(row);
-          });
-          
-          categoryDiv.appendChild(table);
-          fragment.appendChild(categoryDiv);
+        // Filter cables by search value
+        const filteredCables = searchVal
+          ? cableLibrary[cat].filter(cable => {
+              if (cat === 'EtherNET' || cat === 'EtherCAT') {
+                return (
+                  (cable.oemPart && cable.oemPart.toLowerCase().includes(searchVal)) ||
+                  (cable.description && cable.description.toLowerCase().includes(searchVal)) ||
+                  (cable.length && cable.length.toString().toLowerCase().includes(searchVal)) ||
+                  (cable.colour && cable.colour.toLowerCase().includes(searchVal))
+                );
+              } else {
+                return (
+                  (cable.oemPart && cable.oemPart.toLowerCase().includes(searchVal)) ||
+                  (cable.cableDesc && cable.cableDesc.toLowerCase().includes(searchVal)) ||
+                  (cable.numCores && cable.numCores.toString().includes(searchVal)) ||
+                  (cable.cableRating && cable.cableRating.toString().includes(searchVal))
+                );
+              }
+            })
+          : cableLibrary[cat];
+        
+        // Sort cables by rating in ascending order
+        filteredCables.sort((a, b) => {
+          if (a.cableRating && b.cableRating) return parseInt(a.cableRating) - parseInt(b.cableRating);
+          return 0;
         });
         
-        elements.cableTables.innerHTML = found ? '' : '<div style="color:#bbb;">No cables found.</div>';
-        if (found) {
-          elements.cableTables.appendChild(fragment);
+        if (filteredCables.length === 0) return;
+        found = true;
+        html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat} <button class='clear-all-cable-btn' data-cat='${cat}' style='padding:4px 8px;background:#dc3545;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:500;margin-left:10px;'>🗑️ Clear All</button></h3>`;
+        if (cat === 'EtherNET') {
+          html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Length</th><th style='text-align:center;'>Colour</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
+          filteredCables.forEach((cable, idx) => {
+            const datasheetColor = cable.datasheetUrl ? '#007bff' : '#dc3545';
+            html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.description}</td><td style='text-align:center;'>${cable.length || ''}</td><td style='text-align:center;'>${cable.colour || ''}</td><td style='text-align:center;'><button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:${datasheetColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
+          });
+          html += '</tbody></table>';
+          return;
         }
+        if (cat === 'EtherCAT') {
+          html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Length</th><th style='text-align:center;'>Colour</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
+          filteredCables.forEach((cable, idx) => {
+            const datasheetColor = cable.datasheetUrl ? '#007bff' : '#dc3545';
+            html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.description}</td><td style='text-align:center;'>${cable.length || ''}</td><td style='text-align:center;'>${cable.colour || ''}</td><td style='text-align:center;'><button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:${datasheetColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
+          });
+          html += '</tbody></table>';
+          return;
+        }
+        html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>No. of Cores</th><th style='text-align:center;'>Rating (A)</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
+        filteredCables.forEach((cable, idx) => {
+          const datasheetColor = cable.datasheetUrl ? '#007bff' : '#dc3545';
+          html += `<tr><td style='text-align:center;'>${cable.oemPart}</td><td>${cable.cableDesc}</td><td style='text-align:center;'>${cable.numCores}</td><td style='text-align:center;'>${cable.cableRating}</td><td style='text-align:center;'><button class='datasheet-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:${datasheetColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cable-btn' data-cat='${cat}' data-idx='${cableLibrary[cat].indexOf(cable)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
+        });
+        html += '</tbody></table>';
       });
+      cableTablesDiv.innerHTML = found ? html : '<div style="color:#bbb;">No cables found.</div>';
     }
     renderCableTables();
 
-    // Optimized event delegation for all table interactions
-    elements.cableTables.addEventListener('click', function(e) {
-      const target = e.target;
-      
-      if (target.classList.contains('datasheet-cable-btn')) {
-        const cableCategory = target.getAttribute('data-cat');
-        const idx = parseInt(target.getAttribute('data-idx'));
+    // Datasheet cable event (event delegation)
+    cableTablesDiv.addEventListener('click', function(e) {
+      if (e.target.classList.contains('datasheet-cable-btn')) {
+        const cableCategory = e.target.getAttribute('data-cat');
+        const idx = parseInt(e.target.getAttribute('data-idx'));
         const cable = cableLibrary[cableCategory][idx];
         
         // Show datasheet modal
         showDatasheetModal(cable, 'cable', cableCategory, idx);
-      } else if (target.classList.contains('edit-cable-btn')) {
-        const cableCategory = target.getAttribute('data-cat');
-        const idx = parseInt(target.getAttribute('data-idx'));
-        const cableToEdit = cableLibrary[cableCategory][idx];
-        
-        // Populate edit modal
-        document.getElementById('editModalTitle').textContent = 'Edit Cable';
-        document.getElementById('editOEM').value = cableToEdit.oemPart;
-        document.getElementById('editDesc').value = cableToEdit.cableDesc;
-        document.getElementById('editCores').value = cableToEdit.numCores;
-        document.getElementById('editRating').value = cableToEdit.cableRating;
-        
-        // Store current edit item
-        currentEditItem = { category: cableCategory, idx: idx, type: 'cable' };
-        
-        // Show edit modal
-        elements.editModal.classList.add('show');
+      }
+      
+      // Clear All cable event
+      if (e.target.classList.contains('clear-all-cable-btn')) {
+        const cableCategory = e.target.getAttribute('data-cat');
+        if (confirm(`Are you sure you want to clear all ${cableCategory} cables and their datasheets? This action cannot be undone.`)) {
+          clearAllCablesByCategory(cableCategory);
+        }
       }
     });
 
 
 
-    // Optimized Firebase functions for Cable Library
+    // Firebase functions for Cable Library
     function saveCableToFirebase(category, cableData) {
-      const submitBtn = elements.cableForm.querySelector('button[type="submit"]');
+      const submitBtn = cableForm.querySelector('button[type="submit"]');
       const originalText = submitBtn.textContent;
       submitBtn.innerHTML = '<span class="spinner"></span> Save';
       submitBtn.disabled = true;
@@ -989,29 +879,17 @@
         firebaseData.cableRating = cableData.cableRating;
       }
       
-      return db.collection('cables').add(firebaseData)
-        .then(() => {
-          console.log('Cable saved to Firebase');
-          return true;
-        })
-        .catch((error) => {
-          handleError(error, 'saveCableToFirebase');
-          return false;
-        })
-        .finally(() => {
-          submitBtn.textContent = originalText;
-          submitBtn.disabled = false;
-        });
-    }
-
-    // Batch operations for better performance
-    function batchUpdateCables(cables) {
-      const batch = db.batch();
-      cables.forEach(cable => {
-        const docRef = db.collection('cables').doc(cable.id);
-        batch.update(docRef, cable);
+      return db.collection('cables').add(firebaseData).then((docRef) => {
+        console.log('Cable saved to Firebase with ID:', docRef.id);
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        return docRef;
+      }).catch((error) => {
+        console.error('Error saving cable: ', error);
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        return null;
       });
-      return batch.commit();
     }
 
     function loadCablesFromFirebase() {
@@ -1195,17 +1073,348 @@
     });
 
     function deleteCableFromFirebase(docId) {
-      return db.collection('cables').doc(docId).delete().then(() => {
-        console.log('Cable deleted from Firebase');
-        return true;
-      }).catch((error) => {
-        console.error('Error deleting cable: ', error);
-        return false;
-      });
+      return db.collection('cables').doc(docId).delete();
     }
 
     // Load cables on page load
     loadCablesFromFirebase();
+    
+    // Function to reload cables to ensure all have IDs
+    function reloadCablesToFixIds() {
+      console.log('Reloading cables to ensure all have IDs...');
+      loadCablesFromFirebase();
+    }
+    
+    // Debug function to check cable data
+    function debugCableData() {
+      console.log('=== CABLE DATA DEBUG ===');
+      Object.keys(cableLibrary).forEach(category => {
+        console.log(`Category: ${category}`);
+        cableLibrary[category].forEach((cable, index) => {
+          console.log(`  Index ${index}:`, {
+            id: cable.id,
+            oemPart: cable.oemPart,
+            hasId: !!cable.id,
+            type: typeof cable.id
+          });
+        });
+      });
+      console.log('=== END DEBUG ===');
+    }
+    
+    // Test Firebase connection
+    function testFirebaseConnection() {
+      console.log('=== TESTING FIREBASE CONNECTION ===');
+      console.log('Firebase db object:', db);
+      
+      // Try to read from the cables collection
+      db.collection('cables').limit(1).get().then((querySnapshot) => {
+        console.log('Firebase connection successful!');
+        console.log('Number of documents:', querySnapshot.size);
+        if (querySnapshot.size > 0) {
+          const doc = querySnapshot.docs[0];
+          console.log('Sample document ID:', doc.id);
+          console.log('Sample document data:', doc.data());
+        }
+      }).catch((error) => {
+        console.error('Firebase connection failed:', error);
+      });
+    }
+    
+    // Make functions available globally for debugging
+    window.debugCableData = debugCableData;
+    window.testFirebaseConnection = testFirebaseConnection;
+    window.reloadCablesToFixIds = reloadCablesToFixIds;
+    window.exportLibraryToExcel = exportLibraryToExcel;
+    
+    // Test export function
+    function testExport() {
+      console.log('Testing export functionality...');
+      console.log('XLSX available:', typeof XLSX !== 'undefined');
+      console.log('XLSX version:', XLSX.version);
+      
+      // Create a simple test workbook
+      const testData = [
+        { 'Test': 'Data', 'Value': 123 },
+        { 'Test': 'Export', 'Value': 456 }
+      ];
+      
+      try {
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.json_to_sheet(testData);
+        XLSX.utils.book_append_sheet(wb, ws, 'Test');
+        XLSX.writeFile(wb, 'test_export.xlsx');
+        console.log('Test export successful');
+        showToast('Test export successful!', 'success');
+      } catch (error) {
+        console.error('Test export failed:', error);
+        showToast('Test export failed: ' + error.message, 'error');
+      }
+    }
+    
+    window.testExport = testExport;
+    
+    // Export Library to Excel function
+    function exportLibraryToExcel() {
+      // Show export modal
+      const exportModal = document.getElementById('exportModal');
+      const exportProgressBar = document.getElementById('exportProgressBar');
+      const exportProgressText = document.getElementById('exportProgressText');
+      const exportButtons = document.getElementById('exportButtons');
+      const exportCloseBtn = document.getElementById('exportCloseBtn');
+      const exportRetryBtn = document.getElementById('exportRetryBtn');
+      
+      // Reset modal state
+      exportProgressBar.style.width = '0%';
+      exportProgressText.textContent = 'Preparing export...';
+      exportButtons.style.display = 'none';
+      
+      // Show modal
+      exportModal.classList.add('show');
+      
+      // Update progress
+      setTimeout(() => {
+        exportProgressBar.style.width = '20%';
+        exportProgressText.textContent = 'Checking libraries...';
+      }, 100);
+      
+      try {
+        console.log('Starting export process...');
+        console.log('XLSX object available:', typeof XLSX !== 'undefined');
+        
+        // Check if XLSX is available
+        if (typeof XLSX === 'undefined') {
+          exportProgressText.textContent = 'Error: Excel library not loaded';
+          exportButtons.style.display = 'block';
+          showToast('Excel export library not loaded. Please refresh the page.', 'error');
+          return;
+        }
+        
+        // Update progress
+        setTimeout(() => {
+          exportProgressBar.style.width = '40%';
+          exportProgressText.textContent = 'Creating workbook...';
+        }, 200);
+        
+        // Create workbook
+        const wb = XLSX.utils.book_new();
+        console.log('Workbook created');
+        
+        let totalItems = 0;
+        let cableCount = 0;
+        let cbCount = 0;
+        let switchCount = 0;
+        
+        // Update progress
+        setTimeout(() => {
+          exportProgressBar.style.width = '60%';
+          exportProgressText.textContent = 'Processing cable library...';
+        }, 300);
+        
+        // Export Cable Library
+        console.log('Exporting cable library...');
+        console.log('Cable library data:', cableLibrary);
+        
+        if (cableLibrary && Object.keys(cableLibrary).length > 0) {
+          const cableData = [];
+          Object.keys(cableLibrary).forEach(category => {
+            console.log(`Processing cable category: ${category}`);
+            if (cableLibrary[category] && Array.isArray(cableLibrary[category])) {
+              cableLibrary[category].forEach((cable, index) => {
+                console.log(`Processing cable ${index} in ${category}:`, cable);
+                try {
+                  if (category === 'EtherNET' || category === 'EtherCAT') {
+                    cableData.push({
+                      'Library': 'Cable',
+                      'Category': category,
+                      'OEM Part Number': cable.oemPart || '',
+                      'Description': cable.description || '',
+                      'Length': cable.length || '',
+                      'Colour': cable.colour || '',
+                      'Datasheet': cable.datasheetUrl ? 'Yes' : 'No'
+                    });
+                  } else {
+                    cableData.push({
+                      'Library': 'Cable',
+                      'Category': category,
+                      'OEM Part Number': cable.oemPart || '',
+                      'Description': cable.cableDesc || '',
+                      'No. of Cores': cable.numCores || '',
+                      'Rating (A)': cable.cableRating || '',
+                      'Datasheet': cable.datasheetUrl ? 'Yes' : 'No'
+                    });
+                  }
+                } catch (cableError) {
+                  console.error('Error processing cable:', cableError, cable);
+                }
+              });
+            }
+          });
+          
+          console.log('Cable data prepared:', cableData);
+          cableCount = cableData.length;
+          
+          if (cableData.length > 0) {
+            const cableWS = XLSX.utils.json_to_sheet(cableData);
+            XLSX.utils.book_append_sheet(wb, cableWS, 'Cable Library');
+            totalItems += cableData.length;
+            console.log('Cable sheet added');
+          }
+        }
+        
+        // Update progress
+        setTimeout(() => {
+          exportProgressBar.style.width = '75%';
+          exportProgressText.textContent = 'Processing circuit breaker library...';
+        }, 400);
+        
+        // Export Circuit Breaker Library
+        console.log('Exporting circuit breaker library...');
+        console.log('CB library data:', cbLibrary);
+        
+        if (cbLibrary && Object.keys(cbLibrary).length > 0) {
+          const cbData = [];
+          Object.keys(cbLibrary).forEach(category => {
+            console.log(`Processing CB category: ${category}`);
+            if (cbLibrary[category] && Array.isArray(cbLibrary[category])) {
+              cbLibrary[category].forEach((cb, index) => {
+                console.log(`Processing CB ${index} in ${category}:`, cb);
+                try {
+                  cbData.push({
+                    'Library': 'Circuit Breaker',
+                    'Category': category,
+                    'OEM Part Number': cb.cbOEMPart || '',
+                    'Description': cb.cbDesc || '',
+                    'Poles': cb.cbPoles || '',
+                    'Rating (A)': cb.cbRating || '',
+                    'Datasheet': cb.datasheetUrl ? 'Yes' : 'No'
+                  });
+                } catch (cbError) {
+                  console.error('Error processing CB:', cbError, cb);
+                }
+              });
+            }
+          });
+          
+          console.log('CB data prepared:', cbData);
+          cbCount = cbData.length;
+          
+          if (cbData.length > 0) {
+            const cbWS = XLSX.utils.json_to_sheet(cbData);
+            XLSX.utils.book_append_sheet(wb, cbWS, 'Circuit Breaker Library');
+            totalItems += cbData.length;
+            console.log('CB sheet added');
+          }
+        }
+        
+        // Update progress
+        setTimeout(() => {
+          exportProgressBar.style.width = '85%';
+          exportProgressText.textContent = 'Processing switch library...';
+        }, 500);
+        
+        // Export Switch Library
+        console.log('Exporting switch library...');
+        console.log('Switch library data:', switchLibrary);
+        
+        if (switchLibrary && Object.keys(switchLibrary).length > 0) {
+          const switchData = [];
+          Object.keys(switchLibrary).forEach(category => {
+            console.log(`Processing switch category: ${category}`);
+            if (switchLibrary[category] && Array.isArray(switchLibrary[category])) {
+              switchLibrary[category].forEach((sw, index) => {
+                console.log(`Processing switch ${index} in ${category}:`, sw);
+                try {
+                  switchData.push({
+                    'Library': 'Switch',
+                    'Category': category,
+                    'OEM Part Number': sw.switchOEMPart || '',
+                    'Description': sw.switchDesc || '',
+                    'Poles': sw.switchPoles || '',
+                    'Rating (A)': sw.switchRating || '',
+                    'Datasheet': sw.datasheetUrl ? 'Yes' : 'No'
+                  });
+                } catch (switchError) {
+                  console.error('Error processing switch:', switchError, sw);
+                }
+              });
+            }
+          });
+          
+          console.log('Switch data prepared:', switchData);
+          switchCount = switchData.length;
+          
+          if (switchData.length > 0) {
+            const switchWS = XLSX.utils.json_to_sheet(switchData);
+            XLSX.utils.book_append_sheet(wb, switchWS, 'Switch Library');
+            totalItems += switchData.length;
+            console.log('Switch sheet added');
+          }
+        }
+        
+        // Update counts in modal
+        document.getElementById('cableCount').textContent = cableCount;
+        document.getElementById('cbCount').textContent = cbCount;
+        document.getElementById('switchCount').textContent = switchCount;
+        
+        console.log(`Total items to export: ${totalItems}`);
+        
+        if (totalItems === 0) {
+          // Update modal to show "no items" message
+          document.getElementById('exportModalTitle').textContent = '📊 No Items Found';
+          exportProgressText.textContent = 'No items found in any library';
+          exportProgressBar.style.width = '100%';
+          exportProgressBar.style.background = '#ffc107'; // Warning color
+          exportButtons.style.display = 'block';
+          
+          // Update button text for this case
+          document.getElementById('exportCloseBtn').textContent = 'Close';
+          document.getElementById('exportRetryBtn').textContent = 'Check Again';
+          
+          showToast('No items found in any library. Please add some items first.', 'warning');
+          return;
+        }
+        
+        // Update progress
+        setTimeout(() => {
+          exportProgressBar.style.width = '95%';
+          exportProgressText.textContent = 'Generating file...';
+        }, 600);
+        
+        // Generate filename with current date
+        const now = new Date();
+        const dateStr = now.toISOString().split('T')[0];
+        const timeStr = now.toTimeString().split(' ')[0].replace(/:/g, '-');
+        const filename = `Library_Export_${dateStr}_${timeStr}.xlsx`;
+        
+        console.log('Attempting to save file:', filename);
+        
+        // Save the file
+        XLSX.writeFile(wb, filename);
+        console.log('File saved successfully');
+        
+        // Complete progress
+        setTimeout(() => {
+          exportProgressBar.style.width = '100%';
+          exportProgressText.textContent = `Export completed! ${totalItems} items exported.`;
+          exportButtons.style.display = 'block';
+        }, 700);
+        
+        showToast(`Library exported successfully! ${totalItems} items exported.`, 'success');
+        
+      } catch (error) {
+        console.error('Export error:', error);
+        console.error('Error details:', {
+          message: error.message,
+          stack: error.stack,
+          name: error.name
+        });
+        
+        exportProgressText.textContent = `Error: ${error.message}`;
+        exportButtons.style.display = 'block';
+        showToast(`Error exporting library: ${error.message}`, 'error');
+      }
+    }
     
     // Excel Import Functionality
     const importCategoryBtns = document.querySelectorAll('.import-category-btn');
@@ -1571,24 +1780,47 @@
       });
     }
     
-    // Optimized toast notification function
+    // Function to clear all cables by category
+    function clearAllCablesByCategory(category) {
+      const cablesToDelete = cableLibrary[category] || [];
+      if (cablesToDelete.length === 0) {
+        showToast('No cables found in this category', 'warning');
+        return;
+      }
+      
+      const batch = db.batch();
+      cablesToDelete.forEach(cable => {
+        if (cable.id) {
+          const docRef = db.collection('cables').doc(cable.id);
+          batch.delete(docRef);
+        }
+      });
+      
+      batch.commit().then(() => {
+        console.log(`All ${category} cables cleared from Firebase`);
+        showToast(`All ${category} cables and datasheets cleared successfully`, 'success');
+        // Clear local array
+        cableLibrary[category] = [];
+        // Refresh the display
+        renderCableTables();
+      }).catch((error) => {
+        console.error('Error clearing cables: ', error);
+        showToast('Error clearing cables. Please try again.', 'error');
+      });
+    }
+    
+    // Toast notification function
     function showToast(message, type = 'info') {
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
       toast.textContent = message;
       document.body.appendChild(toast);
       
-      // Use requestAnimationFrame for better performance
-      requestAnimationFrame(() => toast.classList.add('show'));
-      
+      setTimeout(() => toast.classList.add('show'), 100);
       setTimeout(() => {
         toast.classList.remove('show');
-        setTimeout(() => {
-          if (toast.parentNode) {
-            document.body.removeChild(toast);
-          }
-        }, 300);
-      }, CONSTANTS.TOAST_DURATION);
+        setTimeout(() => document.body.removeChild(toast), 300);
+      }, 3000);
     }
     
     // Library Navigation Functionality
@@ -1605,8 +1837,7 @@
       // Show login section initially
       loginSection.style.display = 'block';
       libraryButtons.style.display = 'none';
-              logoutBtn.style.display = 'none'; // Hide logout button initially
-        document.getElementById('exportDataBtn').style.display = 'none'; // Hide export button initially
+      logoutBtn.style.display = 'none'; // Hide logout button initially
 
       // Login button click handler
       loginBtn.addEventListener('click', function() {
@@ -1621,7 +1852,6 @@
           section.classList.remove('active');
         });
         logoutBtn.style.display = 'none'; // Hide logout button when logging in
-        document.getElementById('exportDataBtn').style.display = 'none'; // Hide export button when logging in
       });
 
       // Library button click handlers
@@ -1631,15 +1861,13 @@
           
           // Check if user is logged in using local authentication
           if (isAuthenticated) {
-                  // User is logged in, hide library selection
-      librarySelection.style.display = 'none';
-      backBtn.style.display = 'inline-block';
-      // Hide login section
-      loginSection.style.display = 'none';
-      // Hide library buttons
-      libraryButtons.style.display = 'flex';
-      // Show export button
-      document.getElementById('exportDataBtn').style.display = 'inline-block';
+            // User is logged in, hide library selection
+            librarySelection.style.display = 'none';
+            backBtn.style.display = 'inline-block';
+            // Hide login section
+            loginSection.style.display = 'none';
+            // Hide library buttons
+            libraryButtons.style.display = 'flex';
 
             // Hide all library sections
             librarySections.forEach(section => {
@@ -1691,8 +1919,9 @@
           loginSection.style.display = 'none';
           // Show library buttons
           libraryButtons.style.display = 'flex';
-          // Show logout button
+          // Show logout and export buttons
           logoutBtn.style.display = 'inline-block';
+          document.getElementById('exportLibraryBtn').style.display = 'inline-block';
         } else {
           // If not authenticated, show login section
           librarySelection.style.display = 'block';
@@ -1730,8 +1959,9 @@
             loginSection.style.display = 'none';
             // Show library buttons
             libraryButtons.style.display = 'flex';
-            // Show logout button
-            logoutBtn.style.display = 'inline-block';
+                      // Show logout and export buttons
+          logoutBtn.style.display = 'inline-block';
+          document.getElementById('exportLibraryBtn').style.display = 'inline-block';
           } else {
             // If not authenticated, show login section
             librarySelection.style.display = 'block';
@@ -1751,55 +1981,76 @@
     });
   </script>
 
-     <div class="circuit-breaker-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: var(--background-color); border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+     <div class="circuit-breaker-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-      <h2 style="color: var(--primary-color); margin: 0;">Circuit Breaker Library</h2>
-      <button class="back-to-main-btn btn-secondary">← Back to Main Page</button>
+      <h2 style="color: #61dafb; margin: 0;">Circuit Breaker Library</h2>
+      <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
     </div>
-    <form id="cbForm" style="display: flex; flex-wrap: nowrap; gap: 18px; align-items: flex-end; justify-content: center; margin-bottom: 0;">
-      <div style="min-width: 120px;">
-        <label for="cbCategory">Category:</label><br>
-        <select id="cbCategory" required style="width: 120px;">
+    <form id="cbForm" style="display: flex; flex-wrap: nowrap; gap: 20px; align-items: flex-end; justify-content: center; margin-bottom: 0;">
+      <div style="min-width: 140px;">
+        <label for="cbCategory" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">Category:</label>
+        <select id="cbCategory" required style="width: 140px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease;">
           <option value="Main CB">Main CB</option>
           <option value="RCCB">RCCB</option>
           <option value="CB">CB</option>
           <option value="DCB">DCB</option>
         </select>
       </div>
-      <div style="min-width: 120px;">
-        <label for="cbOEMPart">OEM Part Number:</label><br>
-        <input type="text" id="cbOEMPart" required style="width: 120px;" />
+      <div style="min-width: 140px;">
+        <label for="cbOEMPart" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">OEM Part Number:</label>
+        <input type="text" id="cbOEMPart" required style="width: 140px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease;" placeholder="Enter part number" />
       </div>
-      <div style="min-width: 350px;">
-        <label for="cbDesc">Description:</label><br>
-        <input type="text" id="cbDesc" required style="width: 350px;" />
+      <div style="min-width: 300px;">
+        <label for="cbDesc" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">Description:</label>
+        <input type="text" id="cbDesc" required style="width: 300px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease;" placeholder="Enter description" />
       </div>
-      <div style="min-width: 40px;">
-        <label for="cbPoles">Poles:</label><br>
-        <input type="number" id="cbPoles" min="1" max="4" required style="width: 40px;" />
+      <div style="min-width: 80px;">
+        <label for="cbPoles" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">Poles:</label>
+        <input type="number" id="cbPoles" min="1" max="4" required style="width: 80px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease; text-align: center;" placeholder="1" />
       </div>
-      <div style="min-width: 40px;">
-        <label for="cbRating">Rating (A):</label><br>
-        <input type="number" id="cbRating" min="1" required style="width: 40px;" />
+      <div style="min-width: 80px;">
+        <label for="cbRating" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">Rating (A):</label>
+        <input type="number" id="cbRating" min="1" required style="width: 80px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease; text-align: center;" placeholder="16" />
       </div>
       <div>
-        <button type="submit" class="btn-primary">Add CB</button>
+        <button type="submit" style="padding: 12px 24px; background: linear-gradient(45deg, #61dafb, #4fa8c7); color: #23262c; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(97, 218, 251, 0.3);">Add CB</button>
       </div>
     </form>
+    <div style="margin-top: 20px; text-align: center;">
+      <h3 style="color: #ffb347; margin-bottom: 15px;">Import Excel Files by Category</h3>
+      <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <div>
+          <input type="file" id="mainCBFile" accept=".xlsx,.xls" style="display: none;" data-category="Main CB" />
+          <button type="button" class="import-cb-category-btn" data-category="Main CB" style="padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Main CB</button>
+        </div>
+        <div>
+          <input type="file" id="rccbFile" accept=".xlsx,.xls" style="display: none;" data-category="RCCB" />
+          <button type="button" class="import-cb-category-btn" data-category="RCCB" style="padding: 8px 16px; background: #2196F3; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 RCCB</button>
+        </div>
+        <div>
+          <input type="file" id="cbFile" accept=".xlsx,.xls" style="display: none;" data-category="CB" />
+          <button type="button" class="import-cb-category-btn" data-category="CB" style="padding: 8px 16px; background: #FF9800; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 CB</button>
+        </div>
+        <div>
+          <input type="file" id="dcbFile" accept=".xlsx,.xls" style="display: none;" data-category="DCB" />
+          <button type="button" class="import-cb-category-btn" data-category="DCB" style="padding: 8px 16px; background: #9C27B0; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 DCB</button>
+        </div>
+      </div>
+      <div style="margin-top: 18px; display: flex; justify-content: center;">
+        <input type="text" id="searchCBOEM" placeholder="Search by OEM Part No or Rating" style="padding: 12px 16px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; width: 350px; text-align: center; transition: border-color 0.3s ease;" />
+      </div>
+      <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 12px;">
+        <label for="cbCategoryDropdown" style="color:#61dafb; font-weight:bold;">Category:</label>
+        <select id="cbCategoryDropdown" style="padding: 8px 12px; border: 2px solid #444; border-radius: 6px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease;">
+          <option value="all">All Categories</option>
+          <option value="Main CB">Main CB</option>
+          <option value="RCCB">RCCB</option>
+          <option value="CB">CB</option>
+          <option value="DCB">DCB</option>
+        </select>
+      </div>
+    </div>
     <div id="cbTables" style="margin-top: 30px;"></div>
-    <div style="margin-top: 18px; display: flex; justify-content: center;">
-      <input type="text" id="searchCBOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem; text-align: center;" />
-    </div>
-    <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 12px;">
-      <label for="cbCategoryDropdown" style="color:var(--primary-color); font-weight:bold;">Category:</label>
-      <select id="cbCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
-        <option value="all">All Categories</option>
-        <option value="Main CB">Main CB</option>
-        <option value="RCCB">RCCB</option>
-        <option value="CB">CB</option>
-        <option value="DCB">DCB</option>
-      </select>
-    </div>
   </div>
   <script>
     // --- Circuit Breaker Library Section ---
@@ -1822,14 +2073,25 @@
       const cbRating = document.getElementById('cbRating').value.trim();
       if (!cbCategory || !cbOEMPart || !cbDesc || !cbPoles || !cbRating) return;
       
-      // Add to local array
-      cbLibrary[cbCategory].push({ cbOEMPart, cbDesc, cbPoles, cbRating });
-      
-      // Save to Firebase
-      saveCBToFirebase(cbCategory, { cbOEMPart, cbDesc, cbPoles, cbRating }).then(() => {
-        showToast('Circuit Breaker added successfully!', 'success');
-        cbForm.reset();
-        renderCBTables();
+      // Save to Firebase first, then add to local array with the ID
+      saveCBToFirebase(cbCategory, { cbOEMPart, cbDesc, cbPoles, cbRating }).then((docRef) => {
+        if (docRef) {
+          // Add to local array with the ID
+          const newCB = { 
+            id: docRef.id, 
+            cbOEMPart, 
+            cbDesc, 
+            cbPoles, 
+            cbRating 
+          };
+          cbLibrary[cbCategory].push(newCB);
+          
+          showToast('Circuit Breaker added successfully!', 'success');
+          cbForm.reset();
+          renderCBTables();
+        } else {
+          showToast('Error adding circuit breaker. Please try again.', 'error');
+        }
       }).catch(() => {
         showToast('Error adding circuit breaker. Please try again.', 'error');
       });
@@ -1849,16 +2111,16 @@
         cbPoles: cbData.cbPoles,
         cbRating: cbData.cbRating,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
-        console.log('Circuit Breaker saved to Firebase');
+      }).then((docRef) => {
+        console.log('Circuit Breaker saved to Firebase with ID:', docRef.id);
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-        return true;
+        return docRef;
       }).catch((error) => {
         console.error('Error saving circuit breaker: ', error);
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-        return false;
+        return null;
       });
     }
 
@@ -1891,13 +2153,7 @@
     }
 
     function deleteCBFromFirebase(docId) {
-      return db.collection('circuitBreakers').doc(docId).delete().then(() => {
-        console.log('Circuit Breaker deleted from Firebase');
-        return true;
-      }).catch((error) => {
-        console.error('Error deleting circuit breaker: ', error);
-        return false;
-      });
+      return db.collection('circuitBreakers').doc(docId).delete();
     }
 
     // Function to update circuit breaker in Firebase
@@ -1921,6 +2177,35 @@
       }).catch((error) => {
         console.error('Error updating circuit breaker: ', error);
         return false;
+      });
+    }
+    
+    // Function to clear all circuit breakers by category
+    function clearAllCBsByCategory(category) {
+      const cbsToDelete = cbLibrary[category] || [];
+      if (cbsToDelete.length === 0) {
+        showToast('No circuit breakers found in this category', 'warning');
+        return;
+      }
+      
+      const batch = db.batch();
+      cbsToDelete.forEach(cb => {
+        if (cb.id) {
+          const docRef = db.collection('circuitBreakers').doc(cb.id);
+          batch.delete(docRef);
+        }
+      });
+      
+      batch.commit().then(() => {
+        console.log(`All ${category} circuit breakers cleared from Firebase`);
+        showToast(`All ${category} circuit breakers and datasheets cleared successfully`, 'success');
+        // Clear local array
+        cbLibrary[category] = [];
+        // Refresh the display
+        renderCBTables();
+      }).catch((error) => {
+        console.error('Error clearing circuit breakers: ', error);
+        showToast('Error clearing circuit breakers. Please try again.', 'error');
       });
     }
 
@@ -1950,11 +2235,11 @@
         
         if (filteredCBs.length === 0) return;
         found = true;
-        html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
+        html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat} <button class='clear-all-cb-btn' data-cat='${cat}' style='padding:4px 8px;background:#dc3545;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:500;margin-left:10px;'>🗑️ Clear All</button></h3>`;
         html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Poles</th><th style='text-align:center;'>Rating (A)</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
         filteredCBs.forEach((cb, idx) => {
-          const datasheetBgColor = cb.datasheetUrl ? '#007bff' : '#ff7675';
-          html += `<tr><td style='text-align:center;'>${cb.cbOEMPart}</td><td>${cb.cbDesc}</td><td style='text-align:center;'>${cb.cbPoles}</td><td style='text-align:center;'>${cb.cbRating}</td><td style='text-align:center;'><button class='datasheet-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:4px 8px;background:${datasheetBgColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
+          const datasheetColor = cb.datasheetUrl ? '#007bff' : '#dc3545';
+          html += `<tr><td style='text-align:center;'>${cb.cbOEMPart}</td><td>${cb.cbDesc}</td><td style='text-align:center;'>${cb.cbPoles}</td><td style='text-align:center;'>${cb.cbRating}</td><td style='text-align:center;'><button class='datasheet-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:4px 8px;background:${datasheetColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-cb-btn' data-cat='${cat}' data-idx='${cbLibrary[cat].indexOf(cb)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
@@ -1971,58 +2256,221 @@
         // Show datasheet modal
         showDatasheetModal(cb, 'cb', cbCat, idx);
       }
+      
+      // Clear All CB event
+      if (e.target.classList.contains('clear-all-cb-btn')) {
+        const cbCategory = e.target.getAttribute('data-cat');
+        if (confirm(`Are you sure you want to clear all ${cbCategory} circuit breakers and their datasheets? This action cannot be undone.`)) {
+          clearAllCBsByCategory(cbCategory);
+        }
+      }
     });
 
 
 
     renderCBTables();
+    
+    // Excel Import Functionality for Circuit Breakers
+    const importCBCategoryBtns = document.querySelectorAll('.import-cb-category-btn');
+    
+    importCBCategoryBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const category = this.getAttribute('data-category');
+        let fileInput;
+        
+        // Get the correct file input based on category
+        switch(category) {
+          case 'Main CB':
+            fileInput = document.getElementById('mainCBFile');
+            break;
+          case 'RCCB':
+            fileInput = document.getElementById('rccbFile');
+            break;
+          case 'CB':
+            fileInput = document.getElementById('cbFile');
+            break;
+          case 'DCB':
+            fileInput = document.getElementById('dcbFile');
+            break;
+        }
+        
+        if (fileInput) {
+          fileInput.click();
+        }
+      });
+    });
+    
+    document.getElementById('mainCBFile').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        processCBExcelData(e.target.files[0], 'Main CB');
+      }
+      e.target.value = ''; // Clear the file input
+    });
+    document.getElementById('rccbFile').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        processCBExcelData(e.target.files[0], 'RCCB');
+      }
+      e.target.value = ''; // Clear the file input
+    });
+    document.getElementById('cbFile').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        processCBExcelData(e.target.files[0], 'CB');
+      }
+      e.target.value = ''; // Clear the file input
+    });
+    document.getElementById('dcbFile').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        processCBExcelData(e.target.files[0], 'DCB');
+      }
+      e.target.value = ''; // Clear the file input
+    });
+    
+    function processCBExcelData(file, category) {
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[firstSheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          
+          // Process the Excel data
+          processCBExcelDataForCategory(jsonData, category);
+          
+          showToast('Excel file imported successfully!', 'success');
+        } catch (error) {
+          console.error('Error reading Excel file:', error);
+          showToast('Error reading Excel file. Please check the format.', 'error');
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function processCBExcelDataForCategory(data, category) {
+      if (!data || data.length < 2) {
+        showToast('Invalid Excel file format. Please check the file.', 'error');
+        return;
+      }
+      
+      const batch = db.batch();
+      let importedCount = 0;
+      let updatedCount = 0;
+      
+      // Skip header row, process data rows
+      for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        if (row.length >= 4) {
+          const cbOEMPart = row[0]?.toString().trim();
+          const cbDesc = row[1]?.toString().trim();
+          const cbPoles = row[2]?.toString().trim();
+          const cbRating = row[3]?.toString().trim();
+          
+          if (cbOEMPart && cbDesc && cbPoles && cbRating) {
+            // Check if circuit breaker already exists
+            const existingCB = cbLibrary[category].find(cb => cb.cbOEMPart === cbOEMPart);
+            
+            if (existingCB) {
+              // Update existing circuit breaker
+              existingCB.cbDesc = cbDesc;
+              existingCB.cbPoles = cbPoles;
+              existingCB.cbRating = cbRating;
+              updateCBInFirebase(existingCB.id, existingCB);
+              updatedCount++;
+            } else {
+              // Add new circuit breaker
+              const cbData = {
+                category: category,
+                cbOEMPart: cbOEMPart,
+                cbDesc: cbDesc,
+                cbPoles: cbPoles,
+                cbRating: cbRating,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+              };
+              
+              const docRef = db.collection('circuitBreakers').doc();
+              batch.set(docRef, cbData);
+              importedCount++;
+            }
+          }
+        }
+      }
+      
+      batch.commit().then(() => {
+        // Reload data from Firebase
+        loadCBsFromFirebase();
+        
+        let message = '';
+        if (importedCount > 0) message += `${importedCount} new circuit breakers imported. `;
+        if (updatedCount > 0) message += `${updatedCount} existing circuit breakers updated.`;
+        showToast(message, 'success');
+      }).catch((error) => {
+        console.error('Error importing circuit breakers:', error);
+        showToast('Error importing circuit breakers. Please try again.', 'error');
+      });
+    }
   </script>
 
-     <div class="switch-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: var(--background-color); border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
+     <div class="switch-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-      <h2 style="color: var(--primary-color); margin: 0;">Switch Library</h2>
-      <button class="back-to-main-btn btn-secondary">← Back to Main Page</button>
+      <h2 style="color: #61dafb; margin: 0;">Switch Library</h2>
+      <button class="back-to-main-btn" style="padding: 8px 16px; background: #666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">← Back to Main Page</button>
     </div>
-    <form id="switchForm" style="display: flex; flex-wrap: nowrap; gap: 18px; align-items: flex-end; justify-content: center; margin-bottom: 0;">
-      <div style="min-width: 120px;">
-        <label for="switchCategory">Category:</label><br>
-        <select id="switchCategory" required style="width: 120px;">
+    <form id="switchForm" style="display: flex; flex-wrap: nowrap; gap: 20px; align-items: flex-end; justify-content: center; margin-bottom: 0;">
+      <div style="min-width: 140px;">
+        <label for="switchCategory" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">Category:</label>
+        <select id="switchCategory" required style="width: 140px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease;">
           <option value="Relay">Relay</option>
           <option value="Contactor">Contactor</option>
         </select>
       </div>
-      <div style="min-width: 120px;">
-        <label for="switchOEMPart">OEM Part Number:</label><br>
-        <input type="text" id="switchOEMPart" required style="width: 120px;" />
+      <div style="min-width: 140px;">
+        <label for="switchOEMPart" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">OEM Part Number:</label>
+        <input type="text" id="switchOEMPart" required style="width: 140px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease;" placeholder="Enter part number" />
       </div>
-      <div style="min-width: 350px;">
-        <label for="switchDesc">Description:</label><br>
-        <input type="text" id="switchDesc" required style="width: 350px;" />
+      <div style="min-width: 300px;">
+        <label for="switchDesc" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">Description:</label>
+        <input type="text" id="switchDesc" required style="width: 300px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease;" placeholder="Enter description" />
       </div>
-      <div style="min-width: 40px;">
-        <label for="switchPoles">Poles:</label><br>
-        <input type="number" id="switchPoles" min="1" max="4" required style="width: 40px;" />
+      <div style="min-width: 80px;">
+        <label for="switchPoles" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">Poles:</label>
+        <input type="number" id="switchPoles" min="1" max="4" required style="width: 80px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease; text-align: center;" placeholder="1" />
       </div>
-      <div style="min-width: 40px;">
-        <label for="switchRating">Rating (A):</label><br>
-        <input type="number" id="switchRating" min="1" required style="width: 40px;" />
+      <div style="min-width: 80px;">
+        <label for="switchRating" style="display: block; margin-bottom: 6px; color: #61dafb; font-weight: 600; font-size: 14px;">Rating (A):</label>
+        <input type="number" id="switchRating" min="1" required style="width: 80px; padding: 10px 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease; text-align: center;" placeholder="16" />
       </div>
       <div>
-        <button type="submit" class="btn-primary">Add Switch</button>
+        <button type="submit" style="padding: 12px 24px; background: linear-gradient(45deg, #61dafb, #4fa8c7); color: #23262c; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(97, 218, 251, 0.3);">Add Switch</button>
       </div>
     </form>
+    <div style="margin-top: 20px; text-align: center;">
+      <h3 style="color: #ffb347; margin-bottom: 15px;">Import Excel Files by Category</h3>
+      <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <div>
+          <input type="file" id="relayFile" accept=".xlsx,.xls" style="display: none;" data-category="Relay" />
+          <button type="button" class="import-switch-category-btn" data-category="Relay" style="padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Relay</button>
+        </div>
+        <div>
+          <input type="file" id="contactorFile" accept=".xlsx,.xls" style="display: none;" data-category="Contactor" />
+          <button type="button" class="import-switch-category-btn" data-category="Contactor" style="padding: 8px 16px; background: #2196F3; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📊 Contactor</button>
+        </div>
+      </div>
+      <div style="margin-top: 18px; display: flex; justify-content: center;">
+        <input type="text" id="searchSwitchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 12px 16px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 14px; width: 350px; text-align: center; transition: border-color 0.3s ease;" />
+      </div>
+      <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 12px;">
+        <label for="switchCategoryDropdown" style="color:#61dafb; font-weight:bold;">Category:</label>
+        <select id="switchCategoryDropdown" style="padding: 8px 12px; border: 2px solid #444; border-radius: 6px; background: #2e323a; color: #fff; font-size: 14px; transition: border-color 0.3s ease;">
+          <option value="all">All Categories</option>
+          <option value="Relay">Relay</option>
+          <option value="Contactor">Contactor</option>
+        </select>
+      </div>
+    </div>
     <div id="switchTables" style="margin-top: 30px;"></div>
-    <div style="margin-top: 18px; display: flex; justify-content: center;">
-      <input type="text" id="searchSwitchOEM" placeholder="Search by OEM Part No or Rating" style="padding: 7px 12px; border-radius: 6px; border: 1px solid #bbb; width: 300px; font-size: 1rem; text-align: center;" />
-    </div>
-    <div style="margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 12px;">
-      <label for="switchCategoryDropdown" style="color:var(--primary-color); font-weight:bold;">Category:</label>
-      <select id="switchCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
-        <option value="all">All Categories</option>
-        <option value="Relay">Relay</option>
-        <option value="Contactor">Contactor</option>
-      </select>
-    </div>
   </div>
   <script>
     // --- Switch Library Section ---
@@ -2043,14 +2491,25 @@
       const switchRating = document.getElementById('switchRating').value.trim();
       if (!switchCategory || !switchOEMPart || !switchDesc || !switchPoles || !switchRating) return;
       
-      // Add to local array
-      switchLibrary[switchCategory].push({ switchOEMPart, switchDesc, switchPoles, switchRating });
-      
-      // Save to Firebase
-      saveSwitchToFirebase(switchCategory, { switchOEMPart, switchDesc, switchPoles, switchRating }).then(() => {
-        showToast('Switch added successfully!', 'success');
-        switchForm.reset();
-        renderSwitchTables();
+      // Save to Firebase first, then add to local array with the ID
+      saveSwitchToFirebase(switchCategory, { switchOEMPart, switchDesc, switchPoles, switchRating }).then((docRef) => {
+        if (docRef) {
+          // Add to local array with the ID
+          const newSwitch = { 
+            id: docRef.id, 
+            switchOEMPart, 
+            switchDesc, 
+            switchPoles, 
+            switchRating 
+          };
+          switchLibrary[switchCategory].push(newSwitch);
+          
+          showToast('Switch added successfully!', 'success');
+          switchForm.reset();
+          renderSwitchTables();
+        } else {
+          showToast('Error adding switch. Please try again.', 'error');
+        }
       }).catch(() => {
         showToast('Error adding switch. Please try again.', 'error');
       });
@@ -2070,16 +2529,16 @@
         switchPoles: switchData.switchPoles,
         switchRating: switchData.switchRating,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
-        console.log('Switch saved to Firebase');
+      }).then((docRef) => {
+        console.log('Switch saved to Firebase with ID:', docRef.id);
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-        return true;
+        return docRef;
       }).catch((error) => {
         console.error('Error saving switch: ', error);
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-        return false;
+        return null;
       });
     }
 
@@ -2110,13 +2569,7 @@
     }
 
     function deleteSwitchFromFirebase(docId) {
-      return db.collection('switches').doc(docId).delete().then(() => {
-        console.log('Switch deleted from Firebase');
-        return true;
-      }).catch((error) => {
-        console.error('Error deleting switch: ', error);
-        return false;
-      });
+      return db.collection('switches').doc(docId).delete();
     }
 
     // Function to update switch in Firebase
@@ -2140,6 +2593,35 @@
       }).catch((error) => {
         console.error('Error updating switch: ', error);
         return false;
+      });
+    }
+    
+    // Function to clear all switches by category
+    function clearAllSwitchesByCategory(category) {
+      const switchesToDelete = switchLibrary[category] || [];
+      if (switchesToDelete.length === 0) {
+        showToast('No switches found in this category', 'warning');
+        return;
+      }
+      
+      const batch = db.batch();
+      switchesToDelete.forEach(sw => {
+        if (sw.id) {
+          const docRef = db.collection('switches').doc(sw.id);
+          batch.delete(docRef);
+        }
+      });
+      
+      batch.commit().then(() => {
+        console.log(`All ${category} switches cleared from Firebase`);
+        showToast(`All ${category} switches and datasheets cleared successfully`, 'success');
+        // Clear local array
+        switchLibrary[category] = [];
+        // Refresh the display
+        renderSwitchTables();
+      }).catch((error) => {
+        console.error('Error clearing switches: ', error);
+        showToast('Error clearing switches. Please try again.', 'error');
       });
     }
 
@@ -2228,11 +2710,11 @@
         
         if (filteredSwitches.length === 0) return;
         found = true;
-        html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat}</h3>`;
+        html += `<h3 style='color:#ffb347; margin-bottom:6px;'>${cat} <button class='clear-all-switch-btn' data-cat='${cat}' style='padding:4px 8px;background:#dc3545;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:500;margin-left:10px;'>🗑️ Clear All</button></h3>`;
         html += `<table style='margin-bottom:18px;'><thead><tr><th style='text-align:center;'>OEM Part Number</th><th>Description</th><th style='text-align:center;'>Poles</th><th style='text-align:center;'>Rating (A)</th><th style='text-align:center;'>Action</th></tr></thead><tbody>`;
         filteredSwitches.forEach((sw, idx) => {
-          const datasheetBgColor = sw.datasheetUrl ? '#007bff' : '#ff7675';
-          html += `<tr><td style='text-align:center;'>${sw.switchOEMPart}</td><td>${sw.switchDesc}</td><td style='text-align:center;'>${sw.switchPoles}</td><td style='text-align:center;'>${sw.switchRating}</td><td style='text-align:center;'><button class='datasheet-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:4px 8px;background:${datasheetBgColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
+          const datasheetColor = sw.datasheetUrl ? '#007bff' : '#dc3545';
+          html += `<tr><td style='text-align:center;'>${sw.switchOEMPart}</td><td>${sw.switchDesc}</td><td style='text-align:center;'>${sw.switchPoles}</td><td style='text-align:center;'>${sw.switchRating}</td><td style='text-align:center;'><button class='datasheet-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:4px 8px;background:${datasheetColor};color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>📄 Datasheet</button><br><button class='edit-switch-btn' data-cat='${cat}' data-idx='${switchLibrary[cat].indexOf(sw)}' style='padding:4px 8px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-bottom:3px;width:70px;text-align:center;font-size:11px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.2);'>✏️ Edit</button></td></tr>`;
         });
         html += '</tbody></table>';
       });
@@ -2249,11 +2731,143 @@
         // Show datasheet modal
         showDatasheetModal(sw, 'switch', switchCat, idx);
       }
+      
+      // Clear All Switch event
+      if (e.target.classList.contains('clear-all-switch-btn')) {
+        const switchCategory = e.target.getAttribute('data-cat');
+        if (confirm(`Are you sure you want to clear all ${switchCategory} switches and their datasheets? This action cannot be undone.`)) {
+          clearAllSwitchesByCategory(switchCategory);
+        }
+      }
     });
 
 
 
     renderSwitchTables();
+    
+    // Excel Import Functionality for Switches
+    const importSwitchCategoryBtns = document.querySelectorAll('.import-switch-category-btn');
+    
+    importSwitchCategoryBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const category = this.getAttribute('data-category');
+        let fileInput;
+        
+        // Get the correct file input based on category
+        switch(category) {
+          case 'Relay':
+            fileInput = document.getElementById('relayFile');
+            break;
+          case 'Contactor':
+            fileInput = document.getElementById('contactorFile');
+            break;
+        }
+        
+        if (fileInput) {
+          fileInput.click();
+        }
+      });
+    });
+    
+    document.getElementById('relayFile').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        processSwitchExcelData(e.target.files[0], 'Relay');
+      }
+      e.target.value = ''; // Clear the file input
+    });
+    document.getElementById('contactorFile').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        processSwitchExcelData(e.target.files[0], 'Contactor');
+      }
+      e.target.value = ''; // Clear the file input
+    });
+    
+    function processSwitchExcelData(file, category) {
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[firstSheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          
+          // Process the Excel data
+          processSwitchExcelDataForCategory(jsonData, category);
+          
+          showToast('Excel file imported successfully!', 'success');
+        } catch (error) {
+          console.error('Error reading Excel file:', error);
+          showToast('Error reading Excel file. Please check the format.', 'error');
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function processSwitchExcelDataForCategory(data, category) {
+      if (!data || data.length < 2) {
+        showToast('Invalid Excel file format. Please check the file.', 'error');
+        return;
+      }
+      
+      const batch = db.batch();
+      let importedCount = 0;
+      let updatedCount = 0;
+      
+      // Skip header row, process data rows
+      for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        if (row.length >= 4) {
+          const switchOEMPart = row[0]?.toString().trim();
+          const switchDesc = row[1]?.toString().trim();
+          const switchPoles = row[2]?.toString().trim();
+          const switchRating = row[3]?.toString().trim();
+          
+          if (switchOEMPart && switchDesc && switchPoles && switchRating) {
+            // Check if switch already exists
+            const existingSwitch = switchLibrary[category].find(sw => sw.switchOEMPart === switchOEMPart);
+            
+            if (existingSwitch) {
+              // Update existing switch
+              existingSwitch.switchDesc = switchDesc;
+              existingSwitch.switchPoles = switchPoles;
+              existingSwitch.switchRating = switchRating;
+              updateSwitchInFirebase(existingSwitch.id, existingSwitch);
+              updatedCount++;
+            } else {
+              // Add new switch
+              const switchData = {
+                category: category,
+                switchOEMPart: switchOEMPart,
+                switchDesc: switchDesc,
+                switchPoles: switchPoles,
+                switchRating: switchRating,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+              };
+              
+              const docRef = db.collection('switches').doc();
+              batch.set(docRef, switchData);
+              importedCount++;
+            }
+          }
+        }
+      }
+      
+      batch.commit().then(() => {
+        // Reload data from Firebase
+        loadSwitchesFromFirebase();
+        
+        let message = '';
+        if (importedCount > 0) message += `${importedCount} new switches imported. `;
+        if (updatedCount > 0) message += `${updatedCount} existing switches updated.`;
+        showToast(message, 'success');
+      }).catch((error) => {
+        console.error('Error importing switches:', error);
+        showToast('Error importing switches. Please try again.', 'error');
+      });
+    }
   </script>
 
   <script>
@@ -2387,63 +3001,42 @@
     }
   </script>
   <script>
-    // Optimized Authentication Logic
-    let isAuthenticated = false;
-    
-    // Performance monitoring
-    const performanceMetrics = {
-      startTime: performance.now(),
-      operations: {},
-      
-      start(operation) {
-        this.operations[operation] = performance.now();
-      },
-      
-      end(operation) {
-        if (this.operations[operation]) {
-          const duration = performance.now() - this.operations[operation];
-          console.log(`${operation} took ${duration.toFixed(2)}ms`);
-          delete this.operations[operation];
-          return duration;
-        }
-        return 0;
-      },
-      
-      getTotalTime() {
-        return performance.now() - this.startTime;
-      }
+    // Authentication Logic
+    const ADMIN_CREDENTIALS = {
+      username: 'Stratus',
+      password: '12345678'
     };
     
-    // Optimized login form handler
-    elements.loginForm.addEventListener('submit', function(e) {
+    let isAuthenticated = false;
+    
+    // Login form handler
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      
-      performanceMetrics.start('login');
       
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const loginError = document.getElementById('loginError');
       
       // Check credentials
-      if (username === CONSTANTS.ADMIN_CREDENTIALS.username && password === CONSTANTS.ADMIN_CREDENTIALS.password) {
+      if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
         isAuthenticated = true;
         
         // Hide login modal
-        elements.loginModal.classList.remove('show');
+        document.getElementById('loginModal').classList.remove('show');
         
         // Show library selection
-        elements.librarySelection.style.display = 'block';
+        document.getElementById('librarySelection').style.display = 'block';
         
         // Show library buttons
-        elements.libraryButtons.style.display = 'flex';
-        elements.logoutBtn.style.display = 'inline-block';
-        elements.exportDataBtn.style.display = 'inline-block';
+        document.getElementById('libraryButtons').style.display = 'flex';
+                  document.getElementById('logoutBtn').style.display = 'inline-block'; // Show logout button
+          document.getElementById('exportLibraryBtn').style.display = 'inline-block'; // Show export button
         
         // Hide login section
-        elements.loginSection.style.display = 'none';
+        document.getElementById('loginSection').style.display = 'none';
         
         // Clear form
-        elements.loginForm.reset();
+        document.getElementById('loginForm').reset();
         
         // Hide error message
         loginError.style.display = 'none';
@@ -2452,9 +3045,7 @@
         showToast('Login successful! Welcome to Library Management.', 'success');
         
         // Scroll to library selection
-        elements.librarySelection.scrollIntoView({ behavior: 'smooth' });
-        
-        performanceMetrics.end('login');
+        document.getElementById('librarySelection').scrollIntoView({ behavior: 'smooth' });
       } else {
         // Show error message
         loginError.textContent = 'Invalid username or password. Please try again.';
@@ -2462,8 +3053,6 @@
         
         // Clear password field
         document.getElementById('password').value = '';
-        
-        performanceMetrics.end('login');
       }
     });
     
@@ -2483,6 +3072,48 @@
       }
     });
     
+    // Export Library button handler
+    document.getElementById('exportLibraryBtn').addEventListener('click', function() {
+      exportLibraryToExcel();
+    });
+    
+    // Export modal button handlers
+    document.getElementById('exportCloseBtn').addEventListener('click', function() {
+      // Reset modal state when closing
+      const exportProgressBar = document.getElementById('exportProgressBar');
+      const exportProgressText = document.getElementById('exportProgressText');
+      const exportButtons = document.getElementById('exportButtons');
+      
+      // Reset to default state
+      document.getElementById('exportModalTitle').textContent = '📊 Exporting Library Data';
+      exportProgressBar.style.width = '0%';
+      exportProgressBar.style.background = 'linear-gradient(90deg, #4CAF50, #45a049)';
+      exportProgressText.textContent = 'Preparing export...';
+      exportButtons.style.display = 'none';
+      
+      document.getElementById('exportModal').classList.remove('show');
+    });
+    
+    document.getElementById('exportRetryBtn').addEventListener('click', function() {
+      document.getElementById('exportModal').classList.remove('show');
+      setTimeout(() => {
+        // Reset modal state before retrying
+        const exportModal = document.getElementById('exportModal');
+        const exportProgressBar = document.getElementById('exportProgressBar');
+        const exportProgressText = document.getElementById('exportProgressText');
+        const exportButtons = document.getElementById('exportButtons');
+        
+        // Reset to default state
+        document.getElementById('exportModalTitle').textContent = '📊 Exporting Library Data';
+        exportProgressBar.style.width = '0%';
+        exportProgressBar.style.background = 'linear-gradient(90deg, #4CAF50, #45a049)';
+        exportProgressText.textContent = 'Preparing export...';
+        exportButtons.style.display = 'none';
+        
+        exportLibraryToExcel();
+      }, 300);
+    });
+    
     // Logout button handler
     document.getElementById('logoutBtn').addEventListener('click', function() {
       // Reset authentication state
@@ -2494,11 +3125,9 @@
       // Hide library buttons
       document.getElementById('libraryButtons').style.display = 'none';
       
-      // Hide logout button
+      // Hide logout and export buttons
       document.getElementById('logoutBtn').style.display = 'none';
-      
-      // Hide export button
-      document.getElementById('exportDataBtn').style.display = 'none';
+      document.getElementById('exportLibraryBtn').style.display = 'none';
       
       // Hide all library sections
       document.querySelectorAll('.library-section').forEach(section => {
@@ -2513,85 +3142,6 @@
       
       // Scroll to library selection
       document.getElementById('librarySelection').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    // Export data to Excel functionality
-    document.getElementById('exportDataBtn').addEventListener('click', function() {
-      // Create workbook with multiple sheets
-      const wb = XLSX.utils.book_new();
-      
-      // Export Cable Library
-      const cableData = [];
-      Object.keys(cableLibrary).forEach(cat => {
-        cableLibrary[cat].forEach(cable => {
-          if (cat === 'EtherNET' || cat === 'EtherCAT') {
-            cableData.push({
-              'Category': cat,
-              'OEM Part Number': cable.oemPart,
-              'Description': cable.description,
-              'Length': cable.length || '',
-              'Colour': cable.colour || '',
-              'Rating (A)': '',
-              'No. of Cores': '',
-              'Datasheet Available': cable.datasheetUrl ? 'Yes' : 'No'
-            });
-          } else {
-            cableData.push({
-              'Category': cat,
-              'OEM Part Number': cable.oemPart,
-              'Description': cable.cableDesc,
-              'Length': '',
-              'Colour': '',
-              'Rating (A)': cable.cableRating,
-              'No. of Cores': cable.numCores,
-              'Datasheet Available': cable.datasheetUrl ? 'Yes' : 'No'
-            });
-          }
-        });
-      });
-      
-      const cableWS = XLSX.utils.json_to_sheet(cableData);
-      XLSX.utils.book_append_sheet(wb, cableWS, 'Cable Library');
-      
-      // Export Circuit Breaker Library
-      const cbData = [];
-      Object.keys(cbLibrary).forEach(cat => {
-        cbLibrary[cat].forEach(cb => {
-          cbData.push({
-            'Category': cat,
-            'OEM Part Number': cb.cbOEMPart,
-            'Description': cb.cbDesc,
-            'Poles': cb.cbPoles,
-            'Rating (A)': cb.cbRating,
-            'Datasheet Available': cb.datasheetUrl ? 'Yes' : 'No'
-          });
-        });
-      });
-      
-      const cbWS = XLSX.utils.json_to_sheet(cbData);
-      XLSX.utils.book_append_sheet(wb, cbWS, 'Circuit Breaker Library');
-      
-      // Export Switch Library
-      const switchData = [];
-      Object.keys(switchLibrary).forEach(cat => {
-        switchLibrary[cat].forEach(sw => {
-          switchData.push({
-            'Category': cat,
-            'OEM Part Number': sw.switchOEMPart,
-            'Description': sw.switchDesc,
-            'Poles': sw.switchPoles,
-            'Rating (A)': sw.switchRating,
-            'Datasheet Available': sw.datasheetUrl ? 'Yes' : 'No'
-          });
-        });
-      });
-      
-      const switchWS = XLSX.utils.json_to_sheet(switchData);
-      XLSX.utils.book_append_sheet(wb, switchWS, 'Switch Library');
-      
-      // Download the file
-      XLSX.writeFile(wb, 'Component_Library_Export.xlsx');
-      showToast('Data exported successfully!', 'success');
     });
   </script>
   
@@ -2652,12 +3202,22 @@
         const idx = parseInt(e.target.getAttribute('data-idx'));
         const cableToEdit = cableLibrary[cableCategory][idx];
         
+        console.log('Editing cable:', cableToEdit);
+        
         // Populate edit modal
         document.getElementById('editModalTitle').textContent = 'Edit Cable';
         document.getElementById('editOEM').value = cableToEdit.oemPart;
-        document.getElementById('editDesc').value = cableToEdit.cableDesc;
-        document.getElementById('editCores').value = cableToEdit.numCores;
-        document.getElementById('editRating').value = cableToEdit.cableRating;
+        
+        // Handle different cable types
+        if (cableCategory === 'EtherNET' || cableCategory === 'EtherCAT') {
+          document.getElementById('editDesc').value = cableToEdit.description || '';
+          document.getElementById('editCores').value = cableToEdit.length || '';
+          document.getElementById('editRating').value = cableToEdit.colour || '';
+        } else {
+          document.getElementById('editDesc').value = cableToEdit.cableDesc || '';
+          document.getElementById('editCores').value = cableToEdit.numCores || '';
+          document.getElementById('editRating').value = cableToEdit.cableRating || '';
+        }
         
         // Store current edit item
         currentEditItem = { category: cableCategory, idx: idx, type: 'cable' };
@@ -2709,6 +3269,8 @@
       }
     });
     
+
+    
     // Edit form submission
     document.getElementById('editForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -2724,9 +3286,18 @@
       if (currentEditItem.type === 'cable') {
         const cable = cableLibrary[currentEditItem.category][currentEditItem.idx];
         cable.oemPart = newOEM;
-        cable.cableDesc = newDesc;
-        cable.numCores = newCores;
-        cable.cableRating = newRating;
+        
+        // Handle different cable types
+        if (currentEditItem.category === 'EtherNET' || currentEditItem.category === 'EtherCAT') {
+          cable.description = newDesc;
+          cable.length = newCores;
+          cable.colour = newRating;
+        } else {
+          cable.cableDesc = newDesc;
+          cable.numCores = newCores;
+          cable.cableRating = newRating;
+        }
+        
         // Debug log
         console.log('Updating cable:', cable);
         if (!cable.id) {
@@ -2796,41 +3367,95 @@
     
     // Remove item button
     document.getElementById('removeItem').addEventListener('click', function() {
-      if (!currentEditItem) return;
+      if (!currentEditItem) {
+        showToast('No item selected for removal.', 'error');
+        return;
+      }
       
       if (confirm('Are you sure you want to remove this item?')) {
-        if (currentEditItem.type === 'cable') {
-          const cable = cableLibrary[currentEditItem.category][currentEditItem.idx];
-          deleteCableFromFirebase(cable.id).then(() => {
-            cableLibrary[currentEditItem.category].splice(currentEditItem.idx, 1);
-            renderCableTables();
-            showToast('Cable removed successfully!', 'success');
-          }).catch(() => {
-            showToast('Error removing cable. Please try again.', 'error');
-          });
-        } else if (currentEditItem.type === 'cb') {
-          const cb = cbLibrary[currentEditItem.category][currentEditItem.idx];
-          deleteCBFromFirebase(cb.id).then(() => {
-            cbLibrary[currentEditItem.category].splice(currentEditItem.idx, 1);
-            renderCBTables();
-            showToast('Circuit Breaker removed successfully!', 'success');
-          }).catch(() => {
-            showToast('Error removing circuit breaker. Please try again.', 'error');
-          });
-        } else if (currentEditItem.type === 'switch') {
-          const sw = switchLibrary[currentEditItem.category][currentEditItem.idx];
-          deleteSwitchFromFirebase(sw.id).then(() => {
-            switchLibrary[currentEditItem.category].splice(currentEditItem.idx, 1);
-            renderSwitchTables();
-            showToast('Switch removed successfully!', 'success');
-          }).catch(() => {
-            showToast('Error removing switch. Please try again.', 'error');
-          });
+        try {
+          if (currentEditItem.type === 'cable') {
+            const cable = cableLibrary[currentEditItem.category][currentEditItem.idx];
+            console.log('Removing cable:', cable);
+            
+            if (!cable) {
+              showToast('Cable not found.', 'error');
+              return;
+            }
+            
+            if (!cable.id) {
+              showToast('Cable ID missing. Please refresh the page and try again.', 'error');
+              return;
+            }
+            
+            // Simple delete operation
+            db.collection('cables').doc(cable.id).delete()
+              .then(() => {
+                console.log('Cable deleted from Firebase');
+                // Remove from local array
+                cableLibrary[currentEditItem.category].splice(currentEditItem.idx, 1);
+                // Update display
+                renderCableTables();
+                showToast('Cable removed successfully!', 'success');
+                // Close modal
+                document.getElementById('editModal').classList.remove('show');
+                currentEditItem = null;
+              })
+              .catch((error) => {
+                console.error('Delete error:', error);
+                showToast('Failed to remove cable. Please try again.', 'error');
+              });
+              
+          } else if (currentEditItem.type === 'cb') {
+            const cb = cbLibrary[currentEditItem.category][currentEditItem.idx];
+            console.log('Removing circuit breaker:', cb);
+            
+            if (!cb || !cb.id) {
+              showToast('Circuit breaker ID missing.', 'error');
+              return;
+            }
+            
+            db.collection('circuitBreakers').doc(cb.id).delete()
+              .then(() => {
+                console.log('Circuit breaker deleted from Firebase');
+                cbLibrary[currentEditItem.category].splice(currentEditItem.idx, 1);
+                renderCBTables();
+                showToast('Circuit Breaker removed successfully!', 'success');
+                document.getElementById('editModal').classList.remove('show');
+                currentEditItem = null;
+              })
+              .catch((error) => {
+                console.error('Delete error:', error);
+                showToast('Failed to remove circuit breaker. Please try again.', 'error');
+              });
+              
+          } else if (currentEditItem.type === 'switch') {
+            const sw = switchLibrary[currentEditItem.category][currentEditItem.idx];
+            console.log('Removing switch:', sw);
+            
+            if (!sw || !sw.id) {
+              showToast('Switch ID missing.', 'error');
+              return;
+            }
+            
+            db.collection('switches').doc(sw.id).delete()
+              .then(() => {
+                console.log('Switch deleted from Firebase');
+                switchLibrary[currentEditItem.category].splice(currentEditItem.idx, 1);
+                renderSwitchTables();
+                showToast('Switch removed successfully!', 'success');
+                document.getElementById('editModal').classList.remove('show');
+                currentEditItem = null;
+              })
+              .catch((error) => {
+                console.error('Delete error:', error);
+                showToast('Failed to remove switch. Please try again.', 'error');
+              });
+          }
+        } catch (error) {
+          console.error('Remove operation error:', error);
+          showToast('An error occurred during removal. Please try again.', 'error');
         }
-        
-        // Hide edit modal
-        document.getElementById('editModal').classList.remove('show');
-        currentEditItem = null;
       }
     });
     
@@ -2978,25 +3603,6 @@
       }
     });
   </script>
-  
-  <!-- Performance Summary -->
-  <script>
-    // Log performance metrics on page load
-    window.addEventListener('load', function() {
-      console.log('=== Performance Summary ===');
-      console.log(`Total page load time: ${performanceMetrics.getTotalTime().toFixed(2)}ms`);
-      console.log('Optimizations applied:');
-      console.log('- CSS Variables for consistent theming');
-      console.log('- Debounced search (300ms delay)');
-      console.log('- Cached DOM elements');
-      console.log('- Event delegation for dynamic content');
-      console.log('- Optimized table rendering with DocumentFragment');
-      console.log('- Batch Firebase operations');
-      console.log('- Performance monitoring');
-      console.log('- RequestAnimationFrame for animations');
-      console.log('- Utility classes for consistent styling');
-      console.log('===========================');
-    });
-  </script>
 </body>
+</html> 
 </html> 
