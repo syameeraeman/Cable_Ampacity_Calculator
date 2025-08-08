@@ -336,7 +336,11 @@
     }
     
     .tab-content.active {
-      display: flex;
+      display: flex !important;
+    }
+    
+    #mcbContent.active {
+      display: block !important;
     }
     
     .edit-container {
@@ -618,6 +622,9 @@
       <button id="libraryTab" class="tab-btn" style="padding: 12px 24px; background: #444; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: all 0.3s ease;">
         📚 Library Management
       </button>
+      <button id="mcbTab" class="tab-btn" style="padding: 12px 24px; background: #444; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: all 0.3s ease;">
+        🔌 MCB Sizing
+      </button>
     </div>
   </div>
 
@@ -644,7 +651,121 @@
   </div>
 
   <!-- Library Management Tab Content -->
-      <div id="libraryContent" class="tab-content" style="display: none; width: 100%; text-align: center;">
+  <div id="libraryContent" class="tab-content" style="display: none; width: 100%; text-align: center;">
+    <!-- Library content will be dynamically loaded here -->
+  </div>
+
+  <!-- MCB Sizing Tab Content -->
+  <div id="mcbContent" class="tab-content" style="width: 100%; text-align: center; display: none;">
+    <div style="margin: 40px auto 0 auto; max-width: 1000px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 40px 30px; text-align: center;">
+      <h2 style="color: #61dafb; margin-bottom: 20px; text-align: center;">🔌 MCB Sizing Calculator</h2>
+      <p style="color: #fff; margin-bottom: 30px; font-size: 1.1rem;">Professional Electrical Load Calculator v2.0</p>
+      
+      <!-- Voltage Input -->
+      <div style="background: #2e323a; border-radius: 10px; padding: 30px; margin-bottom: 30px;">
+        <h3 style="color: #ffb347; margin-bottom: 20px;">System Voltage</h3>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+          <label for="voltageInput" style="color: #61dafb; font-weight: 600; font-size: 1.1rem;">Voltage (V):</label>
+          <input type="number" id="voltageInput" min="1" value="230" style="padding: 12px 16px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 1.1rem; width: 120px; text-align: center; transition: border-color 0.3s ease;" />
+        </div>
+      </div>
+
+      <!-- Load Management -->
+      <div style="background: #2e323a; border-radius: 10px; padding: 30px; margin-bottom: 30px;">
+        <h3 style="color: #ffb347; margin-bottom: 20px;">Load Management</h3>
+        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+          <button id="addLoadBtn" style="padding: 12px 24px; background: linear-gradient(45deg, #4CAF50, #45a049); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);">
+            ➕ Add Load
+          </button>
+          <button id="exportLoadsBtn" style="padding: 12px 24px; background: linear-gradient(45deg, #2196F3, #1976D2); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);">
+            📊 Export
+          </button>
+          <button id="clearAllLoadsBtn" style="padding: 12px 24px; background: linear-gradient(45deg, #f44336, #d32f2f); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);">
+            🗑️ Clear All
+          </button>
+        </div>
+        
+        <!-- Load Table -->
+        <div style="overflow-x: auto;">
+          <table id="loadTable" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+              <tr style="background: #353a45;">
+                <th style="border: 1px solid #444; padding: 12px; color: #61dafb; text-align: center;">Description</th>
+                <th style="border: 1px solid #444; padding: 12px; color: #61dafb; text-align: center;">Rated Power (W)</th>
+                <th style="border: 1px solid #444; padding: 12px; color: #61dafb; text-align: center;">Current (A)</th>
+                <th style="border: 1px solid #444; padding: 12px; color: #61dafb; text-align: center;">Quantity</th>
+                <th style="border: 1px solid #444; padding: 12px; color: #61dafb; text-align: center;">Total Current (A)</th>
+                <th style="border: 1px solid #444; padding: 12px; color: #61dafb; text-align: center;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="loadTableBody">
+              <tr>
+                <td colspan="6" style="border: 1px solid #444; padding: 20px; color: #888; text-align: center;">No loads added yet</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Total Load Current -->
+        <div style="margin-top: 20px; padding: 15px; background: #1f232a; border-radius: 8px; border: 1px solid #3a3f4a;">
+          <h4 style="color: #61dafb; margin: 0 0 10px 0;">Total Load Current: <span id="totalLoadCurrent" style="color: #fff; font-weight: bold;">0 A</span></h4>
+        </div>
+      </div>
+
+      <!-- Current Scaling -->
+      <div style="background: #2e323a; border-radius: 10px; padding: 30px; margin-bottom: 30px;">
+        <h3 style="color: #ffb347; margin-bottom: 20px;">Current Scaling</h3>
+        <p style="color: #fff; margin-bottom: 15px; font-size: 0.95rem;">Apply a scaling factor to the total current (e.g., for derating or safety margins)</p>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+          <label for="scalingFactor" style="color: #61dafb; font-weight: 600; font-size: 1rem;">Scaling Factor (%):</label>
+          <input type="number" id="scalingFactor" min="0" max="200" value="100" step="1" style="padding: 10px 12px; border: 2px solid #444; border-radius: 6px; background: #2e323a; color: #fff; font-size: 1rem; width: 100px; text-align: center; transition: border-color 0.3s ease;" />
+          <button id="applyScalingBtn" style="padding: 10px 20px; background: linear-gradient(45deg, #61dafb, #4fa8c7); color: #23262c; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(97, 218, 251, 0.3);">
+            Apply
+          </button>
+        </div>
+        <div style="margin-top: 15px; padding: 15px; background: #1f232a; border-radius: 8px; border: 1px solid #3a3f4a;">
+          <h4 style="color: #61dafb; margin: 0;">Scaled Current: <span id="scaledCurrent" style="color: #fff; font-weight: bold;">0 A</span></h4>
+        </div>
+      </div>
+
+      <!-- Cable Sizing for Export -->
+      <div style="background: #2e323a; border-radius: 10px; padding: 30px; margin-bottom: 30px;">
+        <h3 style="color: #ffb347; margin-bottom: 20px;">Cable Sizing Parameters</h3>
+        <p style="color: #fff; margin-bottom: 15px; font-size: 0.95rem;">Select temperature rating for cable sizing recommendations in export</p>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+          <label for="exportTemperature" style="color: #61dafb; font-weight: 600; font-size: 1rem;">Temperature Rating:</label>
+          <select id="exportTemperature" style="padding: 10px 12px; border: 2px solid #444; border-radius: 6px; background: #2e323a; color: #fff; font-size: 1rem; width: 120px; text-align: center; transition: border-color 0.3s ease;">
+            <option value="60">60°C</option>
+            <option value="75" selected>75°C</option>
+            <option value="90">90°C</option>
+            <option value="105">105°C</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      <div id="mcbResults" style="background: #2e323a; border-radius: 10px; padding: 30px; margin-bottom: 30px; display: none;">
+        <h3 style="color: #ffb347; margin-bottom: 20px;">MCB Sizing Results</h3>
+        <div id="mcbResultsContent"></div>
+      </div>
+
+      <!-- Cable Sizing Recommendations -->
+      <div id="cableRecommendations" style="background: #2e323a; border-radius: 10px; padding: 30px; margin-bottom: 30px; display: none;">
+        <h3 style="color: #ffb347; margin-bottom: 20px;">Cable Sizing Recommendations</h3>
+        <div id="cableRecommendationsContent"></div>
+      </div>
+
+      <!-- Status -->
+      <div style="margin-top: 20px; padding: 15px; background: #1f232a; border-radius: 8px; border: 1px solid #3a3f4a;">
+        <p id="mcbStatus" style="color: #61dafb; margin: 0; font-weight: bold;">Ready for calculations</p>
+      </div>
+      
+      <!-- Debug Test Button -->
+      <div style="margin-top: 20px; text-align: center;">
+        <button onclick="testMCBContent()" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">🔧 Test MCB Content</button>
+      </div>
+    </div>
+  </div>
     <!-- Library Selection Interface -->
           <div id="librarySelection" style="margin: 40px auto 0 auto; max-width: 900px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 40px 30px; text-align: center;">
     <h2 style="color: #61dafb; margin: 0 0 30px 0; text-align: center;">Library Management</h2>
@@ -1999,6 +2120,28 @@
       loginSection.style.display = 'block';
       libraryButtons.style.display = 'none';
       logoutBtn.style.display = 'none'; // Hide logout button initially
+      
+      // MCB Calculator redirect functionality
+      const openMCBCalculatorBtn = document.getElementById('openMCBCalculator');
+      if (openMCBCalculatorBtn) {
+        openMCBCalculatorBtn.addEventListener('click', function() {
+          // Redirect to the MCB Calculator
+          console.log('MCB Calculator button clicked - redirecting...');
+          window.open('https://syameeraeman.github.io/MCB_Calculation/', '_blank');
+        });
+        console.log('MCB Calculator button event listener added successfully');
+      } else {
+        console.log('MCB Calculator button not found');
+      }
+      
+      // Alternative approach using event delegation for MCB Calculator button
+      document.addEventListener('click', function(e) {
+        if (e.target && e.target.id === 'openMCBCalculator') {
+          console.log('MCB Calculator button clicked via event delegation - redirecting...');
+          e.preventDefault();
+          window.open('https://syameeraeman.github.io/MCB_Calculation/', '_blank');
+        }
+      });
 
       // Login button click handler
       loginBtn.addEventListener('click', function() {
@@ -3239,13 +3382,20 @@
       document.getElementById('libraryTab').style.background = '#444';
       document.getElementById('libraryTab').style.color = '#fff';
       
+      document.getElementById('mcbTab').classList.remove('active');
+      document.getElementById('mcbTab').style.background = '#444';
+      document.getElementById('mcbTab').style.color = '#fff';
+      
       // Show calculator content
       document.getElementById('calculatorContent').classList.add('active');
       document.getElementById('calculatorContent').style.display = 'block';
       
-      // Hide library content
+      // Hide other content
       document.getElementById('libraryContent').classList.remove('active');
       document.getElementById('libraryContent').style.display = 'none';
+      
+      document.getElementById('mcbContent').classList.remove('active');
+      document.getElementById('mcbContent').style.display = 'none';
       
       // Recompute results to restore previous format if values exist
       if (typeof updateResults === 'function') { updateResults(); }
@@ -3261,14 +3411,63 @@
       document.getElementById('calculatorTab').style.background = '#444';
       document.getElementById('calculatorTab').style.color = '#fff';
       
+      document.getElementById('mcbTab').classList.remove('active');
+      document.getElementById('mcbTab').style.background = '#444';
+      document.getElementById('mcbTab').style.color = '#fff';
+      
       // Show library content
       document.getElementById('libraryContent').classList.add('active');
       document.getElementById('libraryContent').style.display = 'block';
       
-      // Hide calculator content
+      // Hide other content
       document.getElementById('calculatorContent').classList.remove('active');
       document.getElementById('calculatorContent').style.display = 'none';
+      
+      document.getElementById('mcbContent').classList.remove('active');
+      document.getElementById('mcbContent').style.display = 'none';
     });
+    
+    document.getElementById('mcbTab').addEventListener('click', function() {
+      console.log('MCB Tab clicked');
+      
+      // Update tab buttons
+      document.getElementById('mcbTab').classList.add('active');
+      document.getElementById('mcbTab').style.background = '#61dafb';
+      document.getElementById('mcbTab').style.color = '#23262c';
+      
+      document.getElementById('calculatorTab').classList.remove('active');
+      document.getElementById('calculatorTab').style.background = '#444';
+      document.getElementById('calculatorTab').style.color = '#fff';
+      
+      document.getElementById('libraryTab').classList.remove('active');
+      document.getElementById('libraryTab').style.background = '#444';
+      document.getElementById('libraryTab').style.color = '#fff';
+      
+      // Show MCB content
+      const mcbContent = document.getElementById('mcbContent');
+      console.log('MCB Content element:', mcbContent);
+      if (mcbContent) {
+        mcbContent.classList.add('active');
+        mcbContent.style.setProperty('display', 'block', 'important');
+        console.log('MCB Content display set to block');
+      } else {
+        console.error('MCB Content element not found!');
+      }
+      
+      // Hide other content
+      document.getElementById('calculatorContent').classList.remove('active');
+      document.getElementById('calculatorContent').style.display = 'none';
+      
+      document.getElementById('libraryContent').classList.remove('active');
+      document.getElementById('libraryContent').style.display = 'none';
+      
+      // Initialize MCB calculator when tab is shown
+      setTimeout(() => {
+        initializeMCBCalculator();
+      }, 100);
+    });
+    
+    // MCB Calculator redirect functionality will be added in DOMContentLoaded
     
     // Export modal button handlers
     document.getElementById('exportCloseBtn').addEventListener('click', function() {
@@ -3796,6 +3995,446 @@
       }
     });
   </script>
+
+  <script>
+    // MCB Calculator Functionality
+    let loads = [];
+    let totalCurrent = 0;
+    let scaledCurrent = 0;
+
+    // Initialize MCB Calculator
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM Content Loaded - Initializing MCB Calculator...');
+      initializeMCBCalculator();
+      
+      // Debug: Check if MCB content exists
+      const mcbContent = document.getElementById('mcbContent');
+      console.log('MCB Content on page load:', mcbContent);
+      if (mcbContent) {
+        console.log('MCB Content display style:', mcbContent.style.display);
+        console.log('MCB Content classes:', mcbContent.className);
+      }
+    });
+
+    function initializeMCBCalculator() {
+      // Add Load Button
+      const addLoadBtn = document.getElementById('addLoadBtn');
+      if (addLoadBtn) {
+        addLoadBtn.addEventListener('click', showAddLoadModal);
+      }
+
+      // Export Loads Button
+      const exportLoadsBtn = document.getElementById('exportLoadsBtn');
+      if (exportLoadsBtn) {
+        exportLoadsBtn.addEventListener('click', exportLoads);
+      }
+
+      // Clear All Loads Button
+      const clearAllLoadsBtn = document.getElementById('clearAllLoadsBtn');
+      if (clearAllLoadsBtn) {
+        clearAllLoadsBtn.addEventListener('click', clearAllLoads);
+      }
+
+      // Apply Scaling Button
+      const applyScalingBtn = document.getElementById('applyScalingBtn');
+      if (applyScalingBtn) {
+        applyScalingBtn.addEventListener('click', applyScaling);
+      }
+
+      // Voltage Input
+      const voltageInput = document.getElementById('voltageInput');
+      if (voltageInput) {
+        voltageInput.addEventListener('input', updateCalculations);
+      }
+
+      // Scaling Factor Input
+      const scalingFactor = document.getElementById('scalingFactor');
+      if (scalingFactor) {
+        scalingFactor.addEventListener('input', updateCalculations);
+      }
+
+      // Temperature Rating for Export
+      const exportTemperature = document.getElementById('exportTemperature');
+      if (exportTemperature) {
+        exportTemperature.addEventListener('change', updateCableRecommendations);
+      }
+    }
+
+    function showAddLoadModal() {
+      // Create modal HTML
+      const modalHTML = `
+        <div id="addLoadModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 2000; display: flex; justify-content: center; align-items: center;">
+          <div style="background: #23262c; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); min-width: 400px; max-width: 500px;">
+            <h3 style="color: #61dafb; margin-bottom: 20px; text-align: center;">Add Load</h3>
+            <form id="addLoadForm">
+              <div style="margin-bottom: 15px;">
+                <label for="loadDescription" style="display: block; color: #61dafb; margin-bottom: 5px; font-weight: 600;">Description:</label>
+                <input type="text" id="loadDescription" required style="width: 100%; padding: 10px; border: 2px solid #444; border-radius: 6px; background: #2e323a; color: #fff; font-size: 1rem;">
+              </div>
+              <div style="margin-bottom: 15px;">
+                <label for="loadPower" style="display: block; color: #61dafb; margin-bottom: 5px; font-weight: 600;">Rated Power (W):</label>
+                <input type="number" id="loadPower" min="0" step="0.1" required style="width: 100%; padding: 10px; border: 2px solid #444; border-radius: 6px; background: #2e323a; color: #fff; font-size: 1rem;">
+              </div>
+              <div style="margin-bottom: 15px;">
+                <label for="loadQuantity" style="display: block; color: #61dafb; margin-bottom: 5px; font-weight: 600;">Quantity:</label>
+                <input type="number" id="loadQuantity" min="1" value="1" required style="width: 100%; padding: 10px; border: 2px solid #444; border-radius: 6px; background: #2e323a; color: #fff; font-size: 1rem;">
+              </div>
+              <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                <button type="submit" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Add Load</button>
+                <button type="button" onclick="closeAddLoadModal()" style="padding: 10px 20px; background: #666; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      `;
+      
+      document.body.insertAdjacentHTML('beforeend', modalHTML);
+      
+      // Add form submit handler
+      const form = document.getElementById('addLoadForm');
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        addLoad();
+      });
+    }
+
+    function closeAddLoadModal() {
+      const modal = document.getElementById('addLoadModal');
+      if (modal) {
+        modal.remove();
+      }
+    }
+
+    function addLoad() {
+      const description = document.getElementById('loadDescription').value.trim();
+      const power = parseFloat(document.getElementById('loadPower').value);
+      const quantity = parseInt(document.getElementById('loadQuantity').value);
+      const voltage = parseFloat(document.getElementById('voltageInput').value) || 230;
+
+      if (!description || isNaN(power) || isNaN(quantity) || power < 0 || quantity < 1) {
+        showToast('Please fill in all fields correctly', 'error');
+        return;
+      }
+
+      // Calculate current (A = W / V)
+      const current = power / voltage;
+      const totalCurrentForLoad = current * quantity;
+
+      const load = {
+        id: Date.now(),
+        description: description,
+        power: power,
+        current: current,
+        quantity: quantity,
+        totalCurrent: totalCurrentForLoad
+      };
+
+      loads.push(load);
+      updateLoadTable();
+      updateCalculations();
+      closeAddLoadModal();
+      showToast('Load added successfully!', 'success');
+    }
+
+    function removeLoad(loadId) {
+      loads = loads.filter(load => load.id !== loadId);
+      updateLoadTable();
+      updateCalculations();
+      showToast('Load removed successfully!', 'success');
+    }
+
+    function updateLoadTable() {
+      const tbody = document.getElementById('loadTableBody');
+      if (!tbody) return;
+
+      if (loads.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="border: 1px solid #444; padding: 20px; color: #888; text-align: center;">No loads added yet</td></tr>';
+        return;
+      }
+
+      let html = '';
+      loads.forEach(load => {
+        html += `
+          <tr style="background: #2e323a;">
+            <td style="border: 1px solid #444; padding: 12px; color: #fff;">${load.description}</td>
+            <td style="border: 1px solid #444; padding: 12px; color: #fff; text-align: center;">${load.power.toFixed(1)} W</td>
+            <td style="border: 1px solid #444; padding: 12px; color: #fff; text-align: center;">${load.current.toFixed(2)} A</td>
+            <td style="border: 1px solid #444; padding: 12px; color: #fff; text-align: center;">${load.quantity}</td>
+            <td style="border: 1px solid #444; padding: 12px; color: #fff; text-align: center;">${load.totalCurrent.toFixed(2)} A</td>
+            <td style="border: 1px solid #444; padding: 12px; text-align: center;">
+              <button onclick="removeLoad(${load.id})" style="padding: 6px 12px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">🗑️ Remove</button>
+            </td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+    }
+
+    function updateCalculations() {
+      // Calculate total current
+      totalCurrent = loads.reduce((sum, load) => sum + load.totalCurrent, 0);
+      
+      // Update total load current display
+      const totalLoadCurrentSpan = document.getElementById('totalLoadCurrent');
+      if (totalLoadCurrentSpan) {
+        totalLoadCurrentSpan.textContent = totalCurrent.toFixed(2) + ' A';
+      }
+
+      // Apply scaling
+      applyScaling();
+      
+      // Update cable recommendations
+      updateCableRecommendations();
+    }
+
+    function applyScaling() {
+      const scalingFactor = parseFloat(document.getElementById('scalingFactor').value) || 100;
+      scaledCurrent = totalCurrent * (scalingFactor / 100);
+      
+      // Update scaled current display
+      const scaledCurrentSpan = document.getElementById('scaledCurrent');
+      if (scaledCurrentSpan) {
+        scaledCurrentSpan.textContent = scaledCurrent.toFixed(2) + ' A';
+      }
+
+      // Update status
+      updateMCBStatus();
+    }
+
+    function updateMCBStatus() {
+      const statusElement = document.getElementById('mcbStatus');
+      if (!statusElement) return;
+
+      if (loads.length === 0) {
+        statusElement.textContent = 'Ready for calculations';
+        statusElement.style.color = '#61dafb';
+      } else if (scaledCurrent > 0) {
+        statusElement.textContent = `Total Load: ${totalCurrent.toFixed(2)}A | Scaled Current: ${scaledCurrent.toFixed(2)}A`;
+        statusElement.style.color = '#4CAF50';
+      } else {
+        statusElement.textContent = 'Calculations complete';
+        statusElement.style.color = '#61dafb';
+      }
+    }
+
+    function clearAllLoads() {
+      if (loads.length === 0) {
+        showToast('No loads to clear', 'warning');
+        return;
+      }
+
+      if (confirm('Are you sure you want to clear all loads? This action cannot be undone.')) {
+        loads = [];
+        totalCurrent = 0;
+        scaledCurrent = 0;
+        updateLoadTable();
+        updateCalculations();
+        showToast('All loads cleared successfully!', 'success');
+      }
+    }
+
+    function exportLoads() {
+      if (loads.length === 0) {
+        showToast('No loads to export', 'warning');
+        return;
+      }
+
+      try {
+        // Get export parameters
+        const voltage = parseFloat(document.getElementById('voltageInput').value) || 230;
+        const scalingFactor = parseFloat(document.getElementById('scalingFactor').value) || 100;
+        const temperature = document.getElementById('exportTemperature').value || '75';
+        
+        // Create export data
+        const exportData = {
+          voltage: voltage,
+          loads: loads,
+          totalCurrent: totalCurrent,
+          scaledCurrent: scaledCurrent,
+          scalingFactor: scalingFactor,
+          temperature: temperature,
+          exportDate: new Date().toISOString(),
+          exportTime: new Date().toLocaleString()
+        };
+
+        // Calculate cable sizing recommendations
+        const cableRecommendations = calculateCableSizing(scaledCurrent, temperature);
+
+        // Create comprehensive CSV content
+        let csvContent = 'MCB LOAD CALCULATION REPORT\n';
+        csvContent += `Generated: ${new Date().toLocaleString()}\n`;
+        csvContent += `Voltage: ${voltage}V\n`;
+        csvContent += `Temperature Rating: ${temperature}°C\n\n`;
+        
+        // Load details
+        csvContent += 'LOAD DETAILS\n';
+        csvContent += 'Description,Rated Power (W),Current (A),Quantity,Total Current (A)\n';
+        loads.forEach(load => {
+          csvContent += `${load.description},${load.power},${load.current.toFixed(2)},${load.quantity},${load.totalCurrent.toFixed(2)}\n`;
+        });
+        
+        // Summary
+        csvContent += `\nSUMMARY\n`;
+        csvContent += `Total Load Current,${totalCurrent.toFixed(2)} A\n`;
+        csvContent += `Scaling Factor,${scalingFactor}%\n`;
+        csvContent += `Scaled Current,${scaledCurrent.toFixed(2)} A\n\n`;
+        
+        // Cable sizing recommendations
+        csvContent += `CABLE SIZING RECOMMENDATIONS (${temperature}°C)\n`;
+        csvContent += `Required Current: ${scaledCurrent.toFixed(2)} A\n`;
+        csvContent += `AWG,Metric (mm²),Max Amps,Bending Space (mm),Bending Space (in),Status\n`;
+        
+        cableRecommendations.forEach(cable => {
+          const status = cable.isMinimum ? 'MINIMUM SIZE' : 'SUITABLE';
+          csvContent += `${cable.awg},${cable.mm2},${cable.maxAmps},${cable.bendMm},${cable.bendInch},${status}\n`;
+        });
+
+        // Create and download file
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `MCB_Load_Calculation_${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+
+        showToast('Load data exported successfully with cable sizing recommendations!', 'success');
+      } catch (error) {
+        console.error('Export error:', error);
+        showToast('Error exporting data. Please try again.', 'error');
+      }
+    }
+
+    function calculateCableSizing(requiredCurrent, temperature) {
+      // Get the appropriate ampacity field based on temperature
+      const ampacityField = `amps_${temperature}c`;
+      
+      // Filter cables that can handle the required current
+      const suitableCables = ampacityTable.filter(row => {
+        const ampacity = row[ampacityField];
+        return ampacity && requiredCurrent <= ampacity;
+      });
+      
+      // Sort by Metric (mm²) in ascending order for proper sizing
+      suitableCables.sort((a, b) => a.mm2 - b.mm2);
+      
+      // Mark the minimum size (first in sorted array)
+      if (suitableCables.length > 0) {
+        suitableCables[0].isMinimum = true;
+      }
+      
+      // Return cable recommendations with additional info
+      return suitableCables.map(cable => ({
+        awg: cable.awg,
+        mm2: cable.mm2,
+        maxAmps: cable[ampacityField],
+        bendMm: cable.bend_mm,
+        bendInch: cable.bend_inch,
+        isMinimum: cable.isMinimum || false
+      }));
+    }
+
+    function updateCableRecommendations() {
+      const recommendationsDiv = document.getElementById('cableRecommendations');
+      const contentDiv = document.getElementById('cableRecommendationsContent');
+      
+      if (!recommendationsDiv || !contentDiv) return;
+      
+      if (scaledCurrent <= 0) {
+        recommendationsDiv.style.display = 'none';
+        return;
+      }
+      
+      const temperature = document.getElementById('exportTemperature').value || '75';
+      const recommendations = calculateCableSizing(scaledCurrent, temperature);
+      
+      if (recommendations.length === 0) {
+        contentDiv.innerHTML = '<p style="color: #ff7675; text-align: center;">No suitable cable size found for the required current.</p>';
+        recommendationsDiv.style.display = 'block';
+        return;
+      }
+      
+      let html = '';
+      
+      // Show minimum size prominently
+      const minimumCable = recommendations.find(cable => cable.isMinimum);
+      if (minimumCable) {
+        html += `
+          <div style="background: #1f232a; border: 2px solid #4CAF50; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+            <h4 style="color: #4CAF50; margin: 0 0 10px 0;">🎯 MINIMUM CABLE SIZE</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; color: #fff;">
+              <div><strong>AWG:</strong> ${minimumCable.awg}</div>
+              <div><strong>Metric:</strong> ${minimumCable.mm2} mm²</div>
+              <div><strong>Max Amps:</strong> ${minimumCable.maxAmps} A</div>
+              <div><strong>Bending:</strong> ${minimumCable.bendMm} mm</div>
+            </div>
+          </div>
+        `;
+      }
+      
+      // Show all suitable sizes in a table
+      html += '<h4 style="color: #61dafb; margin-bottom: 15px;">All Suitable Cable Sizes</h4>';
+      html += '<div style="overflow-x: auto;">';
+      html += '<table style="width: 100%; border-collapse: collapse;">';
+      html += '<thead><tr style="background: #353a45;">';
+      html += '<th style="border: 1px solid #444; padding: 8px; color: #61dafb; text-align: center;">AWG</th>';
+      html += '<th style="border: 1px solid #444; padding: 8px; color: #61dafb; text-align: center;">Metric (mm²)</th>';
+      html += '<th style="border: 1px solid #444; padding: 8px; color: #61dafb; text-align: center;">Max Amps</th>';
+      html += '<th style="border: 1px solid #444; padding: 8px; color: #61dafb; text-align: center;">Bending (mm)</th>';
+      html += '<th style="border: 1px solid #444; padding: 8px; color: #61dafb; text-align: center;">Status</th>';
+      html += '</tr></thead><tbody>';
+      
+      recommendations.forEach(cable => {
+        const statusColor = cable.isMinimum ? '#4CAF50' : '#61dafb';
+        const statusText = cable.isMinimum ? 'MINIMUM' : 'SUITABLE';
+        html += `
+          <tr style="background: #2e323a;">
+            <td style="border: 1px solid #444; padding: 8px; color: #fff; text-align: center;">${cable.awg}</td>
+            <td style="border: 1px solid #444; padding: 8px; color: #fff; text-align: center;">${cable.mm2}</td>
+            <td style="border: 1px solid #444; padding: 8px; color: #fff; text-align: center;">${cable.maxAmps}</td>
+            <td style="border: 1px solid #444; padding: 8px; color: #fff; text-align: center;">${cable.bendMm}</td>
+            <td style="border: 1px solid #444; padding: 8px; color: ${statusColor}; text-align: center; font-weight: bold;">${statusText}</td>
+          </tr>
+        `;
+      });
+      
+      html += '</tbody></table></div>';
+      
+      contentDiv.innerHTML = html;
+      recommendationsDiv.style.display = 'block';
+    }
+
+    // Make functions available globally
+    window.showAddLoadModal = showAddLoadModal;
+    window.closeAddLoadModal = closeAddLoadModal;
+    window.addLoad = addLoad;
+    window.removeLoad = removeLoad;
+    window.clearAllLoads = clearAllLoads;
+    window.exportLoads = exportLoads;
+    window.applyScaling = applyScaling;
+    
+    // Debug function
+    function testMCBContent() {
+      console.log('Testing MCB Content...');
+      const mcbContent = document.getElementById('mcbContent');
+      console.log('MCB Content element:', mcbContent);
+      console.log('MCB Content display style:', mcbContent ? mcbContent.style.display : 'not found');
+      console.log('MCB Content classes:', mcbContent ? mcbContent.className : 'not found');
+      
+      if (mcbContent) {
+        mcbContent.style.setProperty('display', 'block', 'important');
+        mcbContent.classList.add('active');
+        console.log('MCB Content should now be visible');
+        showToast('MCB Content test - should be visible now', 'info');
+      } else {
+        console.error('MCB Content element not found!');
+        showToast('MCB Content element not found!', 'error');
+      }
+    }
+    
+    window.testMCBContent = testMCBContent;
+  </script>
 </body>
-</html> 
 </html> 
