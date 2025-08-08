@@ -786,14 +786,30 @@
       const ampacityField = `amps_${temperature}c`;
       const filtered = ampacityTable.filter(row => row[ampacityField] && value <= row[ampacityField]);
       
-      let html = `<h2>Suitable Cable Sizes (${temperature}°C)</h2>`;
+      // Sort by Metric (mm²) in ascending order
+      filtered.sort((a, b) => a.mm2 - b.mm2);
+      
+      let html = '';
       if (filtered.length > 0) {
-        html += '<table><thead><tr><th>AWG</th><th>Metric (mm²)</th><th>Max Amps</th><th>Bending Space (mm)</th><th>Bending Space (in)</th><th>Protective Conductor</th></tr></thead><tbody>';
+        const min = filtered[0];
+        // Minimum size card shown between temperature selector and table
+        html += `
+          <div id="minimumSize" style="background:#1f232a;border:1px solid #3a3f4a;border-radius:10px;padding:14px 16px;margin-bottom:14px;text-align:left;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+              <div style="color:#61dafb;font-weight:700;">Minimum Cable Size for ${value}A @ ${temperature}°C</div>
+              <div style="color:#fff;">
+                <span style="margin-right:14px;">AWG: <strong>${min.awg}</strong></span>
+                <span style="margin-right:14px;">Metric: <strong>${min.mm2} mm²</strong></span>
+                <span style="margin-right:14px;">Max Amps: <strong>${min[ampacityField]}</strong></span>
+                <span>Bend: <strong>${min.bend_mm} mm</strong> (${min.bend_inch}")</span>
+              </div>
+            </div>
+          </div>
+        `;
+        html += `<h2>Suitable Cable Sizes (${temperature}°C)</h2>`;
+        html += '<table><thead><tr><th>AWG</th><th>Metric (mm²)</th><th>Max Amps</th><th>Bending Space (mm)</th><th>Bending Space (in)</th></tr></thead><tbody>';
         filtered.forEach(row => {
-          const protectiveInfo = row.protective_awg !== '-' ? 
-            `${row.protective_awg} (${row.protective_mm2} mm²)` : 
-            `${row.protective_mm2} mm²`;
-          html += `<tr><td>${row.awg}</td><td>${row.mm2}</td><td>${row[ampacityField]}</td><td>${row.bend_mm}</td><td>${row.bend_inch}</td><td>${protectiveInfo}</td></tr>`;
+          html += `<tr><td>${row.awg}</td><td>${row.mm2}</td><td>${row[ampacityField]}</td><td>${row.bend_mm}</td><td>${row.bend_inch}</td></tr>`;
         });
         html += '</tbody></table>';
       } else {
