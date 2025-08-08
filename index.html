@@ -501,6 +501,12 @@
       /* Top right action buttons stack */
       [id="exportLibraryBtn"], [id="logoutBtn"] { width: 48% !important; }
     }
+    /* Center temperature dropdown text */
+    #temperatureRating {
+      text-align: center;
+      text-align-last: center;
+    }
+    #temperatureRating option { text-align: center; }
   </style>
 </head>
 <body>
@@ -604,7 +610,7 @@
   </div>
   
   <!-- Tab Navigation -->
-  <div id="tabNavigation" style="margin: 40px auto 0 auto; max-width: 1400px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 30px;">
+  <div id="tabNavigation" style="margin: 40px auto 0 auto; max-width: 900px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 30px;">
     <div style="display: flex; gap: 10px; margin-bottom: 20px;">
       <button id="calculatorTab" class="tab-btn active" style="padding: 12px 24px; background: #61dafb; color: #23262c; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: all 0.3s ease;">
         ⚡ Cable Ampacity Calculator
@@ -3240,6 +3246,9 @@
       // Hide library content
       document.getElementById('libraryContent').classList.remove('active');
       document.getElementById('libraryContent').style.display = 'none';
+      
+      // Recompute results to restore previous format if values exist
+      if (typeof updateResults === 'function') { updateResults(); }
     });
     
     document.getElementById('libraryTab').addEventListener('click', function() {
