@@ -453,6 +453,54 @@
       padding-left: 10px;
       padding-right: 10px;
     }
+    @media (max-width: 430px) {
+      /* Center overall layout */
+      body {
+        align-items: center !important;
+        justify-content: flex-start !important;
+        padding: 20px 10px !important;
+      }
+      .container,
+      #tabNavigation,
+      #calculatorContent,
+      .tab-content,
+      .library-section,
+      .cable-library,
+      .circuit-breaker-library,
+      .switch-library {
+        margin: 0 auto !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        text-align: center !important;
+      }
+      /* Center forms and stack fields */
+      #cableForm,
+      #cbForm,
+      #switchForm {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 12px !important;
+      }
+      #cableForm > div,
+      #cbForm > div,
+      #switchForm > div {
+        min-width: 140px !important;
+      }
+      label { text-align: center !important; width: 100%; }
+      input[type="number"], input[type="text"], select, button {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      /* Results and tables */
+      #results { width: 100% !important; }
+      table { display: block; width: 100% !important; overflow-x: auto; margin: 0 auto; }
+      th, td { text-align: center !important; }
+      /* Minimum size card */
+      #minimumSize { text-align: center !important; }
+      #minimumSize > div { justify-content: center !important; }
+      /* Top right action buttons stack */
+      [id="exportLibraryBtn"], [id="logoutBtn"] { width: 48% !important; }
+    }
   </style>
 </head>
 <body>
