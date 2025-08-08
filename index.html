@@ -15,22 +15,28 @@
       color: #fff;
       font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      padding: 40px 20px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
     .container {
-      margin-top: 60px;
+      margin: 60px auto 0 auto;
       background: #282c34;
       border-radius: 14px;
       box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-      padding: 36px 32px 32px 32px;
-      max-width: 800px;
+      padding: 50px 40px 40px 40px;
+      max-width: 900px;
       width: 100%;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     h1 {
       margin-bottom: 10px;
@@ -305,6 +311,34 @@
       display: flex;
     }
     
+    /* Tab Styles */
+    .tab-btn {
+      transition: all 0.3s ease;
+    }
+    
+    .tab-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(97, 218, 251, 0.3);
+    }
+    
+    .tab-btn.active {
+      background: #61dafb !important;
+      color: #23262c !important;
+      box-shadow: 0 4px 12px rgba(97, 218, 251, 0.3);
+    }
+    
+    .tab-content {
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    
+    .tab-content.active {
+      display: flex;
+    }
+    
     .edit-container {
       background: #23262c;
       padding: 30px;
@@ -424,8 +458,14 @@
 <body>
   
   <!-- Creator Note -->
-  <div style="margin-top: 24px; font-size: 0.95rem; color: #000; text-align: center;">
+  <div style="margin-top: 24px; font-size: 0.95rem; color: #000; text-align: center; width: 100%; display: flex; justify-content: center;">
     Page Created by: Syamir
+  </div>
+  
+  <!-- Top Action Buttons -->
+  <div style="position: fixed; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 1000;">
+    <button id="exportLibraryBtn" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.9rem; box-shadow: 0 2px 8px rgba(0,0,0,0.2); display: none;">📊 Export Library</button>
+    <button id="logoutBtn" style="padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.9rem; box-shadow: 0 2px 8px rgba(0,0,0,0.2); display: none;">🚪 Logout</button>
   </div>
   
   <!-- Login Modal -->
@@ -515,27 +555,45 @@
     </div>
   </div>
   
-  <div class="container">
-    <h1>Cable Ampacity Calculator</h1>
-    <div class="input-group">
-      <label for="currentInput">Rated Current (Amps):</label>
-      <input type="number" id="currentInput" min="0" placeholder="e.g. 12" />
+  <!-- Tab Navigation -->
+  <div id="tabNavigation" style="margin: 40px auto 0 auto; max-width: 1400px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 30px;">
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+      <button id="calculatorTab" class="tab-btn active" style="padding: 12px 24px; background: #61dafb; color: #23262c; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: all 0.3s ease;">
+        ⚡ Cable Ampacity Calculator
+      </button>
+      <button id="libraryTab" class="tab-btn" style="padding: 12px 24px; background: #444; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: all 0.3s ease;">
+        📚 Library Management
+      </button>
     </div>
-    <div id="results" class="results" style="display:none;"></div>
   </div>
-  <div style="margin-top: 24px; font-size: 0.95rem; color: #000; text-align: center;">
-    Ampacity data referenced from SEMI S22-1110b Standard.
-  </div>
-  
-  <!-- Library Selection Interface -->
-  <div id="librarySelection" style="margin: 40px auto 0 auto; max-width: 800px; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-      <h2 style="color: #61dafb; margin: 0;">Library Management</h2>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <button id="exportLibraryBtn" style="padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; display: none;">📊 Export Library</button>
-        <button id="logoutBtn" style="padding: 8px 16px; background: #ff7675; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; display: none;">🚪 Logout</button>
-      </div>
+
+  <!-- Calculator Tab Content -->
+    <div id="calculatorContent" class="tab-content active" style="margin: 40px auto 0 auto; max-width: 900px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 40px 30px; text-align: center;">
+    <h2 style="color: #61dafb; margin-bottom: 20px; text-align: center;">⚡ Cable Ampacity Calculator</h2>
+    <div class="input-group" style="margin-bottom: 20px;">
+      <label for="currentInput" style="display: block; margin-bottom: 8px; color: #61dafb; font-weight: 600;">Rated Current (Amps):</label>
+      <input type="number" id="currentInput" min="0" placeholder="e.g. 12" style="width: 100%; padding: 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 1rem; transition: border-color 0.3s ease;" />
     </div>
+    <div class="input-group" style="margin-bottom: 20px;">
+      <label for="temperatureRating" style="display: block; margin-bottom: 8px; color: #61dafb; font-weight: 600;">Insulation Temperature Rating:</label>
+      <select id="temperatureRating" style="width: 100%; padding: 12px; border: 2px solid #444; border-radius: 8px; background: #2e323a; color: #fff; font-size: 1rem; transition: border-color 0.3s ease;">
+        <option value="60">60°C</option>
+        <option value="75">75°C</option>
+        <option value="90">90°C</option>
+        <option value="105">105°C</option>
+      </select>
+    </div>
+    <div id="results" class="results" style="display:none; background: #2e323a; padding: 20px; border-radius: 8px; margin-top: 20px;"></div>
+    <div style="margin-top: 24px; font-size: 0.95rem; color: #61dafb; text-align: center;">
+      Ampacity data referenced from SEMI S22-1110b Standard with comprehensive temperature ratings (60°C, 75°C, 90°C, 105°C).
+    </div>
+  </div>
+
+  <!-- Library Management Tab Content -->
+      <div id="libraryContent" class="tab-content" style="display: none; width: 100%; text-align: center;">
+    <!-- Library Selection Interface -->
+          <div id="librarySelection" style="margin: 40px auto 0 auto; max-width: 900px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 40px 30px; text-align: center;">
+    <h2 style="color: #61dafb; margin: 0 0 30px 0; text-align: center;">Library Management</h2>
     <div id="loginSection" style="text-align: center;">
       <button id="loginBtn" style="padding: 15px 30px; background: #61dafb; color: #23262c; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer;">🔐 Login to Access Libraries</button>
     </div>
@@ -557,18 +615,7 @@
     </div>
   </div>
 
-  <div id="minCompCableCategoryContainer" style="margin: 24px auto 0 auto; max-width: 800px; display: flex; justify-content: center; align-items: center; gap: 10px;">
-    <label for="minCompCableCategoryDropdown" style="color:#61dafb; font-weight:bold;">Cable Category:</label>
-    <select id="minCompCableCategoryDropdown" style="padding: 6px 12px; border-radius: 4px; font-size: 1rem;">
-      <option value="all">All Categories</option>
-      <option value="Single Core">Single Core</option>
-      <option value="Multi Core">Multi Core</option>
-      <option value="Robotic Cable">Robotic Cable</option>
-      <option value="Flexible Cable">Flexible Cable</option>
-      <option value="EtherNET">EtherNET</option>
-      <option value="EtherCAT">EtherCAT</option>
-    </select>
-  </div>
+
 
      <div class="cable-library library-section" style="margin: 40px auto 0 auto; max-width: 1200px; width: 100%; background: #23262c; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); padding: 28px 18px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
@@ -669,27 +716,61 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Metric ampacity table for 60°C (AWG, mm², Amps, Bending Space mm) from the image
+    // Comprehensive ampacity table with multiple temperature ratings (AWG, mm², Amps at different temperatures, Bending Space mm)
     const ampacityTable = [
-      { awg: '26', mm2: 0.14, amps: 0.75, bend_mm: 16.4 },
-      { awg: '24', mm2: 0.25, amps: 2, bend_mm: 16.4 },
-      { awg: '22', mm2: 0.34, amps: 3, bend_mm: 13 },
-      { awg: '20', mm2: 0.5, amps: 5, bend_mm: 13 },
-      { awg: '18', mm2: 0.75, amps: 6, bend_mm: 13 },
-      { awg: '16', mm2: 1.0, amps: 8, bend_mm: 19 },
-      { awg: '14', mm2: 1.5, amps: 11, bend_mm: 19 },
-      { awg: '12', mm2: 2.5, amps: 17, bend_mm: 25 },
-      { awg: '10', mm2: 4.0, amps: 24, bend_mm: 25 },
-      { awg: '8', mm2: 6.0, amps: 32, bend_mm: 38 },
-      { awg: '6', mm2: 10.0, amps: 45, bend_mm: 51 },
-      { awg: '4', mm2: 16.0, amps: 60, bend_mm: 76 },
+      // AWG 30-4 range (from first table)
+      { awg: '30', mm2: 0.050, amps_60c: null, amps_75c: 0.5, amps_90c: 0.8, amps_105c: 1, bend_mm: 6.4, bend_inch: 0.25, protective_awg: '30', protective_mm2: 0.050 },
+      { awg: '28', mm2: 0.080, amps_60c: null, amps_75c: 1, amps_90c: 1.5, amps_105c: 2, bend_mm: 6.4, bend_inch: 0.25, protective_awg: '28', protective_mm2: 0.080 },
+      { awg: '26', mm2: 0.126, amps_60c: 0.75, amps_75c: 1.5, amps_90c: 2, amps_105c: 2.5, bend_mm: 6.4, bend_inch: 0.25, protective_awg: '26', protective_mm2: 0.126 },
+      { awg: '24', mm2: 0.201, amps_60c: 2, amps_75c: 3, amps_90c: 4, amps_105c: 5, bend_mm: 6.4, bend_inch: 0.25, protective_awg: '24', protective_mm2: 0.201 },
+      { awg: '22', mm2: 0.318, amps_60c: 3, amps_75c: 5, amps_90c: 6, amps_105c: 7, bend_mm: 13, bend_inch: 0.5, protective_awg: '22', protective_mm2: 0.318 },
+      { awg: '20', mm2: 0.509, amps_60c: 5, amps_75c: 7, amps_90c: 9, amps_105c: 10, bend_mm: 13, bend_inch: 0.5, protective_awg: '20', protective_mm2: 0.509 },
+      { awg: '18', mm2: 0.823, amps_60c: 7, amps_75c: 10, amps_90c: 12, amps_105c: 14, bend_mm: 13, bend_inch: 0.5, protective_awg: '18', protective_mm2: 0.823 },
+      { awg: '16', mm2: 1.31, amps_60c: 10, amps_75c: 15, amps_90c: 18, amps_105c: 20, bend_mm: 20, bend_inch: 0.75, protective_awg: '16', protective_mm2: 1.31 },
+      { awg: '14', mm2: 2.08, amps_60c: 15, amps_75c: 20, amps_90c: 25, amps_105c: 28, bend_mm: 20, bend_inch: 0.75, protective_awg: '14', protective_mm2: 2.08 },
+      { awg: '12', mm2: 3.31, amps_60c: 20, amps_75c: 25, amps_90c: 30, amps_105c: 35, bend_mm: 26, bend_inch: 1, protective_awg: '12', protective_mm2: 3.31 },
+      { awg: '10', mm2: 5.26, amps_60c: 30, amps_75c: 35, amps_90c: 40, amps_105c: 45, bend_mm: 26, bend_inch: 1, protective_awg: '10', protective_mm2: 5.26 },
+      { awg: '8', mm2: 8.37, amps_60c: 40, amps_75c: 50, amps_90c: 55, amps_105c: 60, bend_mm: 39, bend_inch: 1.5, protective_awg: '10', protective_mm2: 5.26 },
+      { awg: '6', mm2: 13.3, amps_60c: 55, amps_75c: 65, amps_90c: 75, amps_105c: 80, bend_mm: 51, bend_inch: 2, protective_awg: '8', protective_mm2: 8.37 },
+      { awg: '4', mm2: 21.15, amps_60c: 70, amps_75c: 85, amps_90c: 95, amps_105c: 105, bend_mm: 76, bend_inch: 3, protective_awg: '8', protective_mm2: 8.37 },
+      
+      // Metric sizes (from first table)
+      { awg: '-', mm2: 0.5, amps_60c: 5, amps_75c: 6, amps_90c: 7, amps_105c: 8, bend_mm: 13, bend_inch: 0.5, protective_awg: '-', protective_mm2: 0.5 },
+      { awg: '-', mm2: 0.75, amps_60c: 6, amps_75c: 8, amps_90c: 9, amps_105c: 10, bend_mm: 13, bend_inch: 0.5, protective_awg: '-', protective_mm2: 0.75 },
+      { awg: '-', mm2: 1.0, amps_60c: 8, amps_75c: 10, amps_90c: 12, amps_105c: 14, bend_mm: 19, bend_inch: 0.75, protective_awg: '-', protective_mm2: 1.0 },
+      { awg: '-', mm2: 1.5, amps_60c: 11, amps_75c: 14, amps_90c: 16, amps_105c: 18, bend_mm: 19, bend_inch: 0.75, protective_awg: '-', protective_mm2: 1.5 },
+      { awg: '-', mm2: 2.5, amps_60c: 17, amps_75c: 20, amps_90c: 24, amps_105c: 27, bend_mm: 25, bend_inch: 1, protective_awg: '-', protective_mm2: 2.5 },
+      { awg: '-', mm2: 4.0, amps_60c: 24, amps_75c: 30, amps_90c: 35, amps_105c: 40, bend_mm: 25, bend_inch: 1, protective_awg: '-', protective_mm2: 4.0 },
+      { awg: '-', mm2: 6.0, amps_60c: 32, amps_75c: 40, amps_90c: 45, amps_105c: 50, bend_mm: 38, bend_inch: 1.5, protective_awg: '-', protective_mm2: 6.0 },
+      { awg: '-', mm2: 10.0, amps_60c: 45, amps_75c: 55, amps_90c: 65, amps_105c: 70, bend_mm: 51, bend_inch: 2, protective_awg: '-', protective_mm2: 6.0 },
+      { awg: '-', mm2: 16.0, amps_60c: 60, amps_75c: 75, amps_90c: 85, amps_105c: 95, bend_mm: 76, bend_inch: 3, protective_awg: '-', protective_mm2: 10.0 },
+      
+      // Larger sizes (from second table)
+      { awg: '3', mm2: 26.67, amps_60c: 80, amps_75c: 95, amps_90c: 105, amps_105c: 115, bend_mm: 89, bend_inch: 3.5, protective_awg: '8', protective_mm2: 8.37 },
+      { awg: '2', mm2: 33.62, amps_60c: 95, amps_75c: 115, amps_90c: 130, amps_105c: 145, bend_mm: 115, bend_inch: 4.5, protective_awg: '6', protective_mm2: 13.30 },
+      { awg: '1', mm2: 42.41, amps_60c: 110, amps_75c: 130, amps_90c: 150, amps_105c: 165, bend_mm: 140, bend_inch: 5.5, protective_awg: '6', protective_mm2: 13.30 },
+      { awg: '1/0', mm2: 53.49, amps_60c: 125, amps_75c: 150, amps_90c: 170, amps_105c: 185, bend_mm: 165, bend_inch: 6.5, protective_awg: '4', protective_mm2: 21.15 },
+      { awg: '2/0', mm2: 67.43, amps_60c: 145, amps_75c: 175, amps_90c: 195, amps_105c: 215, bend_mm: 190, bend_inch: 7.5, protective_awg: '4', protective_mm2: 21.15 },
+      { awg: '3/0', mm2: 85.01, amps_60c: 165, amps_75c: 200, amps_90c: 225, amps_105c: 245, bend_mm: 215, bend_inch: 8.5, protective_awg: '3', protective_mm2: 26.67 },
+      { awg: '4/0', mm2: 107.22, amps_60c: 195, amps_75c: 230, amps_90c: 260, amps_105c: 285, bend_mm: 240, bend_inch: 9.5, protective_awg: '2', protective_mm2: 33.62 },
+      
+      // Kcmil sizes (from second table)
+      { awg: '(250)', mm2: 126.68, amps_60c: 215, amps_75c: 255, amps_90c: 290, amps_105c: 315, bend_mm: 265, bend_inch: 10.5, protective_awg: '1', protective_mm2: 42.41 },
+      { awg: '(300)', mm2: 152.01, amps_60c: 240, amps_75c: 285, amps_90c: 320, amps_105c: 350, bend_mm: 290, bend_inch: 11.5, protective_awg: '1/0', protective_mm2: 53.49 },
+      { awg: '(350)', mm2: 177.35, amps_60c: 260, amps_75c: 310, amps_90c: 350, amps_105c: 380, bend_mm: 315, bend_inch: 12.5, protective_awg: '2/0', protective_mm2: 67.43 },
+      { awg: '(400)', mm2: 202.68, amps_60c: 280, amps_75c: 335, amps_90c: 375, amps_105c: 410, bend_mm: 340, bend_inch: 13.5, protective_awg: '3/0', protective_mm2: 85.01 },
+      { awg: '(500)', mm2: 253.35, amps_60c: 320, amps_75c: 380, amps_90c: 425, amps_105c: 465, bend_mm: 365, bend_inch: 14.5, protective_awg: '4/0', protective_mm2: 107.22 },
+      { awg: '(600)', mm2: 304.02, amps_60c: 355, amps_75c: 420, amps_90c: 475, amps_105c: 520, bend_mm: 381, bend_inch: 15, protective_awg: '4/0', protective_mm2: 107.22 }
     ];
 
     const input = document.getElementById('currentInput');
+    const temperatureSelect = document.getElementById('temperatureRating');
     const resultsDiv = document.getElementById('results');
 
-    input.addEventListener('input', function() {
+    function updateResults() {
       const value = parseFloat(input.value);
+      const temperature = temperatureSelect.value;
+      
       if (isNaN(value) || value <= 0) {
         resultsDiv.style.display = 'none';
         resultsDiv.innerHTML = '';
@@ -700,12 +781,19 @@
         }
         return;
       }
-      const filtered = ampacityTable.filter(row => value <= row.amps);
-      let html = '<h2>Suitable Cable Sizes (60°C)</h2>';
+      
+      // Get the appropriate ampacity field based on temperature
+      const ampacityField = `amps_${temperature}c`;
+      const filtered = ampacityTable.filter(row => row[ampacityField] && value <= row[ampacityField]);
+      
+      let html = `<h2>Suitable Cable Sizes (${temperature}°C)</h2>`;
       if (filtered.length > 0) {
-        html += '<table><thead><tr><th>AWG</th><th>Metric (mm²)</th><th>Max Amps</th><th>Bending Space (mm)</th></tr></thead><tbody>';
+        html += '<table><thead><tr><th>AWG</th><th>Metric (mm²)</th><th>Max Amps</th><th>Bending Space (mm)</th><th>Bending Space (in)</th><th>Protective Conductor</th></tr></thead><tbody>';
         filtered.forEach(row => {
-          html += `<tr><td>${row.awg}</td><td>${row.mm2}</td><td>${row.amps}</td><td>${row.bend_mm}</td></tr>`;
+          const protectiveInfo = row.protective_awg !== '-' ? 
+            `${row.protective_awg} (${row.protective_mm2} mm²)` : 
+            `${row.protective_mm2} mm²`;
+          html += `<tr><td>${row.awg}</td><td>${row.mm2}</td><td>${row[ampacityField]}</td><td>${row.bend_mm}</td><td>${row.bend_inch}</td><td>${protectiveInfo}</td></tr>`;
         });
         html += '</tbody></table>';
       } else {
@@ -716,7 +804,10 @@
       
       // Show minimum components from libraries
       showMinimumComponents(value);
-    });
+    }
+
+    input.addEventListener('input', updateResults);
+    temperatureSelect.addEventListener('change', updateResults);
 
     // --- Cable Library Section ---
     const cableForm = document.getElementById('cableForm');
@@ -1562,8 +1653,8 @@
             }
             
             if (awg) {
-              // Use comprehensive AWG to rating conversion
-              rating = getRatingFromAWG(awg);
+              // Use comprehensive AWG to rating conversion with 60°C as default for Excel import
+              rating = getRatingFromAWG(awg, 60);
               console.log(`Processing cable: ${partNumber} - AWG: ${awg}, Rating: ${rating}A`);
             } else {
               console.log(`No AWG found in description: "${description}"`);
@@ -1588,10 +1679,10 @@
               }
               
               if (mm2Size) {
-                // Convert mm² to rating using the ampacity table
+                // Convert mm² to rating using the ampacity table with 60°C as default
                 const mm2Entry = ampacityTable.find(entry => entry.mm2 === mm2Size);
                 if (mm2Entry) {
-                  rating = mm2Entry.amps;
+                  rating = mm2Entry.amps_60c || 1;
                   console.log(`MM² ${mm2Size} found in ampacity table: ${rating}A`);
                 } else {
                   // Fallback rating based on mm² size
@@ -1920,7 +2011,7 @@
           // Show library buttons
           libraryButtons.style.display = 'flex';
           // Show logout and export buttons
-          logoutBtn.style.display = 'inline-block';
+          document.getElementById('logoutBtn').style.display = 'inline-block';
           document.getElementById('exportLibraryBtn').style.display = 'inline-block';
         } else {
           // If not authenticated, show login section
@@ -1959,9 +2050,9 @@
             loginSection.style.display = 'none';
             // Show library buttons
             libraryButtons.style.display = 'flex';
-                      // Show logout and export buttons
-          logoutBtn.style.display = 'inline-block';
-          document.getElementById('exportLibraryBtn').style.display = 'inline-block';
+            // Show logout and export buttons
+            document.getElementById('logoutBtn').style.display = 'inline-block';
+            document.getElementById('exportLibraryBtn').style.display = 'inline-block';
           } else {
             // If not authenticated, show login section
             librarySelection.style.display = 'block';
@@ -2626,48 +2717,26 @@
     }
 
     // Comprehensive AWG to rating conversion function
-    function getRatingFromAWG(awg) {
-      console.log(`getRatingFromAWG called with awg: ${awg}, type: ${typeof awg}`);
+    function getRatingFromAWG(awg, temperature = 60) {
+      console.log(`getRatingFromAWG called with awg: ${awg}, temperature: ${temperature}°C, type: ${typeof awg}`);
       
-      // Comprehensive AWG to current rating mapping
-      const awgRatingMap = {
-        26: 0.75,
-        24: 2,
-        22: 3,
-        20: 5,
-        18: 6,
-        16: 8,
-        14: 11,
-        12: 17,
-        10: 24,
-        8: 32,
-        6: 45,
-        4: 60,
-        2: 95,
-        1: 110,
-        0: 125,
-        '1/0': 150,
-        '2/0': 175,
-        '3/0': 200,
-        '4/0': 225
-      };
-      
-      // Try to find exact match first
-      if (awgRatingMap[awg] !== undefined) {
-        console.log(`AWG ${awg} found in rating map: ${awgRatingMap[awg]}A`);
-        return awgRatingMap[awg];
-      }
-      console.log(`AWG ${awg} not found in rating map, checking ampacity table...`);
-      
-      // If not found, use ampacity table
+      // If not found, use ampacity table with temperature rating
       const awgEntry = ampacityTable.find(entry => entry.awg === awg.toString());
       if (awgEntry) {
-        console.log(`AWG ${awg} found in ampacity table: ${awgEntry.amps}A`);
-        return awgEntry.amps;
+        const ampacityField = `amps_${temperature}c`;
+        if (awgEntry[ampacityField]) {
+          console.log(`AWG ${awg} found in ampacity table at ${temperature}°C: ${awgEntry[ampacityField]}A`);
+          return awgEntry[ampacityField];
+        } else {
+          // Fallback to 60°C if temperature rating not available
+          console.log(`AWG ${awg} temperature ${temperature}°C not available, using 60°C: ${awgEntry.amps_60c}A`);
+          return awgEntry.amps_60c || 1;
+        }
       }
+      
       console.log(`AWG ${awg} not found in ampacity table, using fallback calculation...`);
       
-      // Fallback calculation based on AWG size
+      // Fallback calculation based on AWG size (using 60°C ratings)
       let rating = 1;
       if (awg <= 22) rating = 3;
       else if (awg <= 20) rating = 5;
@@ -2873,7 +2942,10 @@
   <script>
     // Function to show minimum components from libraries
     function showMinimumComponents(currentRating) {
-      let componentsHtml = '<div style="margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">';
+      console.log('=== showMinimumComponents called with currentRating:', currentRating);
+      console.log('Current cableLibrary:', cableLibrary);
+      
+      let componentsHtml = '<div style="margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto; text-align: center;">';
       componentsHtml += '<h2 style="color: #61dafb; text-align: center; margin-bottom: 20px;">Minimum Components for ' + currentRating + 'A</h2>';
       componentsHtml += `<div id="minCompCategoryFilters" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 18px;">
         <button class="min-comp-filter-btn active" data-filter="all">All</button>
@@ -2882,16 +2954,25 @@
         <button class="min-comp-filter-btn" data-filter="switches">Switches</button>
       </div>`;
       
-      // Cable Library components
+      // Cable Library components - Show only cables that can handle the input current
       let suitableCables = [];
       const minCompCableCategoryDropdown = document.getElementById('minCompCableCategoryDropdown');
       const selectedCableCat = minCompCableCategoryDropdown ? minCompCableCategoryDropdown.value : 'all';
+      
       Object.keys(cableLibrary).forEach(cat => {
         if (cat === 'EtherNET') return; // Skip EtherNET if you want
         if (selectedCableCat !== 'all' && cat !== selectedCableCat) return;
+        
         cableLibrary[cat].forEach(cable => {
-          if (parseInt(cable.cableRating) >= currentRating) {
+          const cableRating = parseFloat(cable.cableRating);
+          console.log(`Checking cable ${cable.oemPart}: rating=${cableRating}, currentRating=${currentRating}`);
+          
+          // Only show cables that can handle the input current
+          if (cableRating >= currentRating) {
             suitableCables.push({...cable, category: cat});
+            console.log(`✓ Added cable ${cable.oemPart} (${cableRating}A) for ${currentRating}A current`);
+          } else {
+            console.log(`✗ Skipped cable ${cable.oemPart} (${cableRating}A) for ${currentRating}A current`);
           }
         });
       });
@@ -2973,7 +3054,7 @@
       const componentsDiv = document.createElement('div');
       componentsDiv.id = 'minimumComponents';
       componentsDiv.innerHTML = componentsHtml;
-      resultsDiv.parentNode.insertBefore(componentsDiv, resultsDiv.nextSibling);
+      document.getElementById('calculatorContent').appendChild(componentsDiv);
       // Attach filter button event listeners immediately after rendering
       Array.from(componentsDiv.querySelectorAll('.min-comp-filter-btn')).forEach(btn => {
         btn.addEventListener('click', function() {
@@ -3077,6 +3158,45 @@
       exportLibraryToExcel();
     });
     
+    // Tab navigation functionality
+    document.getElementById('calculatorTab').addEventListener('click', function() {
+      // Update tab buttons
+      document.getElementById('calculatorTab').classList.add('active');
+      document.getElementById('calculatorTab').style.background = '#61dafb';
+      document.getElementById('calculatorTab').style.color = '#23262c';
+      
+      document.getElementById('libraryTab').classList.remove('active');
+      document.getElementById('libraryTab').style.background = '#444';
+      document.getElementById('libraryTab').style.color = '#fff';
+      
+      // Show calculator content
+      document.getElementById('calculatorContent').classList.add('active');
+      document.getElementById('calculatorContent').style.display = 'block';
+      
+      // Hide library content
+      document.getElementById('libraryContent').classList.remove('active');
+      document.getElementById('libraryContent').style.display = 'none';
+    });
+    
+    document.getElementById('libraryTab').addEventListener('click', function() {
+      // Update tab buttons
+      document.getElementById('libraryTab').classList.add('active');
+      document.getElementById('libraryTab').style.background = '#61dafb';
+      document.getElementById('libraryTab').style.color = '#23262c';
+      
+      document.getElementById('calculatorTab').classList.remove('active');
+      document.getElementById('calculatorTab').style.background = '#444';
+      document.getElementById('calculatorTab').style.color = '#fff';
+      
+      // Show library content
+      document.getElementById('libraryContent').classList.add('active');
+      document.getElementById('libraryContent').style.display = 'block';
+      
+      // Hide calculator content
+      document.getElementById('calculatorContent').classList.remove('active');
+      document.getElementById('calculatorContent').style.display = 'none';
+    });
+    
     // Export modal button handlers
     document.getElementById('exportCloseBtn').addEventListener('click', function() {
       // Reset modal state when closing
@@ -3159,7 +3279,7 @@
   </div>
   
   <!-- Creator Note -->
-  <div style="text-align: left; padding: 10px; font-size: 0.9rem; color: #000;">
+  <div style="text-align: center; padding: 10px; font-size: 0.9rem; color: #000; width: 100%; display: flex; justify-content: center;">
     Page Created by: Syamir
   </div>
   
